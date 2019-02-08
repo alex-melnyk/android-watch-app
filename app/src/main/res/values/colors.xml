@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="white_inactive">#69FFFFFF</color>
+    <color name="white_active">#FFFFFF</color>
+    <color name="highlight">#F0588A</color>
+</resources>
