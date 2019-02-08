@@ -31,11 +31,6 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     @Override
     public TimerItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int index) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.timer_list_item, viewGroup, false);
-        itemView.setOnClickListener((view) -> {
-            if (itemClickListener != null) {
-                itemClickListener.onItemClick(index);
-            }
-        });
 
         return new TimerItemViewHolder(itemView);
     }
@@ -44,6 +39,12 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     public void onBindViewHolder(@NonNull TimerItemViewHolder timerItemViewHolder, int index) {
         TimerModel timerModel = data.get(index);
         timerItemViewHolder.setModel(timerModel);
+
+        timerItemViewHolder.itemView.setOnClickListener((view) -> {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(timerItemViewHolder.getAdapterPosition());
+            }
+        });
     }
 
     @Override

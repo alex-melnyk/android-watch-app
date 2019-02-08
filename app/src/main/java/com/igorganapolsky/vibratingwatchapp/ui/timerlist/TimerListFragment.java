@@ -40,7 +40,7 @@ public class TimerListFragment extends Fragment implements TimerListAdapter.OnIt
         // TODO: Use the ViewModel
 
         timerList = new ArrayList<>(Arrays.asList(
-                new TimerModel(1, 20, 0, 1, 1),
+                new TimerModel(0, 0, 3, 1, 1),
                 new TimerModel(0, 45, 0, 2, 2),
                 new TimerModel(0, 30, 0, 3, 7),
                 new TimerModel(2, 10, 0, 4, 4),
@@ -70,9 +70,9 @@ public class TimerListFragment extends Fragment implements TimerListAdapter.OnIt
     public void onItemClick(int position) {
         TimerModel timerModel = timerList.get(position);
 
-        long timerTime = timerModel.getSeconds() * 1000 + timerModel.getMinutes() * 1000 * 60 + timerModel.getHours() * 1000 * 60 * 60;
-
-        Toast.makeText(getContext(), position + " TIME: " + timerTime, Toast.LENGTH_SHORT).show();
+        long timerTime = (timerModel.getSeconds() * 1000)
+                + (timerModel.getMinutes() * (1000 * 60))
+                + (timerModel.getHours() * (1000 * 60 * 60));
 
         // TODO: MAKE TRANSITION TO DETAILS
         Intent timerDetailsIntent = new Intent(getContext(), TimerDetailsActivity.class);
