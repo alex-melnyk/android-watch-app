@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.igorganapolsky.vibratingwatchapp.ui.settimer.SetRepeatFragment">
+        tools:context=".ui.fragments.settimer.SetRepeatFragment">
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

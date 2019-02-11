@@ -55,7 +55,7 @@
                     android:id="@+id/timerListFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:name="com.igorganapolsky.vibratingwatchapp.ui.timerlist.TimerListFragment"
+                    android:name="com.igorganapolsky.vibratingwatchapp.ui.fragments.TimerListFragment"
             />
         </LinearLayout>
     </LinearLayout>

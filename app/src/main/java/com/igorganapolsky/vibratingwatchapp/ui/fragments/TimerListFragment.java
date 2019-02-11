@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.timerlist;
+package com.igorganapolsky.vibratingwatchapp.ui.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 import com.igorganapolsky.vibratingwatchapp.ui.adapters.TimerListAdapter;
 import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
+import com.igorganapolsky.vibratingwatchapp.ui.models.TimerListViewModel;
 
 import java.util.List;
 
