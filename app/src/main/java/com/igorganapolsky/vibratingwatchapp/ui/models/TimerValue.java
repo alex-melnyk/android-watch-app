@@ -1,7 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.settimer;
-
-import com.igorganapolsky.vibratingwatchapp.ui.settimer.TimeHighlightState;
-import com.igorganapolsky.vibratingwatchapp.ui.settimer.TimerSetup;
+package com.igorganapolsky.vibratingwatchapp.ui.models;
 
 import java.util.Locale;
 

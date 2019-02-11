@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.timerlist;
+package com.igorganapolsky.vibratingwatchapp.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,13 +9,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.model.TimerModel;
+import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
+import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
 import java.util.List;
 import java.util.Locale;
 
 public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.TimerItemViewHolder> {
-    private List<TimerModel> data;
+    private List<Timer> data;
     private OnItemClickListener itemClickListener;
 
     public TimerListAdapter() {
@@ -37,7 +38,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
 
     @Override
     public void onBindViewHolder(@NonNull TimerItemViewHolder timerItemViewHolder, int index) {
-        TimerModel timerModel = data.get(index);
+        Timer timerModel = data.get(index);
         timerItemViewHolder.setModel(timerModel);
 
         timerItemViewHolder.itemView.setOnClickListener((view) -> {
@@ -56,7 +57,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         return data.size();
     }
 
-    public void setData(List<TimerModel> data) {
+    public void setData(List<Timer> data) {
         this.data = data;
 
         notifyDataSetChanged();
@@ -71,7 +72,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     }
 
     static class TimerItemViewHolder extends RecyclerView.ViewHolder {
-        private TimerModel model;
+        private Timer model;
 
         private ProgressBar pbProgress;
         private ImageView ivStatus;
@@ -92,18 +93,18 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
             tvRepeat = itemView.findViewById(R.id.tvRepeat);
         }
 
-        public TimerModel getModel() {
+        public Timer getModel() {
             return model;
         }
 
-        public void setModel(TimerModel model) {
+        public void setModel(Timer model) {
             this.model = model;
 
-            tvTime.setText(String.format(Locale.ENGLISH, "%02d : %02d : %02d", model.getHours(), model.getMinutes(), model.getSeconds()));
-            tvVibration.setText(String.format(Locale.ENGLISH, "%d", model.getBuzzMode()));
-            tvRepeat.setText(String.format(Locale.ENGLISH, "%d", model.getRepeatMode()));
-
+            tvTime.setText(TimerTransform.millisToTimeString(model.getMilliseconds()));
             pbProgress.setProgress((int) (Math.random() * 100));
+
+            tvVibration.setText(String.format(Locale.ENGLISH, "%d", model.getBuzzMode() + 1));
+            tvRepeat.setText(String.format(Locale.ENGLISH, "%d", model.getRepeat() + 1));
         }
     }
 }

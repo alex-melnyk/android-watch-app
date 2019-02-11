@@ -10,22 +10,24 @@ import android.support.wear.widget.WearableRecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.TimerDetailsActivity;
-import com.igorganapolsky.vibratingwatchapp.model.TimerModel;
-import com.igorganapolsky.vibratingwatchapp.ui.util.RecyclerViewSnapLayoutManager;
+import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
+import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
+import com.igorganapolsky.vibratingwatchapp.ui.adapters.TimerListAdapter;
+import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TimerListFragment extends Fragment implements TimerListAdapter.OnItemClickListener {
 
-    private List<TimerModel> timerList;
     private TimerListViewModel mViewModel;
     private TimerListAdapter timerListAdapter;
 
+    private ImageView ivTimerListImage;
+    private TextView addTimerButtonImageLabel;
     private View rootView;
     private WearableRecyclerView wrvTimerList;
 
@@ -36,19 +38,23 @@ public class TimerListFragment extends Fragment implements TimerListAdapter.OnIt
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(TimerListViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(TimerListViewModel.class);
         // TODO: Use the ViewModel
 
-        timerList = new ArrayList<>(Arrays.asList(
-                new TimerModel(0, 0, 3, 1, 1),
-                new TimerModel(0, 45, 0, 2, 2),
-                new TimerModel(0, 30, 0, 3, 7),
-                new TimerModel(2, 10, 0, 4, 4),
-                new TimerModel(0, 15, 0, 5, 9)
-        ));
+        ivTimerListImage = getActivity().findViewById(R.id.ivTimerListImage);
+        addTimerButtonImageLabel = getActivity().findViewById(R.id.addTimerButtonImageLabel);
 
-        mViewModel.getLiveData().observe(getActivity(), (liveData) -> timerListAdapter.setData(liveData));
-        mViewModel.getLiveData().setValue(timerList);
+        mViewModel.getLiveData().observe(getActivity(), (liveData) -> {
+            timerListAdapter.setData(liveData);
+
+            if (liveData != null && liveData.size() > 0) {
+                ivTimerListImage.setVisibility(ImageView.GONE);
+                addTimerButtonImageLabel.setVisibility(View.GONE);
+            } else {
+                ivTimerListImage.setVisibility(ImageView.VISIBLE);
+                addTimerButtonImageLabel.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -67,16 +73,24 @@ public class TimerListFragment extends Fragment implements TimerListAdapter.OnIt
     }
 
     @Override
-    public void onItemClick(int position) {
-        TimerModel timerModel = timerList.get(position);
+    public void onResume() {
+        super.onResume();
 
-        long timerTime = (timerModel.getSeconds() * 1000)
-                + (timerModel.getMinutes() * (1000 * 60))
-                + (timerModel.getHours() * (1000 * 60 * 60));
+        List<Timer> timerList = DatabaseClient.getInstance(getContext())
+                .getTimersDatabase()
+                .timersDao()
+                .getAll();
+
+        mViewModel.getLiveData().setValue(timerList);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Timer model = mViewModel.getLiveData().getValue().get(position);
 
         // TODO: MAKE TRANSITION TO DETAILS
         Intent timerDetailsIntent = new Intent(getContext(), TimerDetailsActivity.class);
-        timerDetailsIntent.putExtra("TIMER_TIME", timerTime);
+        timerDetailsIntent.putExtra("TIMER_MODEL", model);
         startActivity(timerDetailsIntent);
     }
 }

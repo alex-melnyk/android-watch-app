@@ -1,5 +1,6 @@
 package com.igorganapolsky.vibratingwatchapp.ui.settimer;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,19 +11,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.ui.util.RecyclerViewSnapLayoutManager;
+import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
+import com.igorganapolsky.vibratingwatchapp.ui.adapters.VibrationsAdapter;
+import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
+import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
+import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 
 public class SetVibrationFragment extends Fragment {
 
+    private Timer model;
     private View rootView;
     private WearableRecyclerView wrvVibrations;
+    private VibrationsAdapter vibrationsAdapter;
 
     private SetTimerViewModel mViewModel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(SetTimerViewModel.class);
+        mViewModel = ViewModelProviders.of(this.getActivity()).get(SetTimerViewModel.class);
         // TODO: Use the ViewModel
     }
 
@@ -32,21 +39,38 @@ public class SetVibrationFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.set_vibration_fragment, container, false);
 
+        vibrationsAdapter = new VibrationsAdapter();
+
         wrvVibrations = rootView.findViewById(R.id.wrvVibrations);
-        wrvVibrations.setAdapter(new VibrationsRecyclerViewAdapter());
+        wrvVibrations.setAdapter(vibrationsAdapter);
 
         RecyclerViewSnapLayoutManager layoutManager = new RecyclerViewSnapLayoutManager(getActivity());
-        layoutManager.setItemSelectListener((int pos) -> {
-            TimerValue timerValue = mViewModel.getTimerValue().getValue();
-            timerValue.setBuzz(pos);
-        });
+        layoutManager.setItemSelectListener((int pos) -> mViewModel.getTimerValue().getValue().setBuzz(pos));
+
         wrvVibrations.setLayoutManager(layoutManager);
 
         return rootView;
     }
 
     @Override
-    public void onAttachFragment(Fragment childFragment) {
-        super.onAttachFragment(childFragment);
+    public void onResume() {
+        super.onResume();
+
+        model = (Timer) getArguments().getSerializable("TIMER_MODEL");
+
+        if (model != null) {
+            int buzzMode = model.getBuzzMode();
+
+            MutableLiveData<TimerValue> liveData = mViewModel.getTimerValue();
+
+            TimerValue value = liveData.getValue();
+            value.setBuzz(buzzMode);
+
+            wrvVibrations.smoothScrollToPosition(buzzMode);
+
+            liveData.setValue(value);
+        } else {
+            wrvVibrations.smoothScrollToPosition(0);
+        }
     }
 }

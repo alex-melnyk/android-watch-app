@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.models;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;

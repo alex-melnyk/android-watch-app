@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 
-import java.util.Locale;
-
-public class RepeatsRecyclerViewAdapter extends RecyclerView.Adapter<RepeatsRecyclerViewAdapter.RepeatsRecyclerViewHolder> {
+public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsRecyclerViewHolder> {
     private String[] repeats = {"1", "2", "3", "4", "5"};
 
-    public RepeatsRecyclerViewAdapter() {
+    public RepeatsAdapter() {
         setHasStableIds(true);
     }
 
@@ -24,14 +22,14 @@ public class RepeatsRecyclerViewAdapter extends RecyclerView.Adapter<RepeatsRecy
 
     @NonNull
     @Override
-    public RepeatsRecyclerViewAdapter.RepeatsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RepeatsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.set_timer_repeats_item, viewGroup, false);
 
-        return new RepeatsRecyclerViewAdapter.RepeatsRecyclerViewHolder(itemView);
+        return new RepeatsRecyclerViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RepeatsRecyclerViewAdapter.RepeatsRecyclerViewHolder repeatsRecyclerViewHolder, int index) {
+    public void onBindViewHolder(@NonNull RepeatsRecyclerViewHolder repeatsRecyclerViewHolder, int index) {
         repeatsRecyclerViewHolder.setLabel(repeats[index]);
     }
 

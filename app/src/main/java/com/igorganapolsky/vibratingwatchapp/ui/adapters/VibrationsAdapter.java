@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,7 @@ import com.igorganapolsky.vibratingwatchapp.R;
 
 import java.util.Locale;
 
-public class VibrationsRecyclerViewAdapter extends RecyclerView.Adapter<VibrationsRecyclerViewAdapter.VibrationsRecyclerViewHolder> {
+public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.VibrationsRecyclerViewHolder> {
     private String[] vibrations = {
             "1 buzz - 5 seconds",
             "3 buzz - 3 seconds each",
@@ -18,7 +18,7 @@ public class VibrationsRecyclerViewAdapter extends RecyclerView.Adapter<Vibratio
             "1 long buzz - 20 seconds"
     };
 
-    public VibrationsRecyclerViewAdapter() {
+    public VibrationsAdapter() {
         setHasStableIds(true);
     }
 

@@ -1,17 +1,20 @@
-package com.igorganapolsky.vibratingwatchapp.ui.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import com.igorganapolsky.vibratingwatchapp.ui.settimer.SetRepeatFragment;
+import com.igorganapolsky.vibratingwatchapp.ui.settimer.SetTimerFragment;
+import com.igorganapolsky.vibratingwatchapp.ui.settimer.SetVibrationFragment;
 
-public class SetTimerPagerAdapter extends FragmentStatePagerAdapter {
+public class SetTimerAdapter extends FragmentStatePagerAdapter {
     private Fragment[] fragments = {
             new SetTimerFragment(),
             new SetVibrationFragment(),
             new SetRepeatFragment()
     };
 
-    public SetTimerPagerAdapter(FragmentManager fm) {
+    public SetTimerAdapter(FragmentManager fm) {
         super(fm);
     }
 

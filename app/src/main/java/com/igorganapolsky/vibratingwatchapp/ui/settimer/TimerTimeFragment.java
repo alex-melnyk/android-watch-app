@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
+import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 
 import java.util.Locale;
 

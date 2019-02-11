@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.models;
 
 public enum TimeHighlightState {
     WHOLE, HOURS, MINUTES, SECONDS
