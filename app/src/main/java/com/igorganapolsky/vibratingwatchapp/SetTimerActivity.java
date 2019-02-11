@@ -1,6 +1,7 @@
 package com.igorganapolsky.vibratingwatchapp;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
+import com.igorganapolsky.vibratingwatchapp.data.dao.TimersDao;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 import com.igorganapolsky.vibratingwatchapp.ui.adapters.SetTimerAdapter;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
@@ -16,6 +18,9 @@ import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
 public class SetTimerActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private final int SUCCESS_CODE = 101;
+
+    private Timer model;
     private ViewPager vpWizard;
     private TabLayout tlDots;
 
@@ -35,9 +40,10 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onAttachFragment(Fragment fragment) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("TIMER_MODEL", getIntent().getSerializableExtra("TIMER_MODEL"));
+        model = (Timer) getIntent().getSerializableExtra("TIMER_MODEL");
 
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("TIMER_MODEL", model);
         fragment.setArguments(bundle);
 
         super.onAttachFragment(fragment);
@@ -52,12 +58,28 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         } else {
             TimerValue timerValue = ViewModelProviders.of(this).get(SetTimerViewModel.class).getTimerValue().getValue();
 
-            Timer timer = new Timer();
-            timer.setMilliseconds(TimerTransform.timeToMillis(timerValue.getHours(), timerValue.getMinutes(), timerValue.getSeconds()));
+            Timer timer = model;
+
+            if (timer == null) {
+                timer = new Timer();
+            }
+
+            long milliseconds = TimerTransform.timeToMillis(timerValue.getHours(), timerValue.getMinutes(), timerValue.getSeconds());
+            timer.setMilliseconds(milliseconds);
             timer.setBuzzMode(timerValue.getBuzz());
             timer.setRepeat(timerValue.getRepeat());
 
-            DatabaseClient.getInstance(getApplicationContext()).getTimersDatabase().timersDao().insert(timer);
+            TimersDao timersDao = DatabaseClient.getInstance(getApplicationContext()).getTimersDatabase().timersDao();
+
+            if (model == null) {
+                timersDao.insert(timer);
+            } else {
+                timersDao.update(timer);
+
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("TIMER_MODEL", timer);
+                setResult(SUCCESS_CODE, resultIntent);
+            }
 
             finish();
         }

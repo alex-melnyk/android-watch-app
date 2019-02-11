@@ -88,6 +88,7 @@ public class SetTimerFragment extends Fragment implements View.OnClickListener, 
 
         if (model != null) {
             mViewModel.getTimerValue().setValue(TimerTransform.timerModelFromMillis(model.getMilliseconds()));
+            setSelection(TimerSetup.HOURS);
         }
     }
 

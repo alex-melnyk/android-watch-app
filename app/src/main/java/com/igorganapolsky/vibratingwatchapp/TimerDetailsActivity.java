@@ -3,16 +3,22 @@ package com.igorganapolsky.vibratingwatchapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
 public class TimerDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private final int SETTING_REQUEST_CODE = 100;
+    private final int SETTING_SUCCESS_CODE = 101;
 
     private Timer model;
     private CountDownTimer currentTimer;
@@ -49,9 +55,25 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
     protected void onResume() {
         super.onResume();
 
-        model = (Timer) getIntent().getSerializableExtra("TIMER_MODEL");
+        if (model == null) {
+            model = (Timer) getIntent().getSerializableExtra("TIMER_MODEL");
+        }
 
         renderTime(model.getMilliseconds(), true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case SETTING_REQUEST_CODE:
+                if (resultCode == SETTING_SUCCESS_CODE) {
+                    model = (Timer) data.getSerializableExtra("TIMER_MODEL");
+                    renderTime(model.getMilliseconds(), true);
+                }
+                break;
+        }
     }
 
     @Override
@@ -85,7 +107,7 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 Intent settingIntent = new Intent(getApplicationContext(), SetTimerActivity.class);
                 settingIntent.putExtra("TIMER_MODEL", model);
 
-                startActivity(settingIntent);
+                startActivityForResult(settingIntent, SETTING_REQUEST_CODE);
                 break;
             case R.id.ivTimerRemove:
                 DatabaseClient.getInstance(getApplicationContext())
