@@ -49,7 +49,7 @@ public class RecyclerViewSnapLayoutManager extends LinearLayoutManager {
         this.itemSelectListener = itemSelectListener;
     }
 
-    public static interface OnItemSelectListener {
+    public interface OnItemSelectListener {
         void onItemSelected(int position);
     }
 }

@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,13 +33,20 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageView ivStop;
     private ImageView ivRestart;
 
+    private ImageView ivTimerSettings;
+    private ImageView ivTimerRemove;
+
+    private Animation blinking;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer_details);
 
-        findViewById(R.id.ivTimerSettings).setOnClickListener(this);
-        findViewById(R.id.ivTimerRemove).setOnClickListener(this);
+        ivTimerSettings = findViewById(R.id.ivTimerSettings);
+        ivTimerSettings.setOnClickListener(this);
+        ivTimerRemove = findViewById(R.id.ivTimerRemove);
+        ivTimerRemove.setOnClickListener(this);
 
         pbTime = findViewById(R.id.pbTime);
         tvTime = findViewById(R.id.tvTime);
@@ -50,6 +59,11 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         ivStop.setOnClickListener(this);
         ivRestart = findViewById(R.id.ivRestart);
         ivRestart.setOnClickListener(this);
+
+        blinking = new AlphaAnimation(1f, .25f);
+        blinking.setDuration(500);
+        blinking.setRepeatMode(Animation.REVERSE);
+        blinking.setRepeatCount(Animation.INFINITE);
     }
 
     @Override
@@ -96,6 +110,8 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 showPlayOrPause(false);
 
                 renderTime(model.getMilliseconds(), true);
+
+                finish();
                 break;
             case R.id.ivRestart:
                 clearCountDown();
@@ -147,6 +163,8 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 showPlayOrPause(false);
 
                 renderTime(0, true);
+
+                blinking.cancel();
             }
         }.start();
     }
@@ -171,9 +189,25 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         if (!isPause) {
             ivStart.setVisibility(View.VISIBLE);
             ivPause.setVisibility(View.GONE);
+
+            disableAdditionalButtons(false);
+
+            tvTime.startAnimation(blinking);
         } else {
             ivStart.setVisibility(View.GONE);
             ivPause.setVisibility(View.VISIBLE);
+
+            disableAdditionalButtons(true);
+
+            blinking.cancel();
         }
+    }
+
+    private void disableAdditionalButtons(boolean disable) {
+        ivTimerSettings.setClickable(!disable);
+        ivTimerRemove.setClickable(!disable);
+
+        ivTimerSettings.setAlpha(disable ? .5f : 1f);
+        ivTimerRemove.setAlpha(disable ? .5f : 1f);
     }
 }

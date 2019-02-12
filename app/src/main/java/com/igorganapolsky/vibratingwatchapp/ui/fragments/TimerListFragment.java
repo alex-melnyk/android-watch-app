@@ -16,8 +16,8 @@ import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.TimerDetailsActivity;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.adapters.TimerListAdapter;
 import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
+import com.igorganapolsky.vibratingwatchapp.ui.adapters.TimerListAdapter;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerListViewModel;
 
 import java.util.List;

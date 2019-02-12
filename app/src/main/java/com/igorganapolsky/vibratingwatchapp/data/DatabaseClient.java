@@ -7,6 +7,15 @@ import com.igorganapolsky.vibratingwatchapp.data.db.TimersDatabase;
 public class DatabaseClient {
 
     private static DatabaseClient instance;
+    private Context context;
+    private TimersDatabase timersDatabase;
+    private DatabaseClient(Context context) {
+        this.context = context;
+
+        timersDatabase = Room.databaseBuilder(context, TimersDatabase.class, "TimersDatabase")
+                .allowMainThreadQueries()
+                .build();
+    }
 
     public static synchronized DatabaseClient getInstance(Context context) {
         if (instance == null) {
@@ -14,17 +23,6 @@ public class DatabaseClient {
         }
 
         return instance;
-    }
-
-    private Context context;
-    private TimersDatabase timersDatabase;
-
-    private DatabaseClient(Context context) {
-        this.context = context;
-
-        timersDatabase = Room.databaseBuilder(context, TimersDatabase.class, "TimersDatabase")
-                .allowMainThreadQueries()
-                .build();
     }
 
     public TimersDatabase getTimersDatabase() {

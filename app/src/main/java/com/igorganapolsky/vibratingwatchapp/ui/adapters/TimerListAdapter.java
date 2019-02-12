@@ -67,7 +67,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         this.itemClickListener = itemClickListener;
     }
 
-    public static interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 

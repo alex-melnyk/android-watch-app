@@ -30,6 +30,10 @@ public class TimerValue {
         return state;
     }
 
+    public void setState(TimeHighlightState state) {
+        this.state = state;
+    }
+
     public int getHours() {
         return hours;
     }
@@ -52,10 +56,6 @@ public class TimerValue {
 
     public void setSeconds(int seconds) {
         this.seconds = seconds;
-    }
-
-    public void setState(TimeHighlightState state) {
-        this.state = state;
     }
 
     public int getBuzz() {
