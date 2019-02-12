@@ -13,7 +13,7 @@
             android:id="@+id/timerTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="com.igorganapolsky.vibratingwatchapp.ui.fragments.settimer.TimerTimeFragment"
+            android:name="com.igorganapolsky.vibratingwatchapp.ui.fragments.TimerTimeFragment"
             tools:layout="@layout/timer_time_fragment"/>
 
     <android.support.v4.view.ViewPager

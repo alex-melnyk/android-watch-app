@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.fragments.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
@@ -21,7 +21,7 @@ import com.triggertrap.seekarc.SeekArc;
 
 import java.util.Locale;
 
-public class SetTimerFragment extends Fragment implements View.OnClickListener, SeekArc.OnSeekArcChangeListener {
+public class SetTimerTimeFragment extends Fragment implements View.OnClickListener, SeekArc.OnSeekArcChangeListener {
 
     private int INACTIVE_COLOR = Color.parseColor("#69FFFFFF");
     private int ACTIVE_COLOR = Color.parseColor("#FFFFFFFF");
@@ -60,7 +60,7 @@ public class SetTimerFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.set_timer_fragment, container, false);
+        rootView = inflater.inflate(R.layout.set_timer_time_fragment, container, false);
 
         tvLabel = rootView.findViewById(R.id.tvLabel);
         tvLabelMeasure = rootView.findViewById(R.id.tvLabelMeasure);

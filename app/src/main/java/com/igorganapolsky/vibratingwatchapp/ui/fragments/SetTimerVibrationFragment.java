@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.fragments.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.fragments;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
@@ -17,7 +17,7 @@ import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 
-public class SetVibrationFragment extends Fragment {
+public class SetTimerVibrationFragment extends Fragment {
 
     private Timer model;
     private View rootView;
@@ -37,7 +37,7 @@ public class SetVibrationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.set_vibration_fragment, container, false);
+        rootView = inflater.inflate(R.layout.set_timer_vibration_fragment, container, false);
 
         vibrationsAdapter = new VibrationsAdapter();
 

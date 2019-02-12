@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.fragments.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.fragments;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
@@ -18,7 +18,7 @@ import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 
-public class SetRepeatFragment extends Fragment {
+public class SetTimerRepeatFragment extends Fragment {
 
     private Timer model;
     private WearableRecyclerView wrvRepeats;
@@ -36,7 +36,7 @@ public class SetRepeatFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.set_repeat_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.set_timer_repeat_fragment, container, false);
 
         wrvRepeats = rootView.findViewById(R.id.wrvRepeats);
         wrvRepeats.setAdapter(new RepeatsAdapter());

@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.fragments.settimer;
+package com.igorganapolsky.vibratingwatchapp.ui.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
