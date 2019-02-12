@@ -39,7 +39,8 @@
                 android:scrollbars="horizontal"
                 android:overScrollMode="never"
                 android:clipToPadding="false"
-                android:paddingHorizontal="75dp"
+                android:paddingLeft="75dp"
+                android:paddingRight="75dp"
         />
     </FrameLayout>
     <!-- ADD INTERVAL BUTTON -->

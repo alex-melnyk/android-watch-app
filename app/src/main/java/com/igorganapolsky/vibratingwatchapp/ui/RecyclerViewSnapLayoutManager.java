@@ -12,11 +12,15 @@ public class RecyclerViewSnapLayoutManager extends LinearLayoutManager {
     private OnItemSelectListener itemSelectListener;
 
     public RecyclerViewSnapLayoutManager(Context context) {
-        super(context, VERTICAL, false);
+        this(context, VERTICAL, false);
     }
 
     public RecyclerViewSnapLayoutManager(Context context, int orientation) {
-        super(context, orientation, false);
+        this(context, orientation, false);
+    }
+
+    public RecyclerViewSnapLayoutManager(Context context, int orientation, boolean reverseLayout) {
+        super(context, orientation, reverseLayout);
     }
 
     @Override

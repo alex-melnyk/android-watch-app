@@ -39,6 +39,8 @@
                 android:scrollbars="vertical"
                 android:overScrollMode="never"
                 android:clipToPadding="false"
-                android:paddingVertical="75dp"/>
+                android:paddingTop="75dp"
+                android:paddingBottom="75dp"
+        />
     </FrameLayout>
 </LinearLayout>
