@@ -10,7 +10,7 @@
             android:id="@+id/wrvTimerList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="20dp"
+            android:paddingLeft="25dp"
             android:paddingRight="20dp"
             android:paddingBottom="50dp"
     />
