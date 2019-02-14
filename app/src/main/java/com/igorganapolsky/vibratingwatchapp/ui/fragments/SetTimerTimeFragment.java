@@ -1,7 +1,6 @@
 package com.igorganapolsky.vibratingwatchapp.ui.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,12 +22,6 @@ import java.util.Locale;
 
 public class SetTimerTimeFragment extends Fragment implements View.OnClickListener, SeekArc.OnSeekArcChangeListener {
 
-    private int INACTIVE_COLOR = Color.parseColor("#69FFFFFF");
-    private int ACTIVE_COLOR = Color.parseColor("#FFFFFFFF");
-
-    private Timer model;
-    private View rootView;
-
     private TimerSetup selection = TimerSetup.HOURS;
 
     private TextView tvLabel;
@@ -38,7 +31,6 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     private TextView tvMinutes;
     private TextView tvSeconds;
 
-    private TextView tvTime;
     private SeekArc seekArc;
 
     private SetTimerViewModel mViewModel;
@@ -47,10 +39,10 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mViewModel = ViewModelProviders.of(this.getActivity()).get(SetTimerViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(SetTimerViewModel.class);
         // TODO: Use the ViewModel
 
-        mViewModel.getTimerValue().observe(this.getActivity(), (timerValue) -> {
+        mViewModel.getTimerValue().observe(getActivity(), (timerValue) -> {
             tvLabel.setText(String.format(Locale.ENGLISH, "%d", timerValue.getValue(selection)));
             tvLabelMeasure.setText(selection.getShortcut());
         });
@@ -60,7 +52,7 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.set_timer_time_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.set_timer_time_fragment, container, false);
 
         tvLabel = rootView.findViewById(R.id.tvLabel);
         tvLabelMeasure = rootView.findViewById(R.id.tvLabelMeasure);
@@ -72,7 +64,7 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
         tvSeconds = rootView.findViewById(R.id.tvSeconds);
         tvSeconds.setOnClickListener(this);
 
-        tvTime = rootView.findViewById(R.id.tvTime);
+        TextView tvTime = rootView.findViewById(R.id.tvTime);
         seekArc = rootView.findViewById(R.id.seekArc);
 
         seekArc.setOnSeekArcChangeListener(this);
@@ -84,7 +76,7 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
 
-        model = (Timer) getArguments().getSerializable("TIMER_MODEL");
+        Timer model = (Timer) getArguments().getSerializable("TIMER_MODEL");
 
         if (model != null) {
             mViewModel.getTimerValue().setValue(TimerTransform.timerModelFromMillis(model.getMilliseconds()));
@@ -158,7 +150,10 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
         mViewModel.getTimerValue().setValue(timerValue);
     }
 
-    public void setSelection(TimerSetup selection) {
+    private void setSelection(TimerSetup selection) {
+        final int ACTIVE_COLOR = getResources().getColor(R.color.white_active);
+        final int INACTIVE_COLOR = getResources().getColor(R.color.white_inactive);
+
         this.selection = selection;
 
         TimerValue timerValue = mViewModel.getTimerValue().getValue();
