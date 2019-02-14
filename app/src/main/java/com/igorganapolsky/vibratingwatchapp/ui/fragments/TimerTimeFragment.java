@@ -1,11 +1,12 @@
 package com.igorganapolsky.vibratingwatchapp.ui.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Color;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,23 +16,21 @@ import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 
 import java.util.Locale;
 
+import static android.support.v4.content.ContextCompat.getColor;
+
 public class TimerTimeFragment extends Fragment {
-
-    private int ACTIVE_COLOR = Color.parseColor("#FFFFFFFF");
-    private int INACTIVE_COLOR = Color.parseColor("#69FFFFFF");
-
-    private View rootView;
 
     private TextView tvTimeHours;
     private TextView tvTimeMinutes;
     private TextView tvTimeSeconds;
 
-    private SetTimerViewModel mViewModel;
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this.getActivity()).get(SetTimerViewModel.class);
+        final int ACTIVE_COLOR = getResources().getColor(R.color.white_active);
+        final int INACTIVE_COLOR = getResources().getColor(R.color.white_inactive);
+
+        SetTimerViewModel mViewModel = ViewModelProviders.of(getActivity()).get(SetTimerViewModel.class);
 
         mViewModel.getTimerValue().observe(this.getActivity(), (timerValue) -> {
             tvTimeHours.setText(String.format(Locale.ENGLISH, "%02d", timerValue.getHours()));
@@ -67,7 +66,7 @@ public class TimerTimeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.timer_time_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.timer_time_fragment, container, false);
 
         tvTimeHours = rootView.findViewById(R.id.tvTimeHours);
         tvTimeMinutes = rootView.findViewById(R.id.tvTimeMinutes);

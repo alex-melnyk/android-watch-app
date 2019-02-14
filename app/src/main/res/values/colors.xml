@@ -2,6 +2,6 @@
 <resources>
     <color name="transparent">#00000000</color>
     <color name="white_inactive">#69FFFFFF</color>
-    <color name="white_active">#FFFFFF</color>
+    <color name="white_active">#FFFFFFFF</color>
     <color name="highlight">#F0588A</color>
 </resources>
