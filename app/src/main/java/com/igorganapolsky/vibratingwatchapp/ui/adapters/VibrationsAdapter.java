@@ -12,10 +12,10 @@ import java.util.Locale;
 
 public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.VibrationsRecyclerViewHolder> {
     private String[] vibrations = {
-            "1 buzz - 5 seconds",
-            "3 buzz - 3 seconds each",
-            "5 buzzes - 5 seconds each",
-            "1 long buzz - 20 seconds"
+            "1 buzz,5 seconds",
+            "3 buzz,3 seconds each",
+            "5 buzzes,5 seconds each",
+            "1 long buzz,20 seconds"
     };
 
     public VibrationsAdapter() {
@@ -38,7 +38,11 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull VibrationsRecyclerViewHolder vibrationsRecyclerViewHolder, int index) {
         vibrationsRecyclerViewHolder.setIndex(index + 1);
-        vibrationsRecyclerViewHolder.setLabel(vibrations[index]);
+
+        String[] spittedLine = vibrations[index].split(",");
+
+        vibrationsRecyclerViewHolder.setBuzzAmount(spittedLine[0]);
+        vibrationsRecyclerViewHolder.setTimeAmount(spittedLine[1]);
     }
 
     @Override
@@ -48,21 +52,27 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
 
     static class VibrationsRecyclerViewHolder extends RecyclerView.ViewHolder {
         private TextView tvIndex;
-        private TextView tvLabel;
+        private TextView buzzAmount;
+        private TextView timeAmount;
 
         VibrationsRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvIndex = itemView.findViewById(R.id.index);
-            tvLabel = itemView.findViewById(R.id.label);
+            buzzAmount = itemView.findViewById(R.id.buzzAmount);
+            timeAmount = itemView.findViewById(R.id.timeAmount);
         }
 
         void setIndex(int index) {
             tvIndex.setText(String.format(Locale.ENGLISH, "%d", index));
         }
 
-        void setLabel(String label) {
-            tvLabel.setText(label);
+        void setBuzzAmount(String label) {
+            buzzAmount.setText(label);
+        }
+
+        void setTimeAmount(String label) {
+            timeAmount.setText(label);
         }
     }
 }

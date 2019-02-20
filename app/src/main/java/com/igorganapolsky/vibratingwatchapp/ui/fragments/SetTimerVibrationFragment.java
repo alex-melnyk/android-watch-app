@@ -30,7 +30,6 @@ public class SetTimerVibrationFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this.getActivity()).get(SetTimerViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Nullable
