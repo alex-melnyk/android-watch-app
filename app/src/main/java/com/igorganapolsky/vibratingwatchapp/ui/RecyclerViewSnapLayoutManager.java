@@ -41,10 +41,13 @@ public class RecyclerViewSnapLayoutManager extends LinearLayoutManager {
             recyclerView.dispatchSetSelected(false);
 
             View snapView = helper.findSnapView(this);
-            snapView.setSelected(true);
 
-            if (itemSelectListener != null) {
-                itemSelectListener.onItemSelected(recyclerView.getChildAdapterPosition(snapView));
+            if (snapView != null) {
+                snapView.setSelected(true);
+
+                if (itemSelectListener != null) {
+                    itemSelectListener.onItemSelected(recyclerView.getChildAdapterPosition(snapView));
+                }
             }
         }
     }
