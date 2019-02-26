@@ -13,7 +13,7 @@ import java.util.Locale;
 public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.VibrationsRecyclerViewHolder> {
     private String[] vibrations = {
             "1 buzz,5 seconds",
-            "3 buzz,3 seconds each",
+            "3 buzzes,3 seconds each",
             "5 buzzes,5 seconds each",
             "1 long buzz,20 seconds"
     };

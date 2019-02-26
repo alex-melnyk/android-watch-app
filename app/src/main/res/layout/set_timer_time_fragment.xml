@@ -7,11 +7,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="1"
     tools:context=".ui.fragments.SetTimerTimeFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="135dp"
-        android:layout_height="135dp" android:layout_gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+    >
 
         <com.triggertrap.seekarc.SeekArc
             android:id="@+id/seekArc"
@@ -33,6 +37,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0"/>
+
         <TextView
             android:id="@+id/tvLabel"
             android:layout_width="wrap_content"
@@ -42,11 +47,10 @@
             android:textColor="@color/white_active"
             android:fontFamily="@font/roboto_condensed_regular"
             android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@+id/seekArc"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="135dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
         />
         <TextView
             android:layout_width="wrap_content"
@@ -61,11 +65,13 @@
             android:layout_marginLeft="5dp"
         />
     </android.support.constraint.ConstraintLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp">
         <TextView
             android:id="@+id/tvHours"
             android:text="@string/shortcut_hours"
