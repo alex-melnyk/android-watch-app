@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.LinearLayout;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.dao.TimersDao;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
@@ -34,7 +35,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
         tlDots = findViewById(R.id.tlDots);
         tlDots.setupWithViewPager(vpWizard, true);
-
+        disableTabs(tlDots);
         findViewById(R.id.ivNextPage).setOnClickListener(this);
     }
 
@@ -82,6 +83,13 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
             }
 
             finish();
+        }
+    }
+
+    private void disableTabs(TabLayout layout) {
+        LinearLayout tabStrip = ((LinearLayout) layout.getChildAt(0));
+        for (int i = 0; i < tabStrip.getChildCount(); i++) {
+            tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
         }
     }
 }
