@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.main.adapter;
+package com.igorganapolsky.vibratingwatchapp.ui.timerlist.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

@@ -15,8 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.edittimer.SetTimerActivity;
 import com.igorganapolsky.vibratingwatchapp.ui.dialog.TimerDeleteDialogFragment;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.SetTimerActivity;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
 public class TimerDetailsActivity extends AppCompatActivity implements View.OnClickListener {

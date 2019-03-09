@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.edittimer;
+package com.igorganapolsky.vibratingwatchapp.ui.timersettings;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.ui.edittimer.SetTimerActivity;
-import com.igorganapolsky.vibratingwatchapp.ui.edittimer.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 
 import java.util.Locale;

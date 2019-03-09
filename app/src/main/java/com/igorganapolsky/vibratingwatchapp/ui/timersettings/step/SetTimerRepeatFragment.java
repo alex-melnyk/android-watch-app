@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.edittimer.step;
+package com.igorganapolsky.vibratingwatchapp.ui.timersettings.step;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
-import com.igorganapolsky.vibratingwatchapp.ui.edittimer.adapter.RepeatsAdapter;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.adapter.RepeatsAdapter;
 
 public class SetTimerRepeatFragment extends Fragment {
 

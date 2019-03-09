@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.edittimer.step;
+package com.igorganapolsky.vibratingwatchapp.ui.timersettings.step;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.edittimer.SetTimerActivity;
-import com.igorganapolsky.vibratingwatchapp.ui.edittimer.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimeHighlightState;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerSetup;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.SetTimerActivity;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 import com.triggertrap.seekarc.SeekArc;
 

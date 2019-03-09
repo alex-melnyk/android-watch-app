@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.edittimer;
+package com.igorganapolsky.vibratingwatchapp.ui.timersettings;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -13,9 +13,9 @@ import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.dao.TimersDao;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.edittimer.adapter.SetTimerAdapter;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.adapter.SetTimerAdapter;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
 public class SetTimerActivity extends AppCompatActivity implements View.OnClickListener, StepActionListener {
@@ -98,8 +98,8 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onActionEnd() {
-//        vpWizard.setIsSwipeAvailable(true);
-//        ivNextPage.setEnabled(true);
+        vpWizard.setIsSwipeAvailable(true);
+        ivNextPage.setEnabled(true);
     }
 
     private void disableTabs(TabLayout layout) {

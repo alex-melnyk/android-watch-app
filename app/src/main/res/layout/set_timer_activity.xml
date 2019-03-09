@@ -6,17 +6,17 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.igorganapolsky.vibratingwatchapp.ui.edittimer.SetTimerActivity"
+    tools:context="com.igorganapolsky.vibratingwatchapp.ui.timersettings.SetTimerActivity"
     android:orientation="vertical">
 
     <fragment
         android:id="@+id/timerTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.igorganapolsky.vibratingwatchapp.ui.edittimer.TimerTimeFragment"
+        android:name="com.igorganapolsky.vibratingwatchapp.ui.timersettings.TimerTimeFragment"
         tools:layout="@layout/timer_time_fragment"/>
 
-    <com.igorganapolsky.vibratingwatchapp.ui.edittimer.SwipeRestrictViewPager
+    <com.igorganapolsky.vibratingwatchapp.ui.timersettings.SwipeRestrictViewPager
         android:id="@+id/vpWizard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
