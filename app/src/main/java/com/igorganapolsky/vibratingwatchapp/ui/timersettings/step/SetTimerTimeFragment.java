@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimeHighlightState;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerSetup;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 import com.igorganapolsky.vibratingwatchapp.ui.timersettings.SetTimerActivity;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.timersettings.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 import com.triggertrap.seekarc.SeekArc;
@@ -51,6 +51,7 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
         mViewModel.getTimerValue().observe(getActivity(), (timerValue) -> {
             tvLabel.setText(String.format(Locale.ENGLISH, "%d", timerValue.getValue(selection)));
             tvLabelMeasure.setText(selection.getShortcut());
+
         });
     }
 

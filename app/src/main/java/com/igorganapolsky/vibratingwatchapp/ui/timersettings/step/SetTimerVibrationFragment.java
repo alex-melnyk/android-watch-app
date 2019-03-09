@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
-import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.timersettings.adapter.VibrationsAdapter;
 
 public class SetTimerVibrationFragment extends Fragment {

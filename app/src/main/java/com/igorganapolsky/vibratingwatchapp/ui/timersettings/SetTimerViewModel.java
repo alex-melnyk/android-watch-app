@@ -1,7 +1,8 @@
-package com.igorganapolsky.vibratingwatchapp.ui.models;
+package com.igorganapolsky.vibratingwatchapp.ui.timersettings;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 
 
 public class SetTimerViewModel extends ViewModel {

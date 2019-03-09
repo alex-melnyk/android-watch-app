@@ -13,7 +13,6 @@ import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.dao.TimersDao;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 import com.igorganapolsky.vibratingwatchapp.ui.timersettings.adapter.SetTimerAdapter;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
@@ -22,9 +21,10 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     private final int SUCCESS_CODE = 101;
 
+    private SetTimerViewModel mViewModel;
+
     private Timer model;
     private SwipeRestrictViewPager vpWizard;
-    private TabLayout tlDots;
     private FrameLayout ivNextPage;
 
     @Override
@@ -32,16 +32,32 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_timer_activity);
 
+        mViewModel = ViewModelProviders.of(this).get(SetTimerViewModel.class);
+
+        setupView();
+        setupObservers();
+    }
+
+    private void setupView() {
         vpWizard = findViewById(R.id.vpWizard);
-        tlDots = findViewById(R.id.tlDots);
         ivNextPage = findViewById(R.id.ivNextPage);
+        TabLayout tlDots = findViewById(R.id.tlDots);
 
         vpWizard.setAdapter(new SetTimerAdapter(getSupportFragmentManager()));
-        tlDots.setupWithViewPager(vpWizard, true);
         ivNextPage.setOnClickListener(this);
 
+        tlDots.setupWithViewPager(vpWizard, true);
         disableTabs(tlDots);
     }
+
+    private void setupObservers() {
+        mViewModel.getTimerValue().observe(this, (timerValue) -> {
+            if (timerValue == null) return;
+            boolean isSwipeRestrict = !timerValue.isDefaultTime();
+            vpWizard.setIsSwipeAvailable(isSwipeRestrict);
+        });
+    }
+
 
     @Override
     public void onAttachFragment(Fragment fragment) {

@@ -87,6 +87,10 @@ public class TimerValue {
         return -1;
     }
 
+    public boolean isDefaultTime() {
+        return hours == 0 && minutes == 0 && seconds == 0;
+    }
+
     @Override
     public String toString() {
         return String.format(Locale.ENGLISH, "%02d : %02d : %02d", hours, minutes, seconds);
