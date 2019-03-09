@@ -20,19 +20,26 @@ import java.util.Objects;
 public class SetTimerVibrationFragment extends Fragment {
 
     private SetTimerViewModel mViewModel;
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()), ViewModelFactory.getInstance()).get(SetTimerViewModel.class);
-    }
+    private WearableRecyclerView wrvVibrations;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.set_timer_vibration_fragment, container, false);
-        WearableRecyclerView wrvVibrations = rootView.findViewById(R.id.wrvVibrations);
+        return inflater.inflate(R.layout.set_timer_vibration_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()), ViewModelFactory.getInstance()).get(SetTimerViewModel.class);
+
+        setupView(view);
+        setupObservers();
+    }
+
+    private void setupView(View view) {
+        wrvVibrations = view.findViewById(R.id.wrvVibrations);
 
         VibrationsAdapter vibrationsAdapter = new VibrationsAdapter();
         wrvVibrations.setAdapter(vibrationsAdapter);
@@ -41,29 +48,12 @@ public class SetTimerVibrationFragment extends Fragment {
         wrvVibrations.setLayoutManager(layoutManager);
 
         layoutManager.setItemSelectListener((int pos) -> mViewModel.setBuzz(pos));
-
-        return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-//        model = (TimerEntity) getArguments().getSerializable("TIMER_MODEL");
-//
-//        if (model != null) {
-//            int buzzMode = model.getBuzzMode();
-//
-//            MutableLiveData<TimerModel> liveData = mViewModel.getTimerData();
-//
-//            TimerModel value = liveData.getValue();
-//            value.setBuzz(buzzMode);
-//
-//            wrvVibrations.smoothScrollToPosition(buzzMode);
-//
-//            liveData.setValue(value);
-//        } else {
-//            wrvVibrations.smoothScrollToPosition(0);
-//        }
+    private void setupObservers() {
+        mViewModel.getTimerData().observe(this, (timerValue) -> {
+            if (timerValue == null) return;
+            wrvVibrations.smoothScrollToPosition(timerValue.getBuzz());
+        });
     }
 }
