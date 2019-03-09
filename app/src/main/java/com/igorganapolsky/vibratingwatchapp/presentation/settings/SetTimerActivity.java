@@ -7,14 +7,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.custom.SwipeRestrictViewPager;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimeHighlightState;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
+
+import java.util.Locale;
 
 import static com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity.TIMER_ID;
 
@@ -32,10 +34,13 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     private int inactiveColor = 0;
     private int activeColor = 0;
 
+    private boolean isSwipeGranted = false;
+    private boolean isProgressChanged = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.set_timer_activity);
+        setContentView(R.layout.activity_set_timer);
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(SetTimerViewModel.class);
 
         setupViewModel();
@@ -65,6 +70,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         TabLayout tlDots = findViewById(R.id.tlDots);
 
         vpWizard.setAdapter(new SetTimerPageAdapter(getSupportFragmentManager()));
+        vpWizard.setOffscreenPageLimit(2);
         ivNextPage.setOnClickListener(this);
 
         tlDots.setupWithViewPager(vpWizard, true);
@@ -72,38 +78,43 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupObservers() {
-        mViewModel.getHighliteData().observe(this, this::setSelection);
-        mViewModel.getTimerData().observe(this, (timerValue) -> {
-            if (timerValue == null) return;
-            boolean isSwipeRestrict = !timerValue.isDefaultTime();
-            swapNextStepProceedActionState(isSwipeRestrict);
+        mViewModel.getHighligtData().observe(this, this::setHighlight);
+        mViewModel.getTimerData().observe(this, (timer) -> {
+            if (timer == null) return;
+            isSwipeGranted = !timer.isDefaultTime();
+            updateTimerData(timer);
         });
+    }
+
+    private void updateTimerData(TimerModel timer) {
+        tvTimeHours.setText(String.format(Locale.ENGLISH, "%02d", timer.getHours()));
+        tvTimeMinutes.setText(String.format(Locale.ENGLISH, "%02d", timer.getMinutes()));
+        tvTimeSeconds.setText(String.format(Locale.ENGLISH, "%02d", timer.getSeconds()));
     }
 
     @Override
     public void onClick(View view) {
-        int currentPage = vpWizard.getCurrentItem();
-        if (currentPage < 2) {
-            vpWizard.setCurrentItem(currentPage + 1);
-        } else {
-            mViewModel.saveTimer();
-            finish();
+        if (isProgressChanged && isSwipeGranted) {
+            int currentPage = vpWizard.getCurrentItem();
+            if (currentPage < 2) {
+                vpWizard.setCurrentItem(currentPage + 1);
+            } else {
+                mViewModel.saveTimer();
+                finish();
+            }
         }
     }
 
     @Override
     public void onActionStart() {
-        swapNextStepProceedActionState(false);
+        isProgressChanged = false;
+        vpWizard.setIsSwipeAvailable(false);
     }
 
     @Override
     public void onActionEnd() {
-        swapNextStepProceedActionState(true);
-    }
-
-    private void swapNextStepProceedActionState(boolean isEnable) {
-        vpWizard.setIsSwipeAvailable(isEnable);
-        ivNextPage.setEnabled(isEnable);
+        isProgressChanged = true;
+        vpWizard.setIsSwipeAvailable(isSwipeGranted);
     }
 
     private void disableTabs(TabLayout layout) {
@@ -113,7 +124,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void setSelection(TimeHighlightState state) {
+    private void setHighlight(TimeHighlightState state) {
         switch (state) {
             case WHOLE:
                 tvTimeHours.setTextColor(activeColor);

@@ -115,17 +115,15 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     private void setupObservers() {
         mViewModel.getSetupData().observe(Objects.requireNonNull(getActivity()), this::setSelection);
         mViewModel.getTimerData().observe(Objects.requireNonNull(getActivity()), (timerValue) -> {
-            if (timerValue != null) {
-                setSelection(TimerSetup.HOURS);
-            }
+            if (timerValue == null) return;
         });
     }
 
     private void setSelection(TimerSetup selection) {
         seekArc.setProgress(mViewModel.calculateProgress());
 
-        tvLabel.setText(String.format(Locale.ENGLISH, "%d", mViewModel.getCurrentTimeValue()));
         tvLabelMeasure.setText(selection.getShortcut());
+        tvLabel.setText(String.format(Locale.ENGLISH, "%d", mViewModel.getCurrentTimeValue()));
 
         switch (selection) {
             case HOURS:

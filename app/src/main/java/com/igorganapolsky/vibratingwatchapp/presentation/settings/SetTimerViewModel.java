@@ -52,7 +52,7 @@ public class SetTimerViewModel extends ViewModel {
         return setupData;
     }
 
-    public LiveData<TimeHighlightState> getHighliteData() {
+    public LiveData<TimeHighlightState> getHighligtData() {
         return highlightStateData;
     }
 
@@ -70,7 +70,13 @@ public class SetTimerViewModel extends ViewModel {
 
     public void setSelection(TimerSetup newSelection) {
         this.setup = newSelection;
+        setHighlightState();
         setupData.setValue(setup);
+    }
+
+    void completeTimeSelection() {
+        highlightState = TimeHighlightState.WHOLE;
+        highlightStateData.setValue(highlightState);
     }
 
     public void setTimeSelection(int progress) {
@@ -87,28 +93,26 @@ public class SetTimerViewModel extends ViewModel {
                 currentTimer.setSeconds(calculatedValue);
                 break;
         }
+
         setupData.setValue(setup);
+        timerData.setValue(currentTimer);
     }
 
     public int getCurrentTimeValue() {
         return currentTimer.getValue(setup);
     }
 
-    public void setHighlightState(boolean isWhole) {
-        if (isWhole) {
-            highlightState = TimeHighlightState.WHOLE;
-        } else {
-            switch (setup) {
-                case HOURS:
-                    highlightState = TimeHighlightState.HOURS;
-                    break;
-                case MINUTES:
-                    highlightState = TimeHighlightState.MINUTES;
-                    break;
-                case SECONDS:
-                    highlightState = TimeHighlightState.SECONDS;
-                    break;
-            }
+    private void setHighlightState() {
+        switch (setup) {
+            case HOURS:
+                highlightState = TimeHighlightState.HOURS;
+                break;
+            case MINUTES:
+                highlightState = TimeHighlightState.MINUTES;
+                break;
+            case SECONDS:
+                highlightState = TimeHighlightState.SECONDS;
+                break;
         }
         highlightStateData.setValue(highlightState);
     }
