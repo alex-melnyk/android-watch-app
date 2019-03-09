@@ -13,9 +13,12 @@ import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.dao.TimersDao;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
+import com.igorganapolsky.vibratingwatchapp.model.TimerValue;
 import com.igorganapolsky.vibratingwatchapp.ui.timersettings.adapter.SetTimerAdapter;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.custom.StepActionListener;
+import com.igorganapolsky.vibratingwatchapp.ui.timersettings.custom.SwipeRestrictViewPager;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
+import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 
 public class SetTimerActivity extends AppCompatActivity implements View.OnClickListener, StepActionListener {
 
@@ -27,12 +30,13 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     private SwipeRestrictViewPager vpWizard;
     private FrameLayout ivNextPage;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_timer_activity);
 
-        mViewModel = ViewModelProviders.of(this).get(SetTimerViewModel.class);
+        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(SetTimerViewModel.class);
 
         setupView();
         setupObservers();
@@ -51,7 +55,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupObservers() {
-        mViewModel.getTimerValue().observe(this, (timerValue) -> {
+        mViewModel.getTimerData().observe(this, (timerValue) -> {
             if (timerValue == null) return;
             boolean isSwipeRestrict = !timerValue.isDefaultTime();
             swapNextStepProceedActionState(isSwipeRestrict);
@@ -77,7 +81,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         if (currentPage < 2) {
             vpWizard.setCurrentItem(currentPage + 1);
         } else {
-            TimerValue timerValue = ViewModelProviders.of(this).get(SetTimerViewModel.class).getTimerValue().getValue();
+            TimerValue timerValue = ViewModelProviders.of(this).get(SetTimerViewModel.class).getTimerData().getValue();
 
             Timer timer = model;
 

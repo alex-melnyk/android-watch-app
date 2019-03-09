@@ -16,7 +16,7 @@
         android:name="com.igorganapolsky.vibratingwatchapp.ui.timersettings.TimerTimeFragment"
         tools:layout="@layout/timer_time_fragment"/>
 
-    <com.igorganapolsky.vibratingwatchapp.ui.timersettings.SwipeRestrictViewPager
+    <com.igorganapolsky.vibratingwatchapp.ui.timersettings.custom.SwipeRestrictViewPager
         android:id="@+id/vpWizard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

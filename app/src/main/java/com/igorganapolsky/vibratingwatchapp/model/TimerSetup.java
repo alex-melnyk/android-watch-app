@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.models;
+package com.igorganapolsky.vibratingwatchapp.model;
 
 public enum TimerSetup {
     HOURS("H", 12.), MINUTES("M", 59.), SECONDS("S", 59.);

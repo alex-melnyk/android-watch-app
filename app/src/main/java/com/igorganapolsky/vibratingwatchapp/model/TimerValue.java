@@ -1,10 +1,12 @@
-package com.igorganapolsky.vibratingwatchapp.ui.models;
+package com.igorganapolsky.vibratingwatchapp.model;
 
 import java.util.Locale;
 
 public class TimerValue {
 
     private TimeHighlightState state;
+
+    private int id;
     private int hours;
     private int minutes;
     private int seconds;
@@ -85,6 +87,14 @@ public class TimerValue {
         }
 
         return -1;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isDefaultTime() {

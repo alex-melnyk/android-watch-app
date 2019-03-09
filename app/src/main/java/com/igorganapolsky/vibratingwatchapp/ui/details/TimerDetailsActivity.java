@@ -118,10 +118,11 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.ivTimerSettings:
                 Intent settingIntent = new Intent(getApplicationContext(), SetTimerActivity.class);
-                settingIntent.putExtra("TIMER_MODEL", model);
-
+                settingIntent.putExtra("TIMER_MOD,EL", model);
+                settingIntent.putExtra("TIMER_ID", model.getId());
                 startActivityForResult(settingIntent, SETTING_REQUEST_CODE);
                 break;
+
             case R.id.ivTimerRemove:
                 Bundle deleteBundle = new Bundle();
                 deleteBundle.putSerializable("TIMER_MODEL", model);

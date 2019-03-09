@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.timersettings;
+package com.igorganapolsky.vibratingwatchapp.ui.timersettings.custom;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

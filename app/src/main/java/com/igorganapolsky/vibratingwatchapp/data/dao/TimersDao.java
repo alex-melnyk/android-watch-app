@@ -1,5 +1,6 @@
 package com.igorganapolsky.vibratingwatchapp.data.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.*;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 
@@ -9,10 +10,10 @@ import java.util.List;
 public interface TimersDao {
 
     @Query("SELECT * FROM timer")
-    List<Timer> getAll();
+    LiveData<List<Timer>> getAll();
 
     @Query("SELECT * FROM timer WHERE id = :id")
-    List<Timer> getById(int id);
+    Timer getById(int id);
 
     @Insert
     void insert(Timer task);

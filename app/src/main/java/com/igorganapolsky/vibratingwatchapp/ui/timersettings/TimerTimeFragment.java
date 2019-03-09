@@ -29,7 +29,7 @@ public class TimerTimeFragment extends Fragment {
 
         SetTimerViewModel mViewModel = ViewModelProviders.of(getActivity()).get(SetTimerViewModel.class);
 
-        mViewModel.getTimerValue().observe(this.getActivity(), (timerValue) -> {
+        mViewModel.getTimerData().observe(this.getActivity(), (timerValue) -> {
             tvTimeHours.setText(String.format(Locale.ENGLISH, "%02d", timerValue.getHours()));
             tvTimeMinutes.setText(String.format(Locale.ENGLISH, "%02d", timerValue.getMinutes()));
             tvTimeSeconds.setText(String.format(Locale.ENGLISH, "%02d", timerValue.getSeconds()));

@@ -8,6 +8,9 @@ import java.io.Serializable;
 
 @Entity
 public class Timer implements Serializable {
+
+    public static final String TIMER_ID = "timer_id";
+
     @PrimaryKey(autoGenerate = true)
     private int id;
 

@@ -13,14 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.ui.details.TimerDetailsActivity;
-import com.igorganapolsky.vibratingwatchapp.ui.models.TimerListViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.timerlist.adapter.TimerListAdapter;
-
-import java.util.List;
+import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 
 public class TimerListFragment extends Fragment implements TimerListAdapter.OnItemClickListener {
 
@@ -31,35 +28,6 @@ public class TimerListFragment extends Fragment implements TimerListAdapter.OnIt
     private TextView addTimerButtonImageLabel;
     private View rootView;
     private WearableRecyclerView wrvTimerList;
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(TimerListViewModel.class);
-
-        setupView();
-        setupObservers();
-    }
-
-    private void setupView() {
-        ivTimerListImage = getActivity().findViewById(R.id.ivTimerListImage);
-        addTimerButtonImageLabel = getActivity().findViewById(R.id.addTimerButtonImageLabel);
-    }
-
-    private void setupObservers() {
-
-        mViewModel.getLiveData().observe(this, (timerList) -> {
-            timerListAdapter.setData(timerList);
-
-            if (timerList != null && timerList.size() > 0) {
-                ivTimerListImage.setVisibility(ImageView.GONE);
-                addTimerButtonImageLabel.setVisibility(View.GONE);
-            } else {
-                ivTimerListImage.setVisibility(ImageView.VISIBLE);
-                addTimerButtonImageLabel.setVisibility(View.VISIBLE);
-            }
-        });
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -77,24 +45,39 @@ public class TimerListFragment extends Fragment implements TimerListAdapter.OnIt
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mViewModel = ViewModelProviders.of(getActivity(), ViewModelFactory.getInstance()).get(TimerListViewModel.class);
 
-        List<Timer> timerList = DatabaseClient.getInstance(getContext())
-            .getTimersDatabase()
-            .timersDao()
-            .getAll();
+        setupView();
+        setupObservers();
+    }
 
-        mViewModel.getLiveData().setValue(timerList);
+
+    private void setupView() {
+        ivTimerListImage = getActivity().findViewById(R.id.ivTimerListImage);
+        addTimerButtonImageLabel = getActivity().findViewById(R.id.addTimerButtonImageLabel);
+    }
+
+    private void setupObservers() {
+        mViewModel.getLiveData().observe(this, (timerList) -> {
+            timerListAdapter.setData(timerList);
+
+            if (timerList != null && timerList.size() > 0) {
+                ivTimerListImage.setVisibility(ImageView.GONE);
+                addTimerButtonImageLabel.setVisibility(View.GONE);
+            } else {
+                ivTimerListImage.setVisibility(ImageView.VISIBLE);
+                addTimerButtonImageLabel.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void onItemClick(int position) {
-        Timer model = mViewModel.getLiveData().getValue().get(position);
-
         // TODO: MAKE TRANSITION TO DETAILS
         Intent timerDetailsIntent = new Intent(getContext(), TimerDetailsActivity.class);
-        timerDetailsIntent.putExtra("TIMER_MODEL", model);
+        timerDetailsIntent.putExtra(Timer.TIMER_ID, position);
         startActivity(timerDetailsIntent);
     }
 }
