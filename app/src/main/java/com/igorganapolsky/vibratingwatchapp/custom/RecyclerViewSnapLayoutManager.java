@@ -26,7 +26,6 @@ public class RecyclerViewSnapLayoutManager extends LinearLayoutManager {
     @Override
     public void onAttachedToWindow(RecyclerView recyclerView) {
         super.onAttachedToWindow(recyclerView);
-
         this.recyclerView = recyclerView;
 
         helper = new LinearSnapHelper();
@@ -39,26 +38,21 @@ public class RecyclerViewSnapLayoutManager extends LinearLayoutManager {
 
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
             recyclerView.dispatchSetSelected(false);
+            int position = findPosition();
 
-            View snapView = helper.findSnapView(this);
-
-            if (snapView != null) {
-                snapView.setSelected(true);
-
-                if (itemSelectListener != null) {
-                    itemSelectListener.onItemSelected(recyclerView.getChildAdapterPosition(snapView));
-                }
+            if (itemSelectListener != null) {
+                itemSelectListener.onItemSelected(position);
             }
         }
     }
 
-    public void selectFirst() {
+    private int findPosition() {
         View snapView = helper.findSnapView(this);
         if (snapView != null) {
             snapView.setSelected(true);
-            if (itemSelectListener != null) {
-                itemSelectListener.onItemSelected(recyclerView.getChildAdapterPosition(snapView));
-            }
+            return recyclerView.getChildAdapterPosition(snapView);
+        } else {
+            return 0;
         }
     }
 

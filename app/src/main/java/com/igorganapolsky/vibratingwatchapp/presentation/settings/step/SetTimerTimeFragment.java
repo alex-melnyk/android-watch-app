@@ -26,8 +26,8 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     private SetTimerViewModel mViewModel;
     private SeekArc seekArc;
 
-    int ACTIVE_COLOR;
-    int INACTIVE_COLOR;
+    private int ACTIVE_COLOR;
+    private int INACTIVE_COLOR;
 
     private TextView tvLabel;
     private TextView tvLabelMeasure;

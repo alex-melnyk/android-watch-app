@@ -12,15 +12,17 @@ import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
+import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.HolderClickListener;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.VibrationsAdapter;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 
 import java.util.Objects;
 
-public class SetTimerVibrationFragment extends Fragment {
+public class SetTimerVibrationFragment extends Fragment implements HolderClickListener {
 
     private SetTimerViewModel mViewModel;
     private WearableRecyclerView wrvVibrations;
+    private VibrationsAdapter vibrationsAdapter;
 
     @Nullable
     @Override
@@ -40,14 +42,13 @@ public class SetTimerVibrationFragment extends Fragment {
 
     private void setupView(View view) {
         wrvVibrations = view.findViewById(R.id.wrvVibrations);
-
-        VibrationsAdapter vibrationsAdapter = new VibrationsAdapter();
-        wrvVibrations.setAdapter(vibrationsAdapter);
-
         RecyclerViewSnapLayoutManager layoutManager = new RecyclerViewSnapLayoutManager(getActivity());
+        layoutManager.setItemSelectListener((int pos) -> mViewModel.setBuzz(pos));
+
+        vibrationsAdapter = new VibrationsAdapter(this);
+        wrvVibrations.setAdapter(vibrationsAdapter);
         wrvVibrations.setLayoutManager(layoutManager);
 
-        layoutManager.setItemSelectListener((int pos) -> mViewModel.setBuzz(pos));
     }
 
     private void setupObservers() {
@@ -55,5 +56,10 @@ public class SetTimerVibrationFragment extends Fragment {
             if (timerValue == null) return;
             wrvVibrations.smoothScrollToPosition(timerValue.getBuzz());
         });
+    }
+
+    @Override
+    public void onHolderClick(int position) {
+        wrvVibrations.smoothScrollToPosition(position);
     }
 }

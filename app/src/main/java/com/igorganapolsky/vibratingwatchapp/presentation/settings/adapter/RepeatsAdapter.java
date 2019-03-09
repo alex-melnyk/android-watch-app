@@ -10,12 +10,14 @@ import com.igorganapolsky.vibratingwatchapp.R;
 
 public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsRecyclerViewHolder> {
     private String[] repeats = {
-            "1", "2", "3",
-            "4", "5", "6",
-            "7", "8", "9"
-    };
+        "1", "2", "3",
+        "4", "5", "6",
+        "7", "8", "9"};
 
-    public RepeatsAdapter() {
+    private HolderClickListener holderClickListener;
+
+    public RepeatsAdapter(HolderClickListener holderClickListener) {
+        this.holderClickListener = holderClickListener;
         setHasStableIds(true);
     }
 
@@ -28,13 +30,15 @@ public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsR
     @Override
     public RepeatsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.set_timer_repeats_item, viewGroup, false);
-
         return new RepeatsRecyclerViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RepeatsRecyclerViewHolder repeatsRecyclerViewHolder, int index) {
-        repeatsRecyclerViewHolder.setLabel(repeats[index]);
+        repeatsRecyclerViewHolder.bind(repeats[index]);
+        if (holderClickListener != null) {
+            repeatsRecyclerViewHolder.itemView.setOnClickListener(view -> holderClickListener.onHolderClick(index));
+        }
     }
 
     @Override
@@ -47,11 +51,10 @@ public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsR
 
         RepeatsRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tvLabel = itemView.findViewById(R.id.label);
         }
 
-        void setLabel(String label) {
+        void bind(String label) {
             tvLabel.setText(label);
         }
     }

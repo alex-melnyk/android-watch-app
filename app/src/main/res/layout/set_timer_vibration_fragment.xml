@@ -6,6 +6,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".presentation.settings.step.SetTimerVibrationFragment">
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -15,8 +16,7 @@
         <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/ic_vibrate"
-                android:contentDescription="TODO"/>
+                android:src="@drawable/ic_vibrate"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -24,8 +24,7 @@
                 android:textColor="@color/white_active"
                 android:fontFamily="@font/roboto_condensed_regular"
                 android:text="@string/screen_title_vibration"
-                android:layout_marginLeft="5dp"
-        />
+                android:layout_marginLeft="5dp"/>
     </LinearLayout>
     <FrameLayout
             android:layout_width="match_parent"

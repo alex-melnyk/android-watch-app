@@ -12,13 +12,16 @@ import java.util.Locale;
 
 public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.VibrationsRecyclerViewHolder> {
     private String[] vibrations = {
-            "1 buzz,5 seconds",
-            "3 buzz,3 seconds each",
-            "5 buzzes,5 seconds each",
-            "1 long buzz,20 seconds"
+        "1 buzz,5 seconds",
+        "3 buzz,3 seconds each",
+        "5 buzzes,5 seconds each",
+        "1 long buzz,20 seconds"
     };
 
-    public VibrationsAdapter() {
+    private HolderClickListener holderClickListener;
+
+    public VibrationsAdapter(HolderClickListener holderClickListener) {
+        this.holderClickListener = holderClickListener;
         setHasStableIds(true);
     }
 
@@ -31,7 +34,6 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
     @Override
     public VibrationsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.set_timer_vibrations_line, viewGroup, false);
-
         return new VibrationsRecyclerViewHolder(itemView);
     }
 
@@ -43,6 +45,10 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
 
         vibrationsRecyclerViewHolder.setBuzzAmount(spittedLine[0]);
         vibrationsRecyclerViewHolder.setTimeAmount(spittedLine[1]);
+
+        if (holderClickListener != null) {
+            vibrationsRecyclerViewHolder.itemView.setOnClickListener(view -> holderClickListener.onHolderClick(index));
+        }
     }
 
     @Override

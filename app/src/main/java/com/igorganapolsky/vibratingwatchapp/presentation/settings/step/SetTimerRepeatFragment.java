@@ -13,14 +13,16 @@ import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
+import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.HolderClickListener;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.RepeatsAdapter;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 
-public class SetTimerRepeatFragment extends Fragment {
+public class SetTimerRepeatFragment extends Fragment implements HolderClickListener {
 
     private WearableRecyclerView wrvRepeats;
     private RecyclerViewSnapLayoutManager layoutManager;
     private SetTimerViewModel mViewModel;
+    private RepeatsAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,17 +47,24 @@ public class SetTimerRepeatFragment extends Fragment {
 
     private void setupView(View rootView) {
         wrvRepeats = rootView.findViewById(R.id.wrvRepeats);
-        wrvRepeats.setAdapter(new RepeatsAdapter());
 
+        adapter = new RepeatsAdapter(this);
         layoutManager = new RecyclerViewSnapLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL);
         layoutManager.setItemSelectListener((int pos) -> mViewModel.setTimerRepeat(pos));
 
+        wrvRepeats.setAdapter(adapter);
         wrvRepeats.setLayoutManager(layoutManager);
     }
 
     private void setupObservers() {
         mViewModel.getTimerData().observe(this, (timerValue) -> {
-            layoutManager.selectFirst();
+            if (timerValue == null) return;
+            wrvRepeats.smoothScrollToPosition(0);
         });
+    }
+
+    @Override
+    public void onHolderClick(int position) {
+        wrvRepeats.smoothScrollToPosition(position);
     }
 }
