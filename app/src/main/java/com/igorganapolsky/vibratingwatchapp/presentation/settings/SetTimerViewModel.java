@@ -27,7 +27,9 @@ public class SetTimerViewModel extends ViewModel {
 
         this.currentTimer = new TimerModel();
         this.setup = TimerSetup.HOURS;
+
         setupData.setValue(setup);
+        timerData.setValue(currentTimer);
     }
 
     void setCurrentModelId(int currentId) {
