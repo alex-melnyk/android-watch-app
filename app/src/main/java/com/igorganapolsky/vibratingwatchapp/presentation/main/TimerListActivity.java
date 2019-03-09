@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.custom.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.TimerDetailsActivity;
 import com.igorganapolsky.vibratingwatchapp.presentation.main.adapter.TimerListAdapter;
@@ -70,8 +69,6 @@ public class TimerListActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onItemClick(int id) {
-        Intent timerDetailsIntent = new Intent(this, TimerDetailsActivity.class);
-        timerDetailsIntent.putExtra(TimerEntity.TIMER_ID, id);
-        startActivity(timerDetailsIntent);
+        startActivity(TimerDetailsActivity.createIntent(this, id));
     }
 }

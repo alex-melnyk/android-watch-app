@@ -1,6 +1,6 @@
 package com.igorganapolsky.vibratingwatchapp.util;
 
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimerValue;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 
 import java.util.Locale;
 
@@ -18,15 +18,15 @@ public class TimerTransform {
         return String.format(Locale.ENGLISH, "%02d : %02d : %02d", hours, minutes, seconds);
     }
 
-    public static TimerValue timerModelFromMillis(long milliseconds) {
+    public static TimerModel timerModelFromMillis(long milliseconds) {
         int seconds = (int) (milliseconds / 1_000) % 60;
         int minutes = (int) (milliseconds / (1_000 * 60)) % 60;
         int hours = (int) (milliseconds / (1_000 * 60 * 60)) % 24;
 
-        return new TimerValue(hours, minutes, seconds);
+        return new TimerModel(hours, minutes, seconds);
     }
 
-    public static String millistToTimerModel(TimerValue value) {
+    public static String millisToString(TimerModel value) {
         return String.format(Locale.ENGLISH, "%02d : %02d : %02d",
             value.getHours(),
             value.getMinutes(),

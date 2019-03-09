@@ -20,6 +20,7 @@ public class VibratingWatchApp extends Application {
         // step 1 - > create database instance;
         TimersDatabase database = Room.databaseBuilder(this, TimersDatabase.class, "TimersDatabase")
             .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
             .build();
 
         // step 2 - > create repository;

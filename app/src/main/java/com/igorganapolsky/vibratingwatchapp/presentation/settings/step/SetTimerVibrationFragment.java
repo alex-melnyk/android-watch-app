@@ -54,9 +54,9 @@ public class SetTimerVibrationFragment extends Fragment {
 //        if (model != null) {
 //            int buzzMode = model.getBuzzMode();
 //
-//            MutableLiveData<TimerValue> liveData = mViewModel.getTimerData();
+//            MutableLiveData<TimerModel> liveData = mViewModel.getTimerData();
 //
-//            TimerValue value = liveData.getValue();
+//            TimerModel value = liveData.getValue();
 //            value.setBuzz(buzzMode);
 //
 //            wrvVibrations.smoothScrollToPosition(buzzMode);

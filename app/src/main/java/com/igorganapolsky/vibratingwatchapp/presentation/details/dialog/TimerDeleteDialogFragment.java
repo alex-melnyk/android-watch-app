@@ -1,5 +1,6 @@
 package com.igorganapolsky.vibratingwatchapp.presentation.details.dialog;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,40 +9,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.domain.local.DatabaseClient;
-import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
+import com.igorganapolsky.vibratingwatchapp.presentation.details.TimerDetailsViewModel;
+import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
+
+import java.util.Objects;
 
 public class TimerDeleteDialogFragment extends Fragment implements View.OnClickListener {
 
-    private TimerEntity model;
-    private View rootView;
+    private TimerDetailsViewModel mViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.timer_delete_fragment, container, false);
-        rootView.findViewById(R.id.ivCancel).setOnClickListener(this);
-        rootView.findViewById(R.id.ivApprove).setOnClickListener(this);
-
-        return rootView;
+        return inflater.inflate(R.layout.timer_delete_fragment, container, false);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        model = (TimerEntity) getArguments().getSerializable("TIMER_MODEL");
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()), ViewModelFactory.getInstance()).get(TimerDetailsViewModel.class);
+
+        view.findViewById(R.id.ivCancel).setOnClickListener(this);
+        view.findViewById(R.id.ivApprove).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivApprove:
-
-                DatabaseClient.getInstance(getContext())
-                        .getTimersDatabase()
-                        .timersDao()
-                        .delete(model);
-
+                mViewModel.deleteTimer();
                 getActivity().finish();
                 break;
             case R.id.ivCancel:

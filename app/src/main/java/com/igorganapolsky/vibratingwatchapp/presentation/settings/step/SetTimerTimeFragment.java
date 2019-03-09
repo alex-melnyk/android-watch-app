@@ -11,17 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
+import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerActivity;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
-import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 import com.triggertrap.seekarc.SeekArc;
 
 import java.util.Locale;
 import java.util.Objects;
-
-import static com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity.TIMER_ID;
 
 public class SetTimerTimeFragment extends Fragment implements View.OnClickListener, SeekArc.OnSeekArcChangeListener {
 
@@ -58,18 +56,8 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
         mViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()), ViewModelFactory.getInstance()).get(SetTimerViewModel.class);
 
-        setupViewModel();
         setupView(view);
         setupObservers();
-
-    }
-
-    private void setupViewModel() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            int currentId = bundle.getInt(TIMER_ID);
-            mViewModel.setCurrentModelId(currentId);
-        }
     }
 
     private void setupView(View view) {

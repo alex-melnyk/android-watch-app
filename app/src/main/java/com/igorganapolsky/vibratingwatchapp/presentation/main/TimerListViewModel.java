@@ -3,8 +3,8 @@ package com.igorganapolsky.vibratingwatchapp.presentation.main;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.manager.CountdownManager;
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimerValue;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class TimerListViewModel extends ViewModel {
         this.countdownManager = countdownManager;
     }
 
-    LiveData<List<TimerValue>> getLiveData() {
+    LiveData<List<TimerModel>> getLiveData() {
         return repository.getAll();
     }
 }

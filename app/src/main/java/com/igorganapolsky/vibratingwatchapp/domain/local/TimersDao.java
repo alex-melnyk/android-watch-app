@@ -15,6 +15,9 @@ public interface TimersDao {
     @Query("SELECT * FROM TimerEntity WHERE id = :id")
     TimerEntity getById(int id);
 
+    @Query("DELETE FROM TimerEntity WHERE id = :id")
+    void deleteById(int id);
+
     @Insert
     void insert(TimerEntity task);
 

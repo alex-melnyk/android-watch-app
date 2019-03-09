@@ -2,7 +2,7 @@ package com.igorganapolsky.vibratingwatchapp.domain.model;
 
 import java.util.Locale;
 
-public class TimerValue {
+public class TimerModel {
 
     private TimeHighlightState state;
 
@@ -13,15 +13,15 @@ public class TimerValue {
     private int buzz;
     private int repeat;
 
-    public TimerValue() {
+    public TimerModel() {
         this(0, 0, 0);
     }
 
-    public TimerValue(int hours, int minutes, int seconds) {
+    public TimerModel(int hours, int minutes, int seconds) {
         this(hours, minutes, seconds, TimeHighlightState.WHOLE);
     }
 
-    public TimerValue(int hours, int minutes, int seconds, TimeHighlightState state) {
+    public TimerModel(int hours, int minutes, int seconds, TimeHighlightState state) {
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;

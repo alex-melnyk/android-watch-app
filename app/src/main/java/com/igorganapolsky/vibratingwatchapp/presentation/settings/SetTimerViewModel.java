@@ -5,40 +5,40 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimeHighlightState;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimerValue;
 
 public class SetTimerViewModel extends ViewModel {
 
-    enum ActionType {NEW, EDIT}
+    enum Type {NEW, EDIT}
 
     private Repository repository;
-    private MutableLiveData<TimerValue> timerData;
+    private MutableLiveData<TimerModel> timerData;
     private MutableLiveData<TimerSetup> setupData;
 
-    private TimerValue currentTimer;
+    private TimerModel currentTimer;
     private TimerSetup setup;
+    private Type currentType = Type.NEW;
 
     public SetTimerViewModel(Repository repository) {
         this.repository = repository;
         this.timerData = new MutableLiveData<>();
         this.setupData = new MutableLiveData<>();
 
-        this.currentTimer = new TimerValue();
+        this.currentTimer = new TimerModel();
         this.setup = TimerSetup.HOURS;
         setupData.setValue(setup);
     }
 
-    public void setCurrentModelId(int currentId) {
-        if (currentId == 0) {
-            timerData.setValue(currentTimer);
-        } else {
+    void setCurrentModelId(int currentId) {
+        if (currentId != 0) {
+            currentType = Type.EDIT;
             currentTimer = repository.getTimerById(currentId);
+            timerData.setValue(currentTimer);
         }
-        timerData.setValue(currentTimer);
     }
 
-    public LiveData<TimerValue> getTimerData() {
+    public LiveData<TimerModel> getTimerData() {
         return timerData;
     }
 
@@ -99,6 +99,14 @@ public class SetTimerViewModel extends ViewModel {
                     currentTimer.setState(TimeHighlightState.SECONDS);
                     break;
             }
+        }
+    }
+
+    public void saveTimer() {
+        if (currentType == Type.NEW) {
+            repository.saveTimer(currentTimer);
+        } else {
+            repository.updateTimer(currentTimer);
         }
     }
 }

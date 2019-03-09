@@ -1,5 +1,7 @@
 package com.igorganapolsky.vibratingwatchapp.presentation.details;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -18,11 +20,16 @@ import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.dialog.TimerDeleteDialogFragment;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerActivity;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
+import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
+
+import static com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity.TIMER_ID;
 
 public class TimerDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final int SETTING_REQUEST_CODE = 100;
     private final int SETTING_SUCCESS_CODE = 101;
+
+    private TimerDetailsViewModel mViewModel;
 
     private long timeLeft;
     private TimerEntity model;
@@ -39,12 +46,28 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private Animation blinking;
 
+    public static Intent createIntent(Context context, int timerId) {
+        Intent intent = new Intent(context, TimerDetailsActivity.class);
+        intent.putExtra(TimerEntity.TIMER_ID, timerId);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer_details);
+        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(TimerDetailsViewModel.class);
 
+        setupViewModel();
         setupView();
+    }
+
+    private void setupViewModel() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            int currentId = bundle.getInt(TIMER_ID);
+            mViewModel.setCurrentModelId(currentId);
+        }
     }
 
     private void setupView() {
