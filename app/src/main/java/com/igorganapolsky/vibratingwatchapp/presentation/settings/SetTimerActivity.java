@@ -34,8 +34,8 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     private int inactiveColor = 0;
     private int activeColor = 0;
 
+    private boolean isProgressChanging = false;
     private boolean isSwipeGranted = false;
-    private boolean isProgressChanged = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +81,18 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         mViewModel.getHighligtData().observe(this, this::setHighlight);
         mViewModel.getTimerData().observe(this, (timer) -> {
             if (timer == null) return;
-            isSwipeGranted = !timer.isDefaultTime();
             updateTimerData(timer);
+            updateSwipeStateIfNeeded(timer);
         });
+    }
+
+    private void updateSwipeStateIfNeeded(TimerModel timer) {
+        boolean isSwipeGranted = !timer.isDefaultTime();
+        if (isProgressChanging) {
+            this.isSwipeGranted = isSwipeGranted;
+        } else {
+            vpWizard.setIsSwipeAvailable(isSwipeGranted);
+        }
     }
 
     private void updateTimerData(TimerModel timer) {
@@ -94,7 +103,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if (isProgressChanged && isSwipeGranted) {
+        if (!isProgressChanging && isSwipeGranted) {
             int currentPage = vpWizard.getCurrentItem();
             if (currentPage < 2) {
                 vpWizard.setCurrentItem(currentPage + 1);
@@ -107,13 +116,13 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onActionStart() {
-        isProgressChanged = false;
+        isProgressChanging = true;
         vpWizard.setIsSwipeAvailable(false);
     }
 
     @Override
     public void onActionEnd() {
-        isProgressChanged = true;
+        isProgressChanging = false;
         vpWizard.setIsSwipeAvailable(isSwipeGranted);
     }
 
