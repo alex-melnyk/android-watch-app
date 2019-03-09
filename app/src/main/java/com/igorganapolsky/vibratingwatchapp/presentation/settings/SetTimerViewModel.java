@@ -13,23 +13,27 @@ public class SetTimerViewModel extends ViewModel {
     enum Type {NEW, EDIT}
 
     private Repository repository;
-    private MutableLiveData<TimerModel> timerData;
-    private MutableLiveData<TimerSetup> setupData;
+
+    private MutableLiveData<TimerModel> timerData = new MutableLiveData<>();
+    private MutableLiveData<TimerSetup> setupData = new MutableLiveData<>();
+    private MutableLiveData<TimeHighlightState> highlightStateData = new MutableLiveData<>();
+
+    private Type currentType = Type.NEW;
 
     private TimerModel currentTimer;
     private TimerSetup setup;
-    private Type currentType = Type.NEW;
+    private TimeHighlightState highlightState;
 
     public SetTimerViewModel(Repository repository) {
         this.repository = repository;
-        this.timerData = new MutableLiveData<>();
-        this.setupData = new MutableLiveData<>();
 
         this.currentTimer = new TimerModel();
         this.setup = TimerSetup.HOURS;
+        this.highlightState = TimeHighlightState.HOURS;
 
         setupData.setValue(setup);
         timerData.setValue(currentTimer);
+        highlightStateData.setValue(highlightState);
     }
 
     void setCurrentModelId(int currentId) {
@@ -47,6 +51,11 @@ public class SetTimerViewModel extends ViewModel {
     public LiveData<TimerSetup> getSetupData() {
         return setupData;
     }
+
+    public LiveData<TimeHighlightState> getHighliteData() {
+        return highlightStateData;
+    }
+
 
     public int calculateProgress() {
         return (int) ((double) currentTimer.getValue(setup) / setup.getMeasure() * 100);
@@ -88,23 +97,24 @@ public class SetTimerViewModel extends ViewModel {
 
     public void setHighlightState(boolean isWhole) {
         if (isWhole) {
-            currentTimer.setState(TimeHighlightState.WHOLE);
+            highlightState = TimeHighlightState.WHOLE;
         } else {
             switch (setup) {
                 case HOURS:
-                    currentTimer.setState(TimeHighlightState.HOURS);
+                    highlightState = TimeHighlightState.HOURS;
                     break;
                 case MINUTES:
-                    currentTimer.setState(TimeHighlightState.MINUTES);
+                    highlightState = TimeHighlightState.MINUTES;
                     break;
                 case SECONDS:
-                    currentTimer.setState(TimeHighlightState.SECONDS);
+                    highlightState = TimeHighlightState.SECONDS;
                     break;
             }
         }
+        highlightStateData.setValue(highlightState);
     }
 
-    public void saveTimer() {
+    void saveTimer() {
         if (currentType == Type.NEW) {
             repository.saveTimer(currentTimer);
         } else {
