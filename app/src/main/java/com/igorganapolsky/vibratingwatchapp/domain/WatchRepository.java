@@ -56,7 +56,6 @@ public class WatchRepository implements Repository {
         value.setId(entity.getId());
         value.setRepeat(entity.getRepeat());
         value.setBuzz(entity.getBuzzMode());
-        value.setState(TimeHighlightState.WHOLE);
         return value;
     }
 
@@ -64,7 +63,6 @@ public class WatchRepository implements Repository {
         TimerEntity entity = new TimerEntity();
         entity.setBuzzMode(model.getBuzz());
         entity.setMilliseconds(TimerTransform.timeToMillis(model.getHours(), model.getMinutes(), model.getSeconds()));
-        entity.setState(model.getState().name());
         entity.setRepeat(model.getRepeat());
         return entity;
     }

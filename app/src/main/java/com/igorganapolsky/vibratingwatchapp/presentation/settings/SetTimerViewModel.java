@@ -56,7 +56,6 @@ public class SetTimerViewModel extends ViewModel {
         return highlightStateData;
     }
 
-
     public int calculateProgress() {
         return (int) ((double) currentTimer.getValue(setup) / setup.getMeasure() * 100);
     }

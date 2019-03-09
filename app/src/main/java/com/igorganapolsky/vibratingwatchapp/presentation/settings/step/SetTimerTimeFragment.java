@@ -26,8 +26,8 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     private SetTimerViewModel mViewModel;
     private SeekArc seekArc;
 
-    private int ACTIVE_COLOR;
-    private int INACTIVE_COLOR;
+    private int activeColor;
+    private int inactiveColor;
 
     private TextView tvLabel;
     private TextView tvLabelMeasure;
@@ -62,8 +62,8 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
 
     private void setupView(View view) {
 
-        ACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_active);
-        INACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_inactive);
+        activeColor = ContextCompat.getColor(requireContext(), R.color.white_active);
+        inactiveColor = ContextCompat.getColor(requireContext(), R.color.white_inactive);
 
         tvLabel = view.findViewById(R.id.tvLabel);
         tvLabelMeasure = view.findViewById(R.id.tvLabelMeasure);
@@ -105,13 +105,11 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     @Override
     public void onStartTrackingTouch(SeekArc seekArc) {
         actionListener.onActionStart();
-        mViewModel.setHighlightState(false);
     }
 
     @Override
     public void onStopTrackingTouch(SeekArc seekArc) {
         actionListener.onActionEnd();
-        mViewModel.setHighlightState(true);
     }
 
     private void setupObservers() {
@@ -131,19 +129,19 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
 
         switch (selection) {
             case HOURS:
-                tvHours.setTextColor(ACTIVE_COLOR);
-                tvMinutes.setTextColor(INACTIVE_COLOR);
-                tvSeconds.setTextColor(INACTIVE_COLOR);
+                tvHours.setTextColor(activeColor);
+                tvMinutes.setTextColor(inactiveColor);
+                tvSeconds.setTextColor(inactiveColor);
                 break;
             case MINUTES:
-                tvMinutes.setTextColor(ACTIVE_COLOR);
-                tvHours.setTextColor(INACTIVE_COLOR);
-                tvSeconds.setTextColor(INACTIVE_COLOR);
+                tvMinutes.setTextColor(activeColor);
+                tvHours.setTextColor(inactiveColor);
+                tvSeconds.setTextColor(inactiveColor);
                 break;
             case SECONDS:
-                tvSeconds.setTextColor(ACTIVE_COLOR);
-                tvHours.setTextColor(INACTIVE_COLOR);
-                tvMinutes.setTextColor(INACTIVE_COLOR);
+                tvSeconds.setTextColor(activeColor);
+                tvHours.setTextColor(inactiveColor);
+                tvMinutes.setTextColor(inactiveColor);
                 break;
         }
     }

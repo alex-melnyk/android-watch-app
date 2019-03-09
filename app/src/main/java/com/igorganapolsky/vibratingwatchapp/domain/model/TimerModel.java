@@ -4,8 +4,6 @@ import java.util.Locale;
 
 public class TimerModel {
 
-    private TimeHighlightState state;
-
     private int id;
     private int hours;
     private int minutes;
@@ -18,22 +16,9 @@ public class TimerModel {
     }
 
     public TimerModel(int hours, int minutes, int seconds) {
-        this(hours, minutes, seconds, TimeHighlightState.WHOLE);
-    }
-
-    public TimerModel(int hours, int minutes, int seconds, TimeHighlightState state) {
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;
-        this.state = state;
-    }
-
-    public TimeHighlightState getState() {
-        return state;
-    }
-
-    public void setState(TimeHighlightState state) {
-        this.state = state;
     }
 
     public int getHours() {
@@ -85,7 +70,6 @@ public class TimerModel {
             case SECONDS:
                 return getSeconds();
         }
-
         return -1;
     }
 
