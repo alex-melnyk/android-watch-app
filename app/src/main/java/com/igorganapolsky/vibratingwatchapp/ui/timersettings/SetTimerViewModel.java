@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 
-
 public class SetTimerViewModel extends ViewModel {
+
     private MutableLiveData<TimerValue> timerValue;
 
     public MutableLiveData<TimerValue> getTimerValue() {
@@ -13,7 +13,6 @@ public class SetTimerViewModel extends ViewModel {
             timerValue = new MutableLiveData<TimerValue>();
             timerValue.setValue(new TimerValue());
         }
-
         return timerValue;
     }
 }

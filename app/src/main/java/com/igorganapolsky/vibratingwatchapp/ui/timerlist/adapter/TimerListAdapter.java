@@ -59,7 +59,6 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
 
     public void setData(List<Timer> data) {
         this.data = data;
-
         notifyDataSetChanged();
     }
 

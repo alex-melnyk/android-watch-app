@@ -54,7 +54,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         mViewModel.getTimerValue().observe(this, (timerValue) -> {
             if (timerValue == null) return;
             boolean isSwipeRestrict = !timerValue.isDefaultTime();
-            vpWizard.setIsSwipeAvailable(isSwipeRestrict);
+            swapNextStepProceedActionState(isSwipeRestrict);
         });
     }
 
@@ -108,14 +108,17 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onActionStart() {
-        vpWizard.setIsSwipeAvailable(false);
-        ivNextPage.setEnabled(false);
+        swapNextStepProceedActionState(false);
     }
 
     @Override
     public void onActionEnd() {
-        vpWizard.setIsSwipeAvailable(true);
-        ivNextPage.setEnabled(true);
+        swapNextStepProceedActionState(true);
+    }
+
+    private void swapNextStepProceedActionState(boolean isEnable) {
+        vpWizard.setIsSwipeAvailable(isEnable);
+        ivNextPage.setEnabled(isEnable);
     }
 
     private void disableTabs(TabLayout layout) {

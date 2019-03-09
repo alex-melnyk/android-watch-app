@@ -32,23 +32,26 @@ public class TimerListFragment extends Fragment implements TimerListAdapter.OnIt
     private View rootView;
     private WearableRecyclerView wrvTimerList;
 
-    public static TimerListFragment newInstance() {
-        return new TimerListFragment();
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(getActivity()).get(TimerListViewModel.class);
-        // TODO: Use the ViewModel
 
+        setupView();
+        setupObservers();
+    }
+
+    private void setupView() {
         ivTimerListImage = getActivity().findViewById(R.id.ivTimerListImage);
         addTimerButtonImageLabel = getActivity().findViewById(R.id.addTimerButtonImageLabel);
+    }
 
-        mViewModel.getLiveData().observe(getActivity(), (liveData) -> {
-            timerListAdapter.setData(liveData);
+    private void setupObservers() {
 
-            if (liveData != null && liveData.size() > 0) {
+        mViewModel.getLiveData().observe(this, (timerList) -> {
+            timerListAdapter.setData(timerList);
+
+            if (timerList != null && timerList.size() > 0) {
                 ivTimerListImage.setVisibility(ImageView.GONE);
                 addTimerButtonImageLabel.setVisibility(View.GONE);
             } else {
@@ -78,9 +81,9 @@ public class TimerListFragment extends Fragment implements TimerListAdapter.OnIt
         super.onResume();
 
         List<Timer> timerList = DatabaseClient.getInstance(getContext())
-                .getTimersDatabase()
-                .timersDao()
-                .getAll();
+            .getTimersDatabase()
+            .timersDao()
+            .getAll();
 
         mViewModel.getLiveData().setValue(timerList);
     }

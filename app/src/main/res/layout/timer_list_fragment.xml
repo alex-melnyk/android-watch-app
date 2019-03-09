@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:paddingStart="25dp"
+    android:paddingEnd="20dp"
     android:layout_height="match_parent"
     tools:context=".ui.timerlist.TimerListFragment">
 
@@ -10,8 +12,7 @@
         android:id="@+id/wrvTimerList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="25dp"
         android:overScrollMode="never"
-        android:paddingEnd="20dp"
-        android:paddingBottom="50dp"/>
+        tools:listitem="@layout/timer_list_item"/>
 </FrameLayout>
+
