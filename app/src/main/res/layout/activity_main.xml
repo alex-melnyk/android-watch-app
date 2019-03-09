@@ -13,6 +13,7 @@
         android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         app:layout_box="all"
+        android:padding="20dp"
         android:layout_height="match_parent">
 
         <android.support.constraint.Guideline
@@ -21,6 +22,18 @@
             app:layout_constraintGuide_percent="0.35"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <android.support.wear.widget.WearableRecyclerView
+            android:id="@+id/wrvTimerList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/glList"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:overScrollMode="never"
+            tools:listitem="@layout/timer_list_item"/>
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivTimerListImage"
@@ -53,18 +66,5 @@
             android:fontFamily="@font/roboto_condensed_regular"
             android:textColor="@color/white"
             android:text="@string/add_timer_button_label"/>
-
-        <android.support.wear.widget.WearableRecyclerView
-            android:id="@+id/wrvTimerList"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingStart="25dp"
-            android:paddingEnd="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/glList"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:overScrollMode="never"
-            tools:listitem="@layout/timer_list_item"/>
     </android.support.constraint.ConstraintLayout>
 </android.support.wear.widget.BoxInsetLayout>
