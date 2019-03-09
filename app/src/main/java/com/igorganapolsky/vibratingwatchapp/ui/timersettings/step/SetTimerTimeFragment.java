@@ -28,54 +28,69 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     private SetTimerViewModel mViewModel;
     private SeekArc seekArc;
 
+    int ACTIVE_COLOR;
+    int INACTIVE_COLOR;
+
     private TextView tvLabel;
     private TextView tvLabelMeasure;
     private TextView tvHours;
     private TextView tvMinutes;
     private TextView tvSeconds;
 
-    private TimerSetup selection = TimerSetup.HOURS;
     private StepActionListener actionListener;
 
-    final int ACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_active);
-    final int INACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_inactive);
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionListener = (SetTimerActivity) getActivity();
-        mViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()), ViewModelFactory.getInstance()).get(SetTimerViewModel.class);
-        setupViewModel();
-
-        setupObservers();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.set_timer_time_fragment, container, false);
-
-        tvLabel = rootView.findViewById(R.id.tvLabel);
-        tvLabelMeasure = rootView.findViewById(R.id.tvLabelMeasure);
-
-        tvHours = rootView.findViewById(R.id.tvHours);
-        tvHours.setOnClickListener(this);
-        tvMinutes = rootView.findViewById(R.id.tvMinutes);
-        tvMinutes.setOnClickListener(this);
-        tvSeconds = rootView.findViewById(R.id.tvSeconds);
-        tvSeconds.setOnClickListener(this);
-
-        seekArc = rootView.findViewById(R.id.seekArc);
-        seekArc.setOnSeekArcChangeListener(this);
-
-        return rootView;
+        return inflater.inflate(R.layout.set_timer_time_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()), ViewModelFactory.getInstance()).get(SetTimerViewModel.class);
+
+        setupViewModel();
+        setupView(view);
+        setupObservers();
+
     }
+
+    private void setupViewModel() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            int currentId = bundle.getInt(TIMER_ID);
+            mViewModel.setCurrentModelId(currentId);
+        }
+    }
+
+    private void setupView(View view) {
+
+        ACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_active);
+        INACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_inactive);
+
+        tvLabel = view.findViewById(R.id.tvLabel);
+        tvLabelMeasure = view.findViewById(R.id.tvLabelMeasure);
+
+        tvHours = view.findViewById(R.id.tvHours);
+        tvHours.setOnClickListener(this);
+        tvMinutes = view.findViewById(R.id.tvMinutes);
+        tvMinutes.setOnClickListener(this);
+        tvSeconds = view.findViewById(R.id.tvSeconds);
+        tvSeconds.setOnClickListener(this);
+
+        seekArc = view.findViewById(R.id.seekArc);
+        seekArc.setOnSeekArcChangeListener(this);
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -95,8 +110,7 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     @Override
     public void onProgressChanged(SeekArc seekArc, int progress, boolean byUser) {
         if (byUser) {
-            int calculatedValue = (int) (selection.getMeasure() / 100 * progress);
-            mViewModel.setTimeSelection(calculatedValue);
+            mViewModel.setTimeSelection(progress);
         }
     }
 
@@ -116,22 +130,16 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
         mViewModel.getSetupData().observe(Objects.requireNonNull(getActivity()), this::setSelection);
         mViewModel.getTimerData().observe(Objects.requireNonNull(getActivity()), (timerValue) -> {
             if (timerValue != null) {
-                tvLabel.setText(String.format(Locale.ENGLISH, "%d", timerValue.getValue(selection)));
-                tvLabelMeasure.setText(selection.getShortcut());
+                setSelection(TimerSetup.HOURS);
             }
         });
     }
 
-    private void setupViewModel() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            int currentId = bundle.getInt(TIMER_ID);
-            mViewModel.setCurrentModelId(currentId);
-        }
-    }
-
     private void setSelection(TimerSetup selection) {
         seekArc.setProgress(mViewModel.calculateProgress());
+
+        tvLabel.setText(String.format(Locale.ENGLISH, "%d", mViewModel.getCurrentTimeValue()));
+        tvLabelMeasure.setText(selection.getShortcut());
 
         switch (selection) {
             case HOURS:

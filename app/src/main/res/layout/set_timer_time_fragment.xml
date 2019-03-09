@@ -76,7 +76,9 @@
             android:textColor="@color/white_active"
             android:fontFamily="@font/roboto_condensed_regular"
             android:clickable="true"
-            android:focusable="true" android:paddingLeft="15dp" android:paddingRight="15dp"/>
+            android:focusable="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
         <TextView
             android:id="@+id/tvMinutes"
             android:text="@string/shortcut_minutes"
@@ -87,7 +89,9 @@
             android:textColor="@color/white_inactive"
             android:fontFamily="@font/roboto_condensed_regular"
             android:clickable="true"
-            android:focusable="true" android:paddingLeft="15dp" android:paddingRight="15dp"/>
+            android:focusable="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
         <TextView
             android:id="@+id/tvSeconds"
             android:text="@string/shortcut_seconds"
@@ -98,6 +102,8 @@
             android:textColor="@color/white_inactive"
             android:fontFamily="@font/roboto_condensed_regular"
             android:clickable="true"
-            android:focusable="true" android:paddingLeft="15dp" android:paddingRight="15dp"/>
+            android:focusable="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
     </LinearLayout>
 </LinearLayout>

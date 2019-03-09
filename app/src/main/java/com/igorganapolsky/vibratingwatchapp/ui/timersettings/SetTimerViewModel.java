@@ -22,8 +22,11 @@ public class SetTimerViewModel extends ViewModel {
     public SetTimerViewModel(Repository repository) {
         this.repository = repository;
         this.timerData = new MutableLiveData<>();
+        this.setupData = new MutableLiveData<>();
+
         this.currentTimer = new TimerValue();
         this.setup = TimerSetup.HOURS;
+        setupData.setValue(setup);
     }
 
     public void setCurrentModelId(int currentId) {
@@ -51,23 +54,34 @@ public class SetTimerViewModel extends ViewModel {
         currentTimer.setRepeat(repeatValue);
     }
 
+    public void setBuzz(int newBuzz) {
+        currentTimer.setBuzz(newBuzz);
+    }
+
     public void setSelection(TimerSetup newSelection) {
         this.setup = newSelection;
         setupData.setValue(setup);
     }
 
-    public void setTimeSelection(int newValue) {
+    public void setTimeSelection(int progress) {
+        int calculatedValue = (int) (setup.getMeasure() / 100 * progress);
+
         switch (setup) {
             case HOURS:
-                currentTimer.setHours(newValue);
+                currentTimer.setHours(calculatedValue);
                 break;
             case MINUTES:
-                currentTimer.setMinutes(newValue);
+                currentTimer.setMinutes(calculatedValue);
                 break;
             case SECONDS:
-                currentTimer.setSeconds(newValue);
+                currentTimer.setSeconds(calculatedValue);
                 break;
         }
+        setupData.setValue(setup);
+    }
+
+    public int getCurrentTimeValue() {
+        return currentTimer.getValue(setup);
     }
 
     public void setHighlightState(boolean isWhole) {
@@ -86,9 +100,5 @@ public class SetTimerViewModel extends ViewModel {
                     break;
             }
         }
-    }
-
-    public void setBuzz(int newBuzz) {
-        currentTimer.setBuzz(newBuzz);
     }
 }
