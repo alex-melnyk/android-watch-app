@@ -5,11 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.igorganapolsky.vibratingwatchapp.ui.timerlist.TimerListActivity"
+    tools:context="com.igorganapolsky.vibratingwatchapp.presentation.main.TimerListActivity"
     tools:deviceIds="wear"
     android:padding="@dimen/box_inset_layout_padding">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         app:layout_box="all"
         android:layout_height="match_parent">

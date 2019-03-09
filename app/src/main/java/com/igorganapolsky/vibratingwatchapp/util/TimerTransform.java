@@ -1,6 +1,6 @@
 package com.igorganapolsky.vibratingwatchapp.util;
 
-import com.igorganapolsky.vibratingwatchapp.model.TimerValue;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimerValue;
 
 import java.util.Locale;
 

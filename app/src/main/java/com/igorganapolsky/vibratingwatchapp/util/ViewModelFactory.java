@@ -3,22 +3,27 @@ package com.igorganapolsky.vibratingwatchapp.util;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
-import com.igorganapolsky.vibratingwatchapp.data.Repository;
-import com.igorganapolsky.vibratingwatchapp.ui.timerlist.TimerListViewModel;
-import com.igorganapolsky.vibratingwatchapp.ui.timersettings.SetTimerViewModel;
+import com.igorganapolsky.vibratingwatchapp.domain.Repository;
+import com.igorganapolsky.vibratingwatchapp.manager.CountdownManager;
+import com.igorganapolsky.vibratingwatchapp.presentation.details.TimerDetailsViewModel;
+import com.igorganapolsky.vibratingwatchapp.presentation.main.TimerListViewModel;
+import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
-    private Repository repository;
     private static ViewModelFactory factory;
 
-    private ViewModelFactory(Repository repository) {
+    private Repository repository;
+    private CountdownManager countdownManager;
+
+    private ViewModelFactory(Repository repository, CountdownManager countdownManager) {
         this.repository = repository;
+        this.countdownManager = countdownManager;
     }
 
-    public static void initFactory(Repository repository) {
+    public static void initFactory(Repository repository, CountdownManager countdownManager) {
         if (factory == null) {
-            factory = new ViewModelFactory(repository);
+            factory = new ViewModelFactory(repository, countdownManager);
         }
     }
 
@@ -35,7 +40,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(SetTimerViewModel.class)) {
             viewModel = new SetTimerViewModel(repository);
         } else if (modelClass.isAssignableFrom(TimerListViewModel.class)) {
-            viewModel = new TimerListViewModel(repository);
+            viewModel = new TimerListViewModel(repository, countdownManager);
+        } else if (modelClass.isAssignableFrom(TimerDetailsViewModel.class)) {
+            viewModel = new TimerDetailsViewModel(repository, countdownManager);
         } else {
             throw new IllegalStateException("No associated view model with " + modelClass.getName());
         }

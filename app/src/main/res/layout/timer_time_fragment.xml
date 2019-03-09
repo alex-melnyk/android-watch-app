@@ -6,7 +6,7 @@
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.timersettings.TimerTimeFragment" android:paddingTop="15dp">
+    tools:context=".presentation.settings.TimerTimeFragment" android:paddingTop="15dp">
     <TextView
             android:id="@+id/tvTimeHours"
             android:text="@string/timer_time_default_digit"

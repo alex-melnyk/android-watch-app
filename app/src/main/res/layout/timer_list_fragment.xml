@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:paddingStart="25dp"
     android:paddingEnd="20dp"
-    android:layout_height="match_parent"
-    tools:context=".ui.timerlist.TimerListFragment">
+    android:layout_height="match_parent">
 
     <android.support.wear.widget.WearableRecyclerView
         android:id="@+id/wrvTimerList"
