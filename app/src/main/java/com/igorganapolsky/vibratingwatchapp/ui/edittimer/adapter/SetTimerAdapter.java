@@ -1,11 +1,11 @@
-package com.igorganapolsky.vibratingwatchapp.ui.adapters;
+package com.igorganapolsky.vibratingwatchapp.ui.edittimer.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import com.igorganapolsky.vibratingwatchapp.ui.fragments.SetTimerRepeatFragment;
-import com.igorganapolsky.vibratingwatchapp.ui.fragments.SetTimerTimeFragment;
-import com.igorganapolsky.vibratingwatchapp.ui.fragments.SetTimerVibrationFragment;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.step.SetTimerRepeatFragment;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.step.SetTimerTimeFragment;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.step.SetTimerVibrationFragment;
 
 public class SetTimerAdapter extends FragmentStatePagerAdapter {
     private Fragment[] fragments = {

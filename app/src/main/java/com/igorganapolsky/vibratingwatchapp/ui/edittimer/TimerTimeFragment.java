@@ -1,7 +1,6 @@
-package com.igorganapolsky.vibratingwatchapp.ui.fragments;
+package com.igorganapolsky.vibratingwatchapp.ui.edittimer;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.SetTimerActivity;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 
 import java.util.Locale;
-
-import static android.support.v4.content.ContextCompat.getColor;
 
 public class TimerTimeFragment extends Fragment {
 
@@ -27,8 +26,9 @@ public class TimerTimeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final int ACTIVE_COLOR = getResources().getColor(R.color.white_active);
-        final int INACTIVE_COLOR = getResources().getColor(R.color.white_inactive);
+
+        final int ACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_active);
+        final int INACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_inactive);
 
         SetTimerViewModel mViewModel = ViewModelProviders.of(getActivity()).get(SetTimerViewModel.class);
 

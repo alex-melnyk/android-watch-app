@@ -1,11 +1,13 @@
-package com.igorganapolsky.vibratingwatchapp;
+package com.igorganapolsky.vibratingwatchapp.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import com.igorganapolsky.vibratingwatchapp.R;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.SetTimerActivity;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class TimerListActivity extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

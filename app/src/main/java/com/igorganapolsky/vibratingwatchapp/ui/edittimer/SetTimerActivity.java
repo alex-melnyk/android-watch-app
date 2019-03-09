@@ -1,29 +1,31 @@
-package com.igorganapolsky.vibratingwatchapp;
+package com.igorganapolsky.vibratingwatchapp.ui.edittimer;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.dao.TimersDao;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.adapters.SetTimerAdapter;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.adapter.SetTimerAdapter;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
-public class SetTimerActivity extends AppCompatActivity implements View.OnClickListener {
+public class SetTimerActivity extends AppCompatActivity implements View.OnClickListener, StepActionListener {
 
     private final int SUCCESS_CODE = 101;
 
     private Timer model;
-    private ViewPager vpWizard;
+    private SwipeRestrictViewPager vpWizard;
     private TabLayout tlDots;
+    private FrameLayout ivNextPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +33,14 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.set_timer_activity);
 
         vpWizard = findViewById(R.id.vpWizard);
-        vpWizard.setAdapter(new SetTimerAdapter(getSupportFragmentManager()));
-
         tlDots = findViewById(R.id.tlDots);
+        ivNextPage = findViewById(R.id.ivNextPage);
+
+        vpWizard.setAdapter(new SetTimerAdapter(getSupportFragmentManager()));
         tlDots.setupWithViewPager(vpWizard, true);
+        ivNextPage.setOnClickListener(this);
+
         disableTabs(tlDots);
-        findViewById(R.id.ivNextPage).setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +88,18 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
             finish();
         }
+    }
+
+    @Override
+    public void onActionStart() {
+        vpWizard.setIsSwipeAvailable(false);
+        ivNextPage.setEnabled(false);
+    }
+
+    @Override
+    public void onActionEnd() {
+//        vpWizard.setIsSwipeAvailable(true);
+//        ivNextPage.setEnabled(true);
     }
 
     private void disableTabs(TabLayout layout) {

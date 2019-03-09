@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.igorganapolsky.vibratingwatchapp.MainActivity"
+        tools:context="com.igorganapolsky.vibratingwatchapp.ui.main.TimerListActivity"
         tools:deviceIds="wear"
         android:padding="@dimen/box_inset_layout_padding">
 
@@ -55,7 +55,7 @@
                     android:id="@+id/timerListFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:name="com.igorganapolsky.vibratingwatchapp.ui.fragments.TimerListFragment"
+                    android:name="com.igorganapolsky.vibratingwatchapp.ui.main.TimerListFragment"
             />
         </LinearLayout>
     </LinearLayout>

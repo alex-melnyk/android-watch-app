@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.fragments;
+package com.igorganapolsky.vibratingwatchapp.ui.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.DatabaseClient;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 
-public class TimerDeleteFragment extends Fragment implements View.OnClickListener {
+public class TimerDeleteDialogFragment extends Fragment implements View.OnClickListener {
 
     private Timer model;
     private View rootView;

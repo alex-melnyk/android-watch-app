@@ -1,16 +1,19 @@
-package com.igorganapolsky.vibratingwatchapp.ui.fragments;
+package com.igorganapolsky.vibratingwatchapp.ui.edittimer.step;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.SetTimerActivity;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimeHighlightState;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerSetup;
@@ -34,10 +37,13 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     private SeekArc seekArc;
 
     private SetTimerViewModel mViewModel;
+    private StepActionListener actionListener;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        actionListener = (SetTimerActivity) getActivity();
 
         mViewModel = ViewModelProviders.of(getActivity()).get(SetTimerViewModel.class);
         // TODO: Use the ViewModel
@@ -126,6 +132,8 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onStartTrackingTouch(SeekArc seekArc) {
+        actionListener.onActionStart();
+
         TimerValue timerValue = mViewModel.getTimerValue().getValue();
 
         switch (selection) {
@@ -145,14 +153,17 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onStopTrackingTouch(SeekArc seekArc) {
+        actionListener.onActionEnd();
+
         TimerValue timerValue = mViewModel.getTimerValue().getValue();
         timerValue.setState(TimeHighlightState.WHOLE);
         mViewModel.getTimerValue().setValue(timerValue);
     }
 
     private void setSelection(TimerSetup selection) {
-        final int ACTIVE_COLOR = getResources().getColor(R.color.white_active);
-        final int INACTIVE_COLOR = getResources().getColor(R.color.white_inactive);
+
+        final int ACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_active);
+        final int INACTIVE_COLOR = ContextCompat.getColor(requireContext(), R.color.white_inactive);
 
         this.selection = selection;
 

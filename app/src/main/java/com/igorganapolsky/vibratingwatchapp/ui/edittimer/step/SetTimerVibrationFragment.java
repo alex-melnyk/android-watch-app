@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.ui.fragments;
+package com.igorganapolsky.vibratingwatchapp.ui.edittimer.step;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,37 +13,40 @@ import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
 import com.igorganapolsky.vibratingwatchapp.ui.RecyclerViewSnapLayoutManager;
-import com.igorganapolsky.vibratingwatchapp.ui.adapters.RepeatsAdapter;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.adapter.VibrationsAdapter;
 import com.igorganapolsky.vibratingwatchapp.ui.models.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.ui.models.TimerValue;
 
-public class SetTimerRepeatFragment extends Fragment {
+public class SetTimerVibrationFragment extends Fragment {
 
     private Timer model;
-    private WearableRecyclerView wrvRepeats;
+    private View rootView;
+    private WearableRecyclerView wrvVibrations;
+    private VibrationsAdapter vibrationsAdapter;
 
     private SetTimerViewModel mViewModel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this.getActivity()).get(SetTimerViewModel.class);
-        // TODO: Use the ViewModel
+        mViewModel = ViewModelProviders.of(getActivity()).get(SetTimerViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.set_timer_repeat_fragment, container, false);
+        rootView = inflater.inflate(R.layout.set_timer_vibration_fragment, container, false);
 
-        wrvRepeats = rootView.findViewById(R.id.wrvRepeats);
-        wrvRepeats.setAdapter(new RepeatsAdapter());
+        vibrationsAdapter = new VibrationsAdapter();
 
-        RecyclerViewSnapLayoutManager layoutManager = new RecyclerViewSnapLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL);
-        layoutManager.setItemSelectListener((int pos) -> mViewModel.getTimerValue().getValue().setRepeat(pos));
+        wrvVibrations = rootView.findViewById(R.id.wrvVibrations);
+        wrvVibrations.setAdapter(vibrationsAdapter);
 
-        wrvRepeats.setLayoutManager(layoutManager);
+        RecyclerViewSnapLayoutManager layoutManager = new RecyclerViewSnapLayoutManager(getActivity());
+        layoutManager.setItemSelectListener((int pos) -> mViewModel.getTimerValue().getValue().setBuzz(pos));
+
+        wrvVibrations.setLayoutManager(layoutManager);
 
         return rootView;
     }
@@ -56,18 +58,18 @@ public class SetTimerRepeatFragment extends Fragment {
         model = (Timer) getArguments().getSerializable("TIMER_MODEL");
 
         if (model != null) {
-            int repeats = model.getRepeat();
+            int buzzMode = model.getBuzzMode();
 
             MutableLiveData<TimerValue> liveData = mViewModel.getTimerValue();
 
             TimerValue value = liveData.getValue();
-            value.setRepeat(repeats);
+            value.setBuzz(buzzMode);
 
-            wrvRepeats.smoothScrollToPosition(repeats);
+            wrvVibrations.smoothScrollToPosition(buzzMode);
 
             liveData.setValue(value);
         } else {
-            wrvRepeats.smoothScrollToPosition(0);
+            wrvVibrations.smoothScrollToPosition(0);
         }
     }
 }

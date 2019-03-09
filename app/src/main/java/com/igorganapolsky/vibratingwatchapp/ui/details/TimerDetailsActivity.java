@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp;
+package com.igorganapolsky.vibratingwatchapp.ui.details;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,10 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.data.models.Timer;
-import com.igorganapolsky.vibratingwatchapp.ui.fragments.TimerDeleteFragment;
+import com.igorganapolsky.vibratingwatchapp.ui.edittimer.SetTimerActivity;
+import com.igorganapolsky.vibratingwatchapp.ui.dialog.TimerDeleteDialogFragment;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
 public class TimerDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -124,7 +126,7 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 Bundle deleteBundle = new Bundle();
                 deleteBundle.putSerializable("TIMER_MODEL", model);
 
-                Fragment delete_timer = new TimerDeleteFragment();
+                Fragment delete_timer = new TimerDeleteDialogFragment();
                 delete_timer.setArguments(deleteBundle);
 
                 getSupportFragmentManager()
