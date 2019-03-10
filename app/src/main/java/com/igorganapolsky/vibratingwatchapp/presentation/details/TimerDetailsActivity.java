@@ -4,9 +4,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,25 +12,19 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
+import com.igorganapolsky.vibratingwatchapp.domain.model.CountData;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.dialog.TimerDeleteDialogFragment;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerActivity;
-import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 
 import static com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity.TIMER_ID;
 
 public class TimerDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final int SETTING_REQUEST_CODE = 100;
-    private final int SETTING_SUCCESS_CODE = 101;
-
     private TimerDetailsViewModel mViewModel;
-
-    private long timeLeft;
-    private TimerEntity model;
-    private CountDownTimer currentTimer;
 
     private ProgressBar pbTime;
     private TextView tvTime;
@@ -60,18 +51,18 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
         setupViewModel();
         setupView();
+        setupObservers();
     }
 
     private void setupViewModel() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             int currentId = bundle.getInt(TIMER_ID);
-            mViewModel.setCurrentModelId(currentId);
+            mViewModel.prepareData(currentId);
         }
     }
 
     private void setupView() {
-
         ivTimerSettings = findViewById(R.id.ivTimerSettings);
         ivTimerSettings.setOnClickListener(this);
         ivTimerRemove = findViewById(R.id.ivTimerRemove);
@@ -94,27 +85,11 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         blinking.setRepeatCount(Animation.INFINITE);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-//        if (model == null) {
-//            model = (TimerEntity) getIntent().getSerializableExtra("TIMER_MODEL");
-//        }
-//        renderTime(model.getMilliseconds(), true);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case SETTING_REQUEST_CODE:
-                if (resultCode == SETTING_SUCCESS_CODE) {
-                    model = (TimerEntity) data.getSerializableExtra("TIMER_MODEL");
-                    renderTime(model.getMilliseconds(), true);
-                }
-                break;
-        }
+    private void setupObservers() {
+        mViewModel.getActiveTimerData().observe(this, (data -> {
+            if (data == null) return;
+            updateUi(data);
+        }));
     }
 
     @Override
@@ -123,84 +98,59 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
             case R.id.ivStart:
                 view.setSelected(!view.isSelected());
                 if (view.isSelected()) {
-                    currentTimer = prepareCountDown();
+                    mViewModel.onStart();
                     showPlayOrPause(true);
                 } else {
-                    currentTimer.cancel();
+                    mViewModel.onCancel();
                     showPlayOrPause(false);
                 }
                 break;
 
             case R.id.ivStop:
-                clearCountDown();
+                mViewModel.onStop();
                 showPlayOrPause(false);
-                renderTime(model.getMilliseconds(), true);
                 finish();
                 break;
 
             case R.id.ivRestart:
-                clearCountDown();
-                currentTimer = prepareCountDown();
+                mViewModel.onRestart();
                 showPlayOrPause(true);
                 break;
 
             case R.id.ivTimerSettings:
+                // TODO(implement settings screen)
                 Intent settingIntent = new Intent(getApplicationContext(), SetTimerActivity.class);
-                settingIntent.putExtra("TIMER_MOD,EL", model);
-                settingIntent.putExtra("TIMER_ID", model.getId());
-                startActivityForResult(settingIntent, SETTING_REQUEST_CODE);
                 break;
 
             case R.id.ivTimerRemove:
-                Bundle deleteBundle = new Bundle();
-                deleteBundle.putSerializable("TIMER_MODEL", model);
-
-                Fragment delete_timer = new TimerDeleteDialogFragment();
-                delete_timer.setArguments(deleteBundle);
-
                 getSupportFragmentManager()
                     .beginTransaction()
                     .addToBackStack(null)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.timer_details_fragment, delete_timer)
+                    .replace(R.id.timer_details_fragment, new TimerDeleteDialogFragment())
                     .commit();
                 break;
         }
     }
 
-    private CountDownTimer prepareCountDown() {
-        long millisecondsLeft = timeLeft > 0 ? timeLeft : model.getMilliseconds();
-        renderTime(millisecondsLeft, false);
-
-        return new CountDownTimer(millisecondsLeft, 50) {
-            @Override
-            public void onTick(long millis) {
-                timeLeft = millis;
-                renderTime(millis, true);
-            }
-
-            @Override
-            public void onFinish() {
-                clearCountDown();
-                showPlayOrPause(false);
-                renderTime(0, true);
-                blinking.cancel();
-            }
-        }.start();
-    }
-
-    private void clearCountDown() {
-        timeLeft = 0;
-        if (currentTimer != null) {
-            currentTimer.cancel();
-            currentTimer = null;
-        }
-    }
-
-    private void renderTime(long timeLeft, boolean animateProgress) {
-        int progress = (int) ((double) timeLeft / (double) model.getMilliseconds() * 100.);
+    private void renderTimeV2(String newValue, int progress, boolean animateProgress) {
         pbTime.setProgress(100 - progress, animateProgress);
-        tvTime.setText(TimerTransform.millisToTimeString(timeLeft));
+        tvTime.setText(newValue);
+    }
+
+    private void updateUi(CountData data) {
+        switch (data.getState()) {
+            case PREPARED:
+                renderTimeV2(data.getCurrentTime(), data.getCurrentProgress(), false);
+                break;
+            case TICK:
+                renderTimeV2(data.getCurrentTime(), data.getCurrentProgress(), true);
+                break;
+            case FINISH:
+                renderTimeV2(data.getCurrentTime(), data.getCurrentProgress(), true);
+                showPlayOrPause(false);
+                break;
+        }
     }
 
     private void showPlayOrPause(boolean isPause) {

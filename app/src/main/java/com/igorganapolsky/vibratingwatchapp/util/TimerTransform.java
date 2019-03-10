@@ -14,7 +14,6 @@ public class TimerTransform {
         int seconds = (int) (milliseconds / 1_000) % 60;
         int minutes = (int) (milliseconds / (1_000 * 60)) % 60;
         int hours = (int) (milliseconds / (1_000 * 60 * 60)) % 24;
-
         return String.format(Locale.ENGLISH, "%02d : %02d : %02d", hours, minutes, seconds);
     }
 
@@ -26,6 +25,10 @@ public class TimerTransform {
         return new TimerModel(hours, minutes, seconds);
     }
 
+    public static long millisFromTimeModel(TimerModel model) {
+        return timeToMillis(model.getHours(), model.getMinutes(), model.getSeconds());
+    }
+
     public static String millisToString(TimerModel value) {
         return String.format(Locale.ENGLISH, "%02d : %02d : %02d",
             value.getHours(),
@@ -33,4 +36,5 @@ public class TimerTransform {
             value.getSeconds());
 
     }
+
 }
