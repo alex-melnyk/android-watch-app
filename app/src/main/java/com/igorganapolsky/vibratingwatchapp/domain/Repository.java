@@ -12,6 +12,8 @@ public interface Repository {
 
     LiveData<List<TimerModel>> getAll();
 
+    LiveData<TimerModel> getObservableTimerById(int id);
+
     void updateTimer(TimerModel timer);
 
     void saveTimer(TimerModel timer);

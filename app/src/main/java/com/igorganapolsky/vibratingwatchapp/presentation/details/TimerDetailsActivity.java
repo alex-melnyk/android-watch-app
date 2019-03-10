@@ -137,11 +137,13 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 ivStart.setSelected(true);
                 disableAdditionalButtons(true);
                 blinking.cancel();
+                blinking.reset();
                 break;
             case FINISH:
                 ivStart.setSelected(false);
-                blinking.cancel();
                 disableAdditionalButtons(false);
+                blinking.cancel();
+                blinking.reset();
                 break;
         }
     }

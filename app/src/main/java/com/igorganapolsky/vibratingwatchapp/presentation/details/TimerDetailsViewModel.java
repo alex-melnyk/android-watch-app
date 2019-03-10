@@ -17,17 +17,14 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     private Repository repository;
     private CountdownManager countdownManager;
     private TimerModel timerModel;
+    private int currentId;
 
     private MutableLiveData<CountData> activeTimerData = new MutableLiveData<>();
     private MutableLiveData<TimerModel.State> viewStateData = new MutableLiveData<>();
 
-    private Observer<TimerModel> activeObserver = model -> {
-    };
-
     public TimerDetailsViewModel(Repository repository, CountdownManager countdownManager) {
         this.repository = repository;
         this.countdownManager = countdownManager;
-
     }
 
     LiveData<CountData> getActiveTimerData() {
@@ -39,15 +36,22 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     }
 
     void prepareData(int currentId) {
+        this.currentId = currentId;
+
+        repository.getObservableTimerById(currentId).observeForever(activeObserver);
         countdownManager.setTickListener(this);
+    }
+
+    private Observer<TimerModel> activeObserver = model -> {
+        if (model == null) return;
 
         int activeId = countdownManager.getActiveId();
-        boolean isActive = currentId == activeId;
+        boolean isActive = model.getId() == activeId;
 
         if (isActive) {
             timerModel = countdownManager.getActive();
         } else {
-            timerModel = repository.getTimerById(currentId);
+            timerModel = model;
         }
 
         long timeToSetup = prepareTime(isActive);
@@ -59,7 +63,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
             true));
 
         viewStateData.setValue(timerModel.getState());
-    }
+    };
 
     private long prepareTime(boolean isActive) {
         if (isActive) {
@@ -81,14 +85,13 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     void onStart() {
         viewStateData.setValue(TimerModel.State.RUN);
-
         int currentActiveTimerId = countdownManager.getActiveId();
 
         if (timerModel.getId() == currentActiveTimerId) {
             countdownManager.onStart();
         } else {
             if (currentActiveTimerId != -1) {
-                repository.updateTimerTimeLeft(currentActiveTimerId, countdownManager.getActiveTimeLeft());
+//                repository.updateTimerTimeLeft(currentActiveTimerId, countdownManager.getActiveTimeLeft());
                 countdownManager.onStop();
             }
             countdownManager.setupTimer(timerModel);
@@ -125,16 +128,18 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     }
 
     @Override
-    public void onFinish(String newValue, int progress) {
+    public void onFinish(String newValue, int progress, boolean isStop) {
         if (timerModel.getId() == countdownManager.getActiveId()) {
             viewStateData.setValue(TimerModel.State.FINISH);
-            activeTimerData.setValue(new CountData(newValue, progress, false));
+            boolean isAnimation = isStop;
+            activeTimerData.setValue(new CountData(newValue, progress, isAnimation));
         }
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
+        repository.getObservableTimerById(currentId).removeObserver(activeObserver);
         countdownManager.setTickListener(null);
     }
 }

@@ -37,7 +37,7 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public long getActiveTimeLeft() {
-        return activeModel.getState() == TimerModel.State.FINISH ? lapTime : timeLeft;
+        return activeModel.getState() == TimerModel.State.FINISH ? lapTime : timeLeft % lapTime;
     }
 
     @Override
@@ -81,9 +81,7 @@ public class WatchCountdownManager implements CountdownManager {
     @Override
     public void onStop() {
         clearCountDown();
-        activeModel.setState(TimerModel.State.FINISH);
-        String time = TimerTransform.millisToString(totalTime);
-        tickListener.onFinish(time, 100);
+        notifyOnFinish(true);
     }
 
     @Override
@@ -105,7 +103,7 @@ public class WatchCountdownManager implements CountdownManager {
             @Override
             public void onFinish() {
                 timeLeft = 0;
-                notifyOnFinish();
+                notifyOnFinish(false);
             }
         };
     }
@@ -120,15 +118,16 @@ public class WatchCountdownManager implements CountdownManager {
         }
     }
 
-    private void notifyOnFinish() {
+    private void notifyOnFinish(boolean isStop) {
         activeModel.setState(TimerModel.State.FINISH);
         if (tickListener != null) {
             String time = TimerTransform.millisToString(lapTime);
-            tickListener.onFinish(time, 100);
+            tickListener.onFinish(time, 100, isStop);
 
 //            Log.d("Laktionov", "finish -> active id: " + activeModel.getId() + " time left : " + timeLeft + " total time : " + totalTime);
         }
     }
+
 
     private void clearCountDown() {
         timeLeft = 0L;
