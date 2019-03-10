@@ -5,9 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.igorganapolsky.vibratingwatchapp.presentation.main.TimerListActivity"
-    tools:deviceIds="wear"
-    android:padding="@dimen/box_inset_layout_padding">
+    android:padding="@dimen/box_inset_layout_padding"
+    android:id="@+id/boxInsetLayout">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/contentContainer"
@@ -28,6 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="5dp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/glList"
@@ -43,7 +43,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_timer"/>
+            android:src="@drawable/ic_timer"
+            app:layout_constraintBottom_toTopOf="@+id/addTimerButtonImage"/>
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/addTimerButtonImage"
@@ -51,10 +52,11 @@
             android:layout_width="40dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivTimerListImage"
+            app:layout_constraintTop_toBottomOf="@+id/ivTimerListImage"
+            app:layout_constraintBottom_toTopOf="@id/wrvTimerList"
             android:src="@drawable/ic_plus"
             android:contentDescription="@string/main_add_timer_button"
-            android:layout_margin="15dp"/>
+            android:layout_margin="15dp" android:layout_marginTop="8dp"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/addTimerButtonImageLabel"
@@ -62,7 +64,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addTimerButtonImage"
+            app:layout_constraintTop_toBottomOf="@+id/addTimerButtonImage"
             android:fontFamily="@font/roboto_condensed_regular"
             android:textColor="@color/white"
             android:text="@string/add_timer_button_label"/>

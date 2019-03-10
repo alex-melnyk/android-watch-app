@@ -18,7 +18,7 @@ public class TimerListViewModel extends ViewModel {
         this.countdownManager = countdownManager;
     }
 
-    LiveData<List<TimerModel>> getLiveData() {
+    LiveData<List<TimerModel>> getAllTimers() {
         return repository.getAll();
     }
 }
