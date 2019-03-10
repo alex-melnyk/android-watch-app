@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         app:layout_box="all"
         android:padding="20dp"
+        android:animateLayoutChanges="true"
         android:layout_height="match_parent">
 
         <android.support.constraint.Guideline

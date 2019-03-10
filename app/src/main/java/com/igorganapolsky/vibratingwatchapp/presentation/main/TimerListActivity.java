@@ -60,7 +60,6 @@ public class TimerListActivity extends AppCompatActivity implements View.OnClick
                 ivTimerListImage.setVisibility(ImageView.VISIBLE);
                 addTimerButtonImageLabel.setVisibility(View.VISIBLE);
                 wrvTimerList.setVisibility(View.GONE);
-
             }
         });
     }
