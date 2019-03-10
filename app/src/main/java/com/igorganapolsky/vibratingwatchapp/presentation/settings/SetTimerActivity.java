@@ -8,10 +8,11 @@ import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.custom.SwipeRestrictViewPager;
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 
 import java.util.Locale;
@@ -44,10 +45,8 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     private void setupViewModel() {
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            int currentId = bundle.getInt(TIMER_ID);
-            mViewModel.setCurrentModelId(currentId);
-        }
+        int currentId  = bundle != null ? bundle.getInt(TIMER_ID) : 0;
+        mViewModel.setCurrentModelId(currentId);
     }
 
     private void setupView() {
@@ -69,26 +68,30 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupObservers() {
-        mViewModel.getTimerData().observe(this, (timer) -> {
-            if (timer == null) return;
-            updateTimerData(timer);
-            updateSwipeStateIfNeeded(timer);
-        });
+        mViewModel.getSetupData().observe(this, this::updateTimerData);
+        mViewModel.getSwipeState().observe(this, this::updateSwipeStateIfNeeded);
     }
 
-    private void updateSwipeStateIfNeeded(TimerModel timer) {
-        boolean isSwipeGranted = !timer.isDefaultTime();
+    private void updateTimerData(TimerSetup timerSetup) {
+        switch (timerSetup) {
+            case HOURS:
+                tvTimeHours.setText(String.format(Locale.ENGLISH, "%02d", mViewModel.getCurrentTimeValue()));
+                break;
+            case MINUTES:
+                tvTimeMinutes.setText(String.format(Locale.ENGLISH, "%02d", mViewModel.getCurrentTimeValue()));
+                break;
+            case SECONDS:
+                tvTimeSeconds.setText(String.format(Locale.ENGLISH, "%02d", mViewModel.getCurrentTimeValue()));
+                break;
+        }
+    }
+
+    private void updateSwipeStateIfNeeded(Boolean isSwipeGranted) {
         if (isProgressChanging) {
             this.isSwipeGranted = isSwipeGranted;
         } else {
             vpWizard.setIsSwipeAvailable(isSwipeGranted);
         }
-    }
-
-    private void updateTimerData(TimerModel timer) {
-        tvTimeHours.setText(String.format(Locale.ENGLISH, "%02d", timer.getHours()));
-        tvTimeMinutes.setText(String.format(Locale.ENGLISH, "%02d", timer.getMinutes()));
-        tvTimeSeconds.setText(String.format(Locale.ENGLISH, "%02d", timer.getSeconds()));
     }
 
     @Override
@@ -122,29 +125,4 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
             tabStrip.getChildAt(i).setOnTouchListener((v, event) -> true);
         }
     }
-
-//    private void setHighlight(TimeHighlightState state) {
-//        switch (state) {
-//            case WHOLE:
-//                tvTimeHours.setTextColor(activeColor);
-//                tvTimeMinutes.setTextColor(activeColor);
-//                tvTimeSeconds.setTextColor(activeColor);
-//                break;
-//            case HOURS:
-//                tvTimeHours.setTextColor(activeColor);
-//                tvTimeMinutes.setTextColor(inactiveColor);
-//                tvTimeSeconds.setTextColor(inactiveColor);
-//                break;
-//            case MINUTES:
-//                tvTimeHours.setTextColor(inactiveColor);
-//                tvTimeMinutes.setTextColor(activeColor);
-//                tvTimeSeconds.setTextColor(inactiveColor);
-//                break;
-//            case SECONDS:
-//                tvTimeHours.setTextColor(inactiveColor);
-//                tvTimeMinutes.setTextColor(inactiveColor);
-//                tvTimeSeconds.setTextColor(activeColor);
-//                break;
-//        }
-//    }
 }

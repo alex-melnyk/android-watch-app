@@ -5,44 +5,50 @@ import java.util.Locale;
 public class TimerModel {
 
     private int id;
-    private int hours;
-    private int minutes;
-    private int seconds;
     private int buzz;
     private int repeat;
+
+    private int hoursTotal;
+    private int minutesTotal;
+    private int secondsTotal;
+
+    private int hoursLeft;
+    private int minutesLeft;
+    private int secondsLeft;
+
 
     public TimerModel() {
         this(0, 0, 0);
     }
 
-    public TimerModel(int hours, int minutes, int seconds) {
-        this.hours = hours;
-        this.minutes = minutes;
-        this.seconds = seconds;
+    public TimerModel(int hoursTotal, int minutesTotal, int secondsTotal) {
+        this.hoursTotal = hoursTotal;
+        this.minutesTotal = minutesTotal;
+        this.secondsTotal = secondsTotal;
     }
 
-    public int getHours() {
-        return hours;
+    public int getHoursTotal() {
+        return hoursTotal;
     }
 
-    public void setHours(int hours) {
-        this.hours = hours;
+    public void setHoursTotal(int hoursTotal) {
+        this.hoursTotal = hoursTotal;
     }
 
-    public int getMinutes() {
-        return minutes;
+    public int getMinutesTotal() {
+        return minutesTotal;
     }
 
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
+    public void setMinutesTotal(int minutesTotal) {
+        this.minutesTotal = minutesTotal;
     }
 
-    public int getSeconds() {
-        return seconds;
+    public int getSecondsTotal() {
+        return secondsTotal;
     }
 
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
+    public void setSecondsTotal(int secondsTotal) {
+        this.secondsTotal = secondsTotal;
     }
 
     public int getBuzz() {
@@ -61,14 +67,38 @@ public class TimerModel {
         this.repeat = repeat;
     }
 
+    public int getHoursLeft() {
+        return hoursLeft;
+    }
+
+    public void setHoursLeft(int hoursLeft) {
+        this.hoursLeft = hoursLeft;
+    }
+
+    public int getMinutesLeft() {
+        return minutesLeft;
+    }
+
+    public void setMinutesLeft(int minutesLeft) {
+        this.minutesLeft = minutesLeft;
+    }
+
+    public int getSecondsLeft() {
+        return secondsLeft;
+    }
+
+    public void setSecondsLeft(int secondsLeft) {
+        this.secondsLeft = secondsLeft;
+    }
+
     public int getValue(TimerSetup timerSetup) {
         switch (timerSetup) {
             case HOURS:
-                return getHours();
+                return getHoursTotal();
             case MINUTES:
-                return getMinutes();
+                return getMinutesTotal();
             case SECONDS:
-                return getSeconds();
+                return getSecondsTotal();
         }
         return -1;
     }
@@ -82,11 +112,11 @@ public class TimerModel {
     }
 
     public boolean isDefaultTime() {
-        return hours == 0 && minutes == 0 && seconds == 0;
+        return hoursTotal == 0 && minutesTotal == 0 && secondsTotal == 0;
     }
 
     @Override
     public String toString() {
-        return String.format(Locale.ENGLISH, "%02d : %02d : %02d", hours, minutes, seconds);
+        return String.format(Locale.ENGLISH, "%02d : %02d : %02d", hoursTotal, minutesTotal, secondsTotal);
     }
 }

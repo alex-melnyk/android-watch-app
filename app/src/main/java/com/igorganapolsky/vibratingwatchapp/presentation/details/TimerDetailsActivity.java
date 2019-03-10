@@ -86,10 +86,8 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void setupObservers() {
-        mViewModel.getActiveTimerData().observe(this, (data -> {
-            if (data == null) return;
-            updateUi(data);
-        }));
+        mViewModel.getActiveTimerData().observe(this, (this::updateTimerData));
+        mViewModel.getViewStateData().observe(this, (this::swapActionMenuState));
     }
 
     @Override
@@ -99,22 +97,18 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 view.setSelected(!view.isSelected());
                 if (view.isSelected()) {
                     mViewModel.onStart();
-                    showPlayOrPause(true);
                 } else {
-                    mViewModel.onCancel();
-                    showPlayOrPause(false);
+                    mViewModel.onPause();
                 }
                 break;
 
             case R.id.ivStop:
                 mViewModel.onStop();
-                showPlayOrPause(false);
                 finish();
                 break;
 
             case R.id.ivRestart:
                 mViewModel.onRestart();
-                showPlayOrPause(true);
                 break;
 
             case R.id.ivTimerSettings:
@@ -133,24 +127,37 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void renderTimeV2(String newValue, int progress, boolean animateProgress) {
-        pbTime.setProgress(100 - progress, animateProgress);
-        tvTime.setText(newValue);
-    }
-
-    private void updateUi(CountData data) {
-        switch (data.getState()) {
-            case PREPARED:
-                renderTimeV2(data.getCurrentTime(), data.getCurrentProgress(), false);
+    private void swapActionMenuState(CountData.State state) {
+        switch (state) {
+            case PREPARE:
+                ivStart.setSelected(false);
+                disableAdditionalButtons(false);
                 break;
-            case TICK:
-                renderTimeV2(data.getCurrentTime(), data.getCurrentProgress(), true);
+            case PAUSE:
+                ivStart.setSelected(false);
+                disableAdditionalButtons(true);
+                tvTime.startAnimation(blinking);
+                break;
+            case PLAY:
+                ivStart.setSelected(true);
+                disableAdditionalButtons(true);
+                blinking.cancel();
                 break;
             case FINISH:
-                renderTimeV2(data.getCurrentTime(), data.getCurrentProgress(), true);
-                showPlayOrPause(false);
+                ivStart.setSelected(false);
+                disableAdditionalButtons(true);
                 break;
         }
+    }
+
+    private void updateTimerData(CountData data) {
+        if (data == null) return;
+        renderTime(data.getCurrentTime(), data.getCurrentProgress(), data.isAnimationNeeded());
+    }
+
+    private void renderTime(String newValue, int progress, boolean animateProgress) {
+        pbTime.setProgress(100 - progress, animateProgress);
+        tvTime.setText(newValue);
     }
 
     private void showPlayOrPause(boolean isPause) {

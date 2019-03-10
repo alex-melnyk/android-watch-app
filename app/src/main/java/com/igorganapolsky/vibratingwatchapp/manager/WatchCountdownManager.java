@@ -8,30 +8,11 @@ import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 public class WatchCountdownManager implements CountdownManager {
 
     private TickListener tickListener;
+    private CountDownTimer currentCountdownTimer;
+    private TimerModel currentTimerModel;
+
     private long totalTime;
     private long timeLeft;
-    private CountDownTimer currentTimer;
-
-    public WatchCountdownManager() {
-    }
-
-    @Override
-    public void setupTimer(TimerModel timerModel) {
-
-    }
-
-    @Override
-    public void setupTime(long newTime) {
-
-        totalTime = newTime;
-        timeLeft = newTime;
-
-        if (tickListener != null) {
-            int progress = (int) ((double) timeLeft / (double) totalTime * 100.);
-            String time = TimerTransform.millisToTimeString(timeLeft);
-            tickListener.onPrepared(time, progress);
-        }
-    }
 
     @Override
     public void setTickListener(TickListener listener) {
@@ -39,14 +20,37 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     @Override
+    public int getActiveTimerId() {
+        return currentTimerModel == null ? -1 : currentTimerModel.getId();
+    }
+
+    @Override
+    public long getActiveTimerTimeLeft() {
+        return timeLeft;
+    }
+
+    @Override
+    public void setupTimer(TimerModel timerModel) {
+        currentTimerModel = timerModel;
+
+        long currentTimeTotal = TimerTransform.timeToMillis(timerModel.getHoursTotal(), timerModel.getMinutesTotal(), timerModel.getSecondsTotal());
+        long currentTimeLeft = TimerTransform.timeToMillis(timerModel.getHoursLeft(), timerModel.getMinutesLeft(), timerModel.getSecondsLeft());
+
+        totalTime = currentTimeTotal * currentTimerModel.getRepeat();
+        timeLeft = currentTimeLeft;
+    }
+
+    @Override
     public void onStart() {
-        currentTimer = prepareAndStart();
-        currentTimer.start();
+        currentCountdownTimer = prepareCountdownTimer();
+        currentCountdownTimer.start();
     }
 
     @Override
     public void onCancel() {
-        currentTimer.cancel();
+        if (currentCountdownTimer != null) {
+            currentCountdownTimer.cancel();
+        }
     }
 
     @Override
@@ -57,25 +61,19 @@ public class WatchCountdownManager implements CountdownManager {
     @Override
     public void onRestart() {
         clearCountDown();
-        currentTimer = prepareAndStart();
-        currentTimer.start();
+        currentCountdownTimer = prepareCountdownTimer();
+        currentCountdownTimer.start();
     }
 
-    private CountDownTimer prepareAndStart() {
+    private CountDownTimer prepareCountdownTimer() {
         long millisecondsLeft = timeLeft > 0 ? timeLeft : totalTime;
-
-        if (tickListener != null) {
-            int progress = (int) ((double) timeLeft / (double) totalTime * 100.);
-            String time = TimerTransform.millisToTimeString(timeLeft);
-            tickListener.onPrepared(time, progress);
-        }
 
         return new CountDownTimer(millisecondsLeft, 50) {
             @Override
             public void onTick(long millis) {
                 timeLeft = millis;
-                int progress = (int) ((double) timeLeft / (double) totalTime * 100.);
-                String time = TimerTransform.millisToTimeString(timeLeft);
+                int progress = calculateProgress();
+                String time = TimerTransform.millisToString(timeLeft);
                 if (tickListener != null) {
                     tickListener.onTick(time, progress);
                 }
@@ -84,8 +82,9 @@ public class WatchCountdownManager implements CountdownManager {
             @Override
             public void onFinish() {
                 if (tickListener != null) {
-                    String time = TimerTransform.millisToTimeString(0);
-                    tickListener.onFinish(time, 0);
+                    timeLeft = 0;
+                    String time = TimerTransform.millisToString(totalTime);
+                    tickListener.onFinish(time, 100);
                 }
             }
         };
@@ -93,9 +92,13 @@ public class WatchCountdownManager implements CountdownManager {
 
     private void clearCountDown() {
         timeLeft = 0L;
-        if (currentTimer != null) {
-            currentTimer.cancel();
-            currentTimer = null;
+        if (currentCountdownTimer != null) {
+            currentCountdownTimer.cancel();
+            currentCountdownTimer = null;
         }
+    }
+
+    private int calculateProgress() {
+        return (int) ((double) timeLeft / (double) (totalTime / currentTimerModel.getRepeat()) * 100.);
     }
 }

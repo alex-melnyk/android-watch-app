@@ -60,7 +60,7 @@
         android:maxLines="1"
         android:paddingStart="2dp"
         android:paddingEnd="0dp"
-        android:text="3 seconds each"
+        android:text="3 secondsTotal each"
         android:textSize="12sp"
         android:theme="@style/BuzzLine.Label"
         app:layout_constraintBottom_toBottomOf="parent"

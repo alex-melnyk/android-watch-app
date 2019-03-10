@@ -11,13 +11,14 @@ import com.igorganapolsky.vibratingwatchapp.manager.CountdownManager;
 import com.igorganapolsky.vibratingwatchapp.manager.TickListener;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
-public class TimerDetailsViewModel extends ViewModel implements CountdownManager, TickListener {
+public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     private Repository repository;
     private CountdownManager countdownManager;
     private TimerModel timerModel;
 
     private MutableLiveData<CountData> activeTimerData = new MutableLiveData<>();
+    private MutableLiveData<CountData.State> viewStateData = new MutableLiveData<>();
 
     public TimerDetailsViewModel(Repository repository, CountdownManager countdownManager) {
         this.repository = repository;
@@ -28,12 +29,65 @@ public class TimerDetailsViewModel extends ViewModel implements CountdownManager
         return activeTimerData;
     }
 
+    LiveData<CountData.State> getViewStateData() {
+        return viewStateData;
+    }
+
     void prepareData(int currentId) {
         timerModel = repository.getTimerById(currentId);
-        long totalTime = TimerTransform.millisFromTimeModel(timerModel);
+        countdownManager.setTickListener(this);
 
-        setTickListener(this);
-        setupTime(totalTime);
+        if (timerModel.getId() != countdownManager.getActiveTimerId()) {
+            prepareNonActiveData();
+        }
+    }
+
+    private void prepareNonActiveData() {
+        long currentTimeTotal = TimerTransform.timeToMillis(timerModel.getHoursTotal(), timerModel.getMinutesTotal(), timerModel.getSecondsTotal());
+        long currentTimeLeft = TimerTransform.timeToMillis(timerModel.getHoursLeft(), timerModel.getMinutesLeft(), timerModel.getSecondsLeft());
+        long preparedTime = currentTimeLeft == currentTimeTotal ? currentTimeLeft : currentTimeLeft;
+
+        viewStateData.setValue(CountData.State.PREPARE);
+        activeTimerData.setValue(new CountData(
+            TimerTransform.millisToString(preparedTime),
+            100,
+            false));
+    }
+
+    void onStart() {
+        viewStateData.setValue(CountData.State.PLAY);
+
+        int currentActiveTimerId = countdownManager.getActiveTimerId();
+
+        if (timerModel.getId() == currentActiveTimerId) {
+            countdownManager.onStart();
+        } else {
+            if (currentActiveTimerId != -1) {
+                repository.updateTimerTimeLeft(currentActiveTimerId, countdownManager.getActiveTimerTimeLeft());
+                countdownManager.onStop();
+            }
+            countdownManager.setupTimer(timerModel);
+            countdownManager.onStart();
+        }
+    }
+
+    void onPause() {
+        viewStateData.setValue(CountData.State.PAUSE);
+        if (countdownManager != null) {
+            countdownManager.onCancel();
+        }
+    }
+
+    void onStop() {
+        viewStateData.setValue(CountData.State.FINISH);
+        if (countdownManager != null) {
+            countdownManager.onStop();
+        }
+    }
+
+    void onRestart() {
+        viewStateData.setValue(CountData.State.PLAY);
+        countdownManager.onRestart();
     }
 
     public void deleteTimer() {
@@ -41,52 +95,24 @@ public class TimerDetailsViewModel extends ViewModel implements CountdownManager
     }
 
     @Override
-    public void setupTime(long time) {
-        countdownManager.setupTime(time);
-    }
-
-    @Override
-    public void setupTimer(TimerModel model) {
-        countdownManager.setupTimer(model);
-    }
-
-    @Override
-    public void setTickListener(TickListener listener) {
-        countdownManager.setTickListener(listener);
-    }
-
-    @Override
-    public void onStart() {
-        countdownManager.onStart();
-    }
-
-    @Override
-    public void onCancel() {
-        countdownManager.onCancel();
-    }
-
-    @Override
-    public void onStop() {
-        countdownManager.onStop();
-    }
-
-    @Override
-    public void onRestart() {
-        countdownManager.onRestart();
-    }
-
-    @Override
     public void onTick(String newValue, int progress) {
-        activeTimerData.setValue(new CountData(newValue, progress, CountData.State.TICK));
+        if (timerModel.getId() == countdownManager.getActiveTimerId()) {
+            activeTimerData.setValue(new CountData(newValue, progress, true));
+        }
     }
 
     @Override
     public void onPrepared(String newValue, int progress) {
-        activeTimerData.setValue(new CountData(newValue, progress, CountData.State.PREPARED));
+        if (timerModel.getId() == countdownManager.getActiveTimerId()) {
+            activeTimerData.setValue(new CountData(newValue, progress, false));
+        }
     }
 
     @Override
     public void onFinish(String newValue, int progress) {
-        activeTimerData.setValue(new CountData(newValue, progress, CountData.State.FINISH));
+        if (timerModel.getId() == countdownManager.getActiveTimerId()) {
+            viewStateData.setValue(CountData.State.FINISH);
+            activeTimerData.setValue(new CountData(newValue, progress, false));
+        }
     }
 }

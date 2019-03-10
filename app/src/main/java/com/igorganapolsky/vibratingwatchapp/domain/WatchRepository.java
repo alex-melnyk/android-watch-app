@@ -2,9 +2,9 @@ package com.igorganapolsky.vibratingwatchapp.domain;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
+
 import com.igorganapolsky.vibratingwatchapp.domain.local.TimersDatabase;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimeHighlightState;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
@@ -47,23 +47,39 @@ public class WatchRepository implements Repository {
     }
 
     @Override
+    public void updateTimerTimeLeft(int timerId, long timeLeft) {
+
+    }
+
+    @Override
     public void deleteTimer(int id) {
         timerDb.timersDao().deleteById(id);
     }
 
     private TimerModel mapToTimerModel(TimerEntity entity) {
-        TimerModel value = TimerTransform.timerModelFromMillis(entity.getMilliseconds());
-        value.setId(entity.getId());
-        value.setRepeat(entity.getRepeat());
-        value.setBuzz(entity.getBuzzMode());
-        return value;
+        TimerModel model = new TimerModel();
+        model.setId(entity.getId());
+        model.setRepeat(entity.getRepeat());
+        model.setBuzz(entity.getBuzzMode());
+
+        model.setHoursTotal(TimerTransform.getHours(entity.getMillisecondsTotal()));
+        model.setHoursLeft(TimerTransform.getHours(entity.getMillisecondsLeft()));
+
+        model.setMinutesTotal(TimerTransform.getMinutes(entity.getMillisecondsTotal()));
+        model.setMinutesLeft(TimerTransform.getMinutes(entity.getMillisecondsLeft()));
+
+        model.setSecondsTotal(TimerTransform.getSeconds(entity.getMillisecondsTotal()));
+        model.setSecondsLeft(TimerTransform.getSeconds(entity.getMillisecondsLeft()));
+
+        return model;
     }
 
     private TimerEntity mapToTimerEntity(TimerModel model) {
         TimerEntity entity = new TimerEntity();
         entity.setBuzzMode(model.getBuzz());
-        entity.setMilliseconds(TimerTransform.timeToMillis(model.getHours(), model.getMinutes(), model.getSeconds()));
         entity.setRepeat(model.getRepeat());
+        entity.setMillisecondsTotal(TimerTransform.timeToMillis(model.getHoursTotal(), model.getMinutesTotal(), model.getSecondsTotal()));
+        entity.setMillisecondsLeft(TimerTransform.timeToMillis(model.getHoursLeft(), model.getMinutesLeft(), model.getSecondsLeft()));
         return entity;
     }
 }

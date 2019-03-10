@@ -4,11 +4,13 @@ import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 
 public interface CountdownManager {
 
-    void setupTime(long time);
+    void setTickListener(TickListener listener);
+
+    int getActiveTimerId();
+
+    long getActiveTimerTimeLeft();
 
     void setupTimer(TimerModel model);
-
-    void setTickListener(TickListener listener);
 
     void onStart();
 

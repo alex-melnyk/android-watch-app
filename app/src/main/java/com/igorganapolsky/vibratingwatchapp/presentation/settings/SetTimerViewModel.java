@@ -3,6 +3,7 @@ package com.igorganapolsky.vibratingwatchapp.presentation.settings;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimeHighlightState;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
@@ -17,6 +18,7 @@ public class SetTimerViewModel extends ViewModel {
     private MutableLiveData<TimerModel> timerData = new MutableLiveData<>();
     private MutableLiveData<TimerSetup> setupData = new MutableLiveData<>();
     private MutableLiveData<TimeHighlightState> highlightStateData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> swipeState = new MutableLiveData<>();
 
     private Type currentType = Type.NEW;
 
@@ -32,7 +34,6 @@ public class SetTimerViewModel extends ViewModel {
         this.highlightState = TimeHighlightState.HOURS;
 
         setupData.setValue(setup);
-        timerData.setValue(currentTimer);
         highlightStateData.setValue(highlightState);
     }
 
@@ -40,8 +41,8 @@ public class SetTimerViewModel extends ViewModel {
         if (currentId != 0) {
             currentType = Type.EDIT;
             currentTimer = repository.getTimerById(currentId);
-            timerData.setValue(currentTimer);
         }
+        timerData.setValue(currentTimer);
     }
 
     public LiveData<TimerModel> getTimerData() {
@@ -56,16 +57,35 @@ public class SetTimerViewModel extends ViewModel {
         return highlightStateData;
     }
 
+    public LiveData<Boolean> getSwipeState() {
+        return swipeState;
+    }
+
     public int calculateProgress() {
         return (int) ((double) currentTimer.getValue(setup) / setup.getMeasure() * 100);
     }
 
     public void setTimerRepeat(int repeatValue) {
-        currentTimer.setRepeat(repeatValue);
+        currentTimer.setRepeat(repeatValue + 1);
     }
 
     public void setBuzz(int newBuzz) {
-        currentTimer.setBuzz(newBuzz);
+        int buzzCount;
+        switch (newBuzz) {
+            case 0:
+                buzzCount = 1;
+                break;
+            case 1:
+                buzzCount = 3;
+                break;
+            case 2:
+                buzzCount = 5;
+                break;
+            default:
+                buzzCount = 10;
+                break;
+        }
+        currentTimer.setBuzz(buzzCount);
     }
 
     public void setSelection(TimerSetup newSelection) {
@@ -74,28 +94,26 @@ public class SetTimerViewModel extends ViewModel {
         setupData.setValue(setup);
     }
 
-    void completeTimeSelection() {
-        highlightState = TimeHighlightState.WHOLE;
-        highlightStateData.setValue(highlightState);
-    }
-
     public void setTimeSelection(int progress) {
         int calculatedValue = (int) (setup.getMeasure() / 100 * progress);
 
         switch (setup) {
             case HOURS:
-                currentTimer.setHours(calculatedValue);
+                currentTimer.setHoursTotal(calculatedValue);
+                currentTimer.setHoursLeft(calculatedValue);
                 break;
             case MINUTES:
-                currentTimer.setMinutes(calculatedValue);
+                currentTimer.setMinutesTotal(calculatedValue);
+                currentTimer.setMinutesLeft(calculatedValue);
                 break;
             case SECONDS:
-                currentTimer.setSeconds(calculatedValue);
+                currentTimer.setSecondsTotal(calculatedValue);
+                currentTimer.setSecondsLeft(calculatedValue);
                 break;
         }
 
         setupData.setValue(setup);
-        timerData.setValue(currentTimer);
+        swipeState.setValue(!currentTimer.isDefaultTime());
     }
 
     public int getCurrentTimeValue() {

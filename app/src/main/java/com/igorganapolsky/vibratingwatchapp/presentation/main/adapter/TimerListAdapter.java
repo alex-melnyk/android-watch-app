@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
@@ -93,12 +94,12 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
 
         void bind(TimerModel value) {
             this.model = value;
-            int vibration = model.getBuzz() + 1;
+            int vibration = model.getBuzz();
 
             tvTime.setText(TimerTransform.millisToString(model));
             pbProgress.setProgress((int) (Math.random() * 100));
             tvVibration.setText(String.format(Locale.ENGLISH, "%d", vibration));
-            tvRepeat.setText(String.format(Locale.ENGLISH, "%d", model.getRepeat() + 1));
+            tvRepeat.setText(String.format(Locale.ENGLISH, "%d", model.getRepeat()));
         }
     }
 }

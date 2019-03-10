@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
@@ -114,9 +115,6 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
 
     private void setupObservers() {
         mViewModel.getSetupData().observe(Objects.requireNonNull(getActivity()), this::setSelection);
-        mViewModel.getTimerData().observe(Objects.requireNonNull(getActivity()), (timerValue) -> {
-            if (timerValue == null) return;
-        });
     }
 
     private void setSelection(TimerSetup selection) {

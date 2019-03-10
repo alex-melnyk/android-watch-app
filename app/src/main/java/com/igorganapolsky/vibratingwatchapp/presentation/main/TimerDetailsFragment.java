@@ -16,6 +16,7 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.dialog.TimerDeleteDialogFragment;
@@ -118,7 +119,7 @@ public class TimerDetailsFragment extends Fragment implements View.OnClickListen
             case R.id.ivStop:
                 clearCountDown();
                 showPlayOrPause(false);
-                renderTime(model.getMilliseconds(), true);
+                renderTime(model.getMillisecondsTotal(), true);
                 getActivity().onBackPressed();
                 break;
 
@@ -154,7 +155,7 @@ public class TimerDetailsFragment extends Fragment implements View.OnClickListen
     }
 
     private CountDownTimer prepareCountDown() {
-        long millisecondsLeft = timeLeft > 0 ? timeLeft : model.getMilliseconds();
+        long millisecondsLeft = timeLeft > 0 ? timeLeft : model.getMillisecondsTotal();
         renderTime(millisecondsLeft, false);
 
         return new CountDownTimer(millisecondsLeft, 50) {
@@ -175,9 +176,9 @@ public class TimerDetailsFragment extends Fragment implements View.OnClickListen
     }
 
     private void renderTime(long timeLeft, boolean animateProgress) {
-        int progress = (int) ((double) timeLeft / (double) model.getMilliseconds() * 100.);
+        int progress = (int) ((double) timeLeft / (double) model.getMillisecondsTotal() * 100.);
         pbTime.setProgress(100 - progress, animateProgress);
-        tvTime.setText(TimerTransform.millisToTimeString(timeLeft));
+        tvTime.setText(TimerTransform.millisToString(timeLeft));
     }
 
     private void showPlayOrPause(boolean isPause) {

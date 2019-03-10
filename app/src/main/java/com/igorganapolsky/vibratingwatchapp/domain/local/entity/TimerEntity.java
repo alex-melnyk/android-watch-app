@@ -14,8 +14,11 @@ public class TimerEntity implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "time")
-    private long milliseconds;
+    @ColumnInfo(name = "time_total")
+    private long millisecondsTotal;
+
+    @ColumnInfo(name = "time_left")
+    private long millisecondsLeft;
 
     @ColumnInfo(name = "buzz_mode")
     private int buzzMode;
@@ -26,9 +29,6 @@ public class TimerEntity implements Serializable {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
-    @ColumnInfo(name = "state")
-    private String state;
-
     public int getId() {
         return id;
     }
@@ -37,12 +37,20 @@ public class TimerEntity implements Serializable {
         this.id = id;
     }
 
-    public long getMilliseconds() {
-        return milliseconds;
+    public long getMillisecondsTotal() {
+        return millisecondsTotal;
     }
 
-    public void setMilliseconds(long milliseconds) {
-        this.milliseconds = milliseconds;
+    public void setMillisecondsTotal(long millisecondsTotal) {
+        this.millisecondsTotal = millisecondsTotal;
+    }
+
+    public long getMillisecondsLeft() {
+        return millisecondsLeft;
+    }
+
+    public void setMillisecondsLeft(long millisecondsLeft) {
+        this.millisecondsLeft = millisecondsLeft;
     }
 
     public int getBuzzMode() {
@@ -67,13 +75,5 @@ public class TimerEntity implements Serializable {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 }

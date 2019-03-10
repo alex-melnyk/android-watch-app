@@ -2,16 +2,16 @@ package com.igorganapolsky.vibratingwatchapp.domain.model;
 
 public class CountData {
 
-   public enum State {PREPARED, TICK, FINISH}
+    public enum State {PREPARE, PAUSE, PLAY, FINISH}
 
     private int currentProgress;
     private String currentTime;
-    private State state;
+    private boolean isAnimationNeeded;
 
-    public CountData(String currentTime, int currentProgress, State state) {
+    public CountData(String currentTime, int currentProgress, boolean isAnimationNeeded) {
         this.currentTime = currentTime;
         this.currentProgress = currentProgress;
-        this.state = state;
+        this.isAnimationNeeded = isAnimationNeeded;
     }
 
     public int getCurrentProgress() {
@@ -22,7 +22,7 @@ public class CountData {
         return currentTime;
     }
 
-    public State getState() {
-        return state;
+    public boolean isAnimationNeeded() {
+        return isAnimationNeeded;
     }
 }

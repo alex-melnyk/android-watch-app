@@ -1,7 +1,11 @@
 package com.igorganapolsky.vibratingwatchapp.domain.local;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.*;
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
+
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 
 import java.util.List;
@@ -18,12 +22,12 @@ public interface TimersDao {
     @Query("DELETE FROM TimerEntity WHERE id = :id")
     void deleteById(int id);
 
-    @Insert
-    void insert(TimerEntity task);
+    @Query("UPDATE TimerEntity SET time_left =:newTimeLeft WHERE id =:timerId")
+    void updateTimerLeft(int timerId, long newTimeLeft);
 
-    @Delete
-    void delete(TimerEntity task);
+    @Insert
+    void insert(TimerEntity entity);
 
     @Update
-    void update(TimerEntity task);
+    void update(TimerEntity entity);
 }
