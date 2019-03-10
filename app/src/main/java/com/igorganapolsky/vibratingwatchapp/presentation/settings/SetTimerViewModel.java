@@ -17,7 +17,6 @@ public class SetTimerViewModel extends ViewModel {
 
     private MutableLiveData<TimerModel> timerData = new MutableLiveData<>();
     private MutableLiveData<TimerSetup> setupData = new MutableLiveData<>();
-    private MutableLiveData<TimeHighlightState> highlightStateData = new MutableLiveData<>();
     private MutableLiveData<Boolean> swipeState = new MutableLiveData<>();
 
     private Type currentType = Type.NEW;
@@ -34,7 +33,6 @@ public class SetTimerViewModel extends ViewModel {
         this.highlightState = TimeHighlightState.HOURS;
 
         setupData.setValue(setup);
-        highlightStateData.setValue(highlightState);
     }
 
     void setCurrentModelId(int currentId) {
@@ -53,11 +51,7 @@ public class SetTimerViewModel extends ViewModel {
         return setupData;
     }
 
-    public LiveData<TimeHighlightState> getHighligtData() {
-        return highlightStateData;
-    }
-
-    public LiveData<Boolean> getSwipeState() {
+    LiveData<Boolean> getSwipeState() {
         return swipeState;
     }
 
@@ -90,7 +84,6 @@ public class SetTimerViewModel extends ViewModel {
 
     public void setSelection(TimerSetup newSelection) {
         this.setup = newSelection;
-        setHighlightState();
         setupData.setValue(setup);
     }
 
@@ -118,21 +111,6 @@ public class SetTimerViewModel extends ViewModel {
 
     public int getCurrentTimeValue() {
         return currentTimer.getValue(setup);
-    }
-
-    private void setHighlightState() {
-        switch (setup) {
-            case HOURS:
-                highlightState = TimeHighlightState.HOURS;
-                break;
-            case MINUTES:
-                highlightState = TimeHighlightState.MINUTES;
-                break;
-            case SECONDS:
-                highlightState = TimeHighlightState.SECONDS;
-                break;
-        }
-        highlightStateData.setValue(highlightState);
     }
 
     void saveTimer() {
