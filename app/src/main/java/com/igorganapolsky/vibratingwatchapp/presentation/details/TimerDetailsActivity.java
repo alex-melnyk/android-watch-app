@@ -57,10 +57,8 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void setupViewModel() {
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            int currentId = bundle.getInt(TIMER_ID);
-            mViewModel.prepareData(currentId);
-        }
+        int currentId = bundle != null ? bundle.getInt(TIMER_ID) : 0;
+        mViewModel.prepareData(currentId);
     }
 
     private void setupView() {
@@ -105,7 +103,6 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.ivStop:
                 mViewModel.onStop();
-                finish();
                 break;
 
             case R.id.ivRestart:
@@ -113,8 +110,9 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.ivTimerSettings:
-                // TODO(implement settings screen)
-                Intent settingIntent = new Intent(getApplicationContext(), SetTimerActivity.class);
+                Bundle bundle = getIntent().getExtras();
+                int currentId = bundle != null ? bundle.getInt(TIMER_ID) : 0;
+                startActivity(SetTimerActivity.createIntent(this, currentId));
                 break;
 
             case R.id.ivTimerRemove:
@@ -142,6 +140,7 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
             case FINISH:
                 ivStart.setSelected(false);
+                blinking.cancel();
                 disableAdditionalButtons(false);
                 break;
         }
@@ -162,5 +161,11 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         ivTimerRemove.setClickable(!disable);
         ivTimerSettings.setAlpha(disable ? .5f : 1f);
         ivTimerRemove.setAlpha(disable ? .5f : 1f);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pbTime.setProgress(0, false);
     }
 }

@@ -2,6 +2,7 @@ package com.igorganapolsky.vibratingwatchapp.presentation.details;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
@@ -20,9 +21,13 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     private MutableLiveData<CountData> activeTimerData = new MutableLiveData<>();
     private MutableLiveData<TimerModel.State> viewStateData = new MutableLiveData<>();
 
+    private Observer<TimerModel> activeObserver = model -> {
+    };
+
     public TimerDetailsViewModel(Repository repository, CountdownManager countdownManager) {
         this.repository = repository;
         this.countdownManager = countdownManager;
+
     }
 
     LiveData<CountData> getActiveTimerData() {
@@ -93,17 +98,12 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     void onPause() {
         viewStateData.setValue(TimerModel.State.PAUSE);
-        if (countdownManager != null) {
-            countdownManager.onPause();
-        }
+        countdownManager.onPause();
     }
 
     void onStop() {
-        viewStateData.setValue(TimerModel.State.FINISH);
-        if (!timerModel.isDefaultTime()) {
-            repository.updateTimerTimeLeft(timerModel.getId(), countdownManager.getActiveTimeLeft());
-        }
-        if (countdownManager != null) {
+        if (timerModel.getId() == countdownManager.getActiveId()) {
+            viewStateData.setValue(TimerModel.State.FINISH);
             countdownManager.onStop();
         }
     }
@@ -130,5 +130,11 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
             viewStateData.setValue(TimerModel.State.FINISH);
             activeTimerData.setValue(new CountData(newValue, progress, true));
         }
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        countdownManager.setTickListener(null);
     }
 }

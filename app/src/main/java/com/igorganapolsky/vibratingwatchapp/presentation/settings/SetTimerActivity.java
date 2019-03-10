@@ -1,6 +1,8 @@
 package com.igorganapolsky.vibratingwatchapp.presentation.settings;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.custom.SwipeRestrictViewPager;
+import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 
@@ -31,6 +34,12 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     private TextView tvTimeSeconds;
     private boolean isProgressChanging = false;
     private boolean isSwipeGranted = false;
+
+    public static Intent createIntent(Context context, int timerId) {
+        Intent intent = new Intent(context, SetTimerActivity.class);
+        intent.putExtra(TimerEntity.TIMER_ID, timerId);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
