@@ -71,7 +71,6 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
         pbTime = findViewById(R.id.pbTime);
         tvTime = findViewById(R.id.tvTime);
-        pbTime.clearAnimation();
 
         // CONTROLS
         ivStart = findViewById(R.id.ivStart);

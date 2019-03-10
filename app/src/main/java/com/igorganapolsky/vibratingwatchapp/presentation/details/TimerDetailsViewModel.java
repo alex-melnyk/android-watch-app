@@ -35,6 +35,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     void prepareData(int currentId) {
         countdownManager.setTickListener(this);
+
         int activeId = countdownManager.getActiveId();
         boolean isActive = currentId == activeId;
 
@@ -45,11 +46,14 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
         }
 
         long timeToSetup = prepareTime(isActive);
-        viewStateData.setValue(timerModel.getState());
-        activeTimerData.postValue(new CountData(
+        int progress = prepareProgress(isActive);
+
+        activeTimerData.setValue(new CountData(
             TimerTransform.millisToString(timeToSetup),
-            100,
-            false));
+            progress,
+            true));
+
+        viewStateData.setValue(timerModel.getState());
     }
 
     private long prepareTime(boolean isActive) {
@@ -59,6 +63,14 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
             long currentTimeTotal = TimerTransform.timeToMillis(timerModel.getHoursTotal(), timerModel.getMinutesTotal(), timerModel.getSecondsTotal());
             long currentTimeLeft = TimerTransform.timeToMillis(timerModel.getHoursLeft(), timerModel.getMinutesLeft(), timerModel.getSecondsLeft());
             return currentTimeLeft > 0 ? currentTimeLeft : currentTimeTotal;
+        }
+    }
+
+    private int prepareProgress(boolean isActive) {
+        if (isActive) {
+            return countdownManager.getActiveProgress();
+        } else {
+            return 100;
         }
     }
 

@@ -31,6 +31,11 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     @Override
+    public int getActiveProgress() {
+        return calculateProgress();
+    }
+
+    @Override
     public TimerModel getActive() {
         return currentTimerModel;
     }

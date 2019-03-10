@@ -12,6 +12,7 @@ public interface CountdownManager {
 
     long getActiveTimeLeft();
 
+    int getActiveProgress();
 
 
     void setupTimer(TimerModel model);
