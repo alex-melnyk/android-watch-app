@@ -4,6 +4,8 @@ import java.util.Locale;
 
 public class TimerModel {
 
+    public enum State {RUN, PAUSE, FINISH}
+
     private int id;
     private int buzz;
     private int repeat;
@@ -16,6 +18,7 @@ public class TimerModel {
     private int minutesLeft;
     private int secondsLeft;
 
+    private State state = State.FINISH;
 
     public TimerModel() {
         this(0, 0, 0);
@@ -89,6 +92,14 @@ public class TimerModel {
 
     public void setSecondsLeft(int secondsLeft) {
         this.secondsLeft = secondsLeft;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public int getValue(TimerSetup timerSetup) {

@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimeHighlightState;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
 
@@ -23,15 +22,12 @@ public class SetTimerViewModel extends ViewModel {
 
     private TimerModel currentTimer;
     private TimerSetup setup;
-    private TimeHighlightState highlightState;
 
     public SetTimerViewModel(Repository repository) {
         this.repository = repository;
 
         this.currentTimer = new TimerModel();
         this.setup = TimerSetup.HOURS;
-        this.highlightState = TimeHighlightState.HOURS;
-
         setupData.setValue(setup);
     }
 
@@ -93,15 +89,12 @@ public class SetTimerViewModel extends ViewModel {
         switch (setup) {
             case HOURS:
                 currentTimer.setHoursTotal(calculatedValue);
-                currentTimer.setHoursLeft(calculatedValue);
                 break;
             case MINUTES:
                 currentTimer.setMinutesTotal(calculatedValue);
-                currentTimer.setMinutesLeft(calculatedValue);
                 break;
             case SECONDS:
                 currentTimer.setSecondsTotal(calculatedValue);
-                currentTimer.setSecondsLeft(calculatedValue);
                 break;
         }
 

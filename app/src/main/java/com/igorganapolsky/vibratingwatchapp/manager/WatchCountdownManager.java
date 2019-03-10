@@ -1,6 +1,7 @@
 package com.igorganapolsky.vibratingwatchapp.manager;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
@@ -20,13 +21,18 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     @Override
-    public int getActiveTimerId() {
+    public int getActiveId() {
         return currentTimerModel == null ? -1 : currentTimerModel.getId();
     }
 
     @Override
-    public long getActiveTimerTimeLeft() {
+    public long getActiveTimeLeft() {
         return timeLeft;
+    }
+
+    @Override
+    public TimerModel getActive() {
+        return currentTimerModel;
     }
 
     @Override
@@ -44,13 +50,15 @@ public class WatchCountdownManager implements CountdownManager {
     public void onStart() {
         currentCountdownTimer = prepareCountdownTimer();
         currentCountdownTimer.start();
+        currentTimerModel.setState(TimerModel.State.RUN);
     }
 
     @Override
-    public void onCancel() {
+    public void onPause() {
         if (currentCountdownTimer != null) {
             currentCountdownTimer.cancel();
         }
+        currentTimerModel.setState(TimerModel.State.PAUSE);
     }
 
     @Override
@@ -61,17 +69,17 @@ public class WatchCountdownManager implements CountdownManager {
     @Override
     public void onRestart() {
         clearCountDown();
-        currentCountdownTimer = prepareCountdownTimer();
-        currentCountdownTimer.start();
+        onStart();
     }
 
     private CountDownTimer prepareCountdownTimer() {
-        long millisecondsLeft = timeLeft > 0 ? timeLeft : totalTime;
+        long millisecondsLeft = timeLeft > 0 ? timeLeft : totalTime * currentTimerModel.getRepeat();
 
         return new CountDownTimer(millisecondsLeft, 50) {
             @Override
             public void onTick(long millis) {
                 timeLeft = millis;
+
                 int progress = calculateProgress();
                 String time = TimerTransform.millisToString(timeLeft);
                 if (tickListener != null) {
@@ -83,7 +91,8 @@ public class WatchCountdownManager implements CountdownManager {
             public void onFinish() {
                 if (tickListener != null) {
                     timeLeft = 0;
-                    String time = TimerTransform.millisToString(totalTime);
+                    currentTimerModel.setState(TimerModel.State.FINISH);
+                    String time = TimerTransform.millisToString(totalTime / currentTimerModel.getRepeat());
                     tickListener.onFinish(time, 100);
                 }
             }
@@ -99,6 +108,8 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     private int calculateProgress() {
-        return (int) ((double) timeLeft / (double) (totalTime / currentTimerModel.getRepeat()) * 100.);
+        int currentProgress = (int) ((float) timeLeft / (float) (totalTime) * 100.);
+        Log.d("Larkionov", "Current progress " + currentProgress);
+        return currentProgress;
     }
 }

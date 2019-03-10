@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.domain.model.CountData;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.dialog.TimerDeleteDialogFragment;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerActivity;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
@@ -70,6 +71,7 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
         pbTime = findViewById(R.id.pbTime);
         tvTime = findViewById(R.id.tvTime);
+        pbTime.clearAnimation();
 
         // CONTROLS
         ivStart = findViewById(R.id.ivStart);
@@ -127,25 +129,21 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void swapActionMenuState(CountData.State state) {
+    private void swapActionMenuState(TimerModel.State state) {
         switch (state) {
-            case PREPARE:
-                ivStart.setSelected(false);
-                disableAdditionalButtons(false);
-                break;
             case PAUSE:
                 ivStart.setSelected(false);
                 disableAdditionalButtons(true);
                 tvTime.startAnimation(blinking);
                 break;
-            case PLAY:
+            case RUN:
                 ivStart.setSelected(true);
                 disableAdditionalButtons(true);
                 blinking.cancel();
                 break;
             case FINISH:
                 ivStart.setSelected(false);
-                disableAdditionalButtons(true);
+                disableAdditionalButtons(false);
                 break;
         }
     }
@@ -158,18 +156,6 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
     private void renderTime(String newValue, int progress, boolean animateProgress) {
         pbTime.setProgress(100 - progress, animateProgress);
         tvTime.setText(newValue);
-    }
-
-    private void showPlayOrPause(boolean isPause) {
-        if (!isPause) {
-            ivStart.setSelected(false);
-            disableAdditionalButtons(false);
-            tvTime.startAnimation(blinking);
-        } else {
-            ivStart.setSelected(true);
-            disableAdditionalButtons(true);
-            blinking.cancel();
-        }
     }
 
     private void disableAdditionalButtons(boolean disable) {

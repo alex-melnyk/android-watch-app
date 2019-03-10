@@ -18,7 +18,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     private TimerModel timerModel;
 
     private MutableLiveData<CountData> activeTimerData = new MutableLiveData<>();
-    private MutableLiveData<CountData.State> viewStateData = new MutableLiveData<>();
+    private MutableLiveData<TimerModel.State> viewStateData = new MutableLiveData<>();
 
     public TimerDetailsViewModel(Repository repository, CountdownManager countdownManager) {
         this.repository = repository;
@@ -29,41 +29,49 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
         return activeTimerData;
     }
 
-    LiveData<CountData.State> getViewStateData() {
+    LiveData<TimerModel.State> getViewStateData() {
         return viewStateData;
     }
 
     void prepareData(int currentId) {
-        timerModel = repository.getTimerById(currentId);
         countdownManager.setTickListener(this);
+        int activeId = countdownManager.getActiveId();
+        boolean isActive = currentId == activeId;
 
-        if (timerModel.getId() != countdownManager.getActiveTimerId()) {
-            prepareNonActiveData();
+        if (isActive) {
+            timerModel = countdownManager.getActive();
+        } else {
+            timerModel = repository.getTimerById(currentId);
         }
-    }
 
-    private void prepareNonActiveData() {
-        long currentTimeTotal = TimerTransform.timeToMillis(timerModel.getHoursTotal(), timerModel.getMinutesTotal(), timerModel.getSecondsTotal());
-        long currentTimeLeft = TimerTransform.timeToMillis(timerModel.getHoursLeft(), timerModel.getMinutesLeft(), timerModel.getSecondsLeft());
-        long preparedTime = currentTimeLeft == currentTimeTotal ? currentTimeLeft : currentTimeLeft;
-
-        viewStateData.setValue(CountData.State.PREPARE);
-        activeTimerData.setValue(new CountData(
-            TimerTransform.millisToString(preparedTime),
+        long timeToSetup = prepareTime(isActive);
+        viewStateData.setValue(timerModel.getState());
+        activeTimerData.postValue(new CountData(
+            TimerTransform.millisToString(timeToSetup),
             100,
             false));
     }
 
-    void onStart() {
-        viewStateData.setValue(CountData.State.PLAY);
+    private long prepareTime(boolean isActive) {
+        if (isActive) {
+            return countdownManager.getActiveTimeLeft();
+        } else {
+            long currentTimeTotal = TimerTransform.timeToMillis(timerModel.getHoursTotal(), timerModel.getMinutesTotal(), timerModel.getSecondsTotal());
+            long currentTimeLeft = TimerTransform.timeToMillis(timerModel.getHoursLeft(), timerModel.getMinutesLeft(), timerModel.getSecondsLeft());
+            return currentTimeLeft > 0 ? currentTimeLeft : currentTimeTotal;
+        }
+    }
 
-        int currentActiveTimerId = countdownManager.getActiveTimerId();
+    void onStart() {
+        viewStateData.setValue(TimerModel.State.RUN);
+
+        int currentActiveTimerId = countdownManager.getActiveId();
 
         if (timerModel.getId() == currentActiveTimerId) {
             countdownManager.onStart();
         } else {
             if (currentActiveTimerId != -1) {
-                repository.updateTimerTimeLeft(currentActiveTimerId, countdownManager.getActiveTimerTimeLeft());
+                repository.updateTimerTimeLeft(currentActiveTimerId, countdownManager.getActiveTimeLeft());
                 countdownManager.onStop();
             }
             countdownManager.setupTimer(timerModel);
@@ -72,21 +80,24 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     }
 
     void onPause() {
-        viewStateData.setValue(CountData.State.PAUSE);
+        viewStateData.setValue(TimerModel.State.PAUSE);
         if (countdownManager != null) {
-            countdownManager.onCancel();
+            countdownManager.onPause();
         }
     }
 
     void onStop() {
-        viewStateData.setValue(CountData.State.FINISH);
+        viewStateData.setValue(TimerModel.State.FINISH);
+        if (!timerModel.isDefaultTime()) {
+            repository.updateTimerTimeLeft(timerModel.getId(), countdownManager.getActiveTimeLeft());
+        }
         if (countdownManager != null) {
             countdownManager.onStop();
         }
     }
 
     void onRestart() {
-        viewStateData.setValue(CountData.State.PLAY);
+        viewStateData.setValue(TimerModel.State.RUN);
         countdownManager.onRestart();
     }
 
@@ -96,23 +107,16 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     @Override
     public void onTick(String newValue, int progress) {
-        if (timerModel.getId() == countdownManager.getActiveTimerId()) {
+        if (timerModel.getId() == countdownManager.getActiveId()) {
             activeTimerData.setValue(new CountData(newValue, progress, true));
         }
     }
 
     @Override
-    public void onPrepared(String newValue, int progress) {
-        if (timerModel.getId() == countdownManager.getActiveTimerId()) {
-            activeTimerData.setValue(new CountData(newValue, progress, false));
-        }
-    }
-
-    @Override
     public void onFinish(String newValue, int progress) {
-        if (timerModel.getId() == countdownManager.getActiveTimerId()) {
-            viewStateData.setValue(CountData.State.FINISH);
-            activeTimerData.setValue(new CountData(newValue, progress, false));
+        if (timerModel.getId() == countdownManager.getActiveId()) {
+            viewStateData.setValue(TimerModel.State.FINISH);
+            activeTimerData.setValue(new CountData(newValue, progress, true));
         }
     }
 }

@@ -6,15 +6,19 @@ public interface CountdownManager {
 
     void setTickListener(TickListener listener);
 
-    int getActiveTimerId();
+    TimerModel getActive();
 
-    long getActiveTimerTimeLeft();
+    int getActiveId();
+
+    long getActiveTimeLeft();
+
+
 
     void setupTimer(TimerModel model);
 
     void onStart();
 
-    void onCancel();
+    void onPause();
 
     void onStop();
 
