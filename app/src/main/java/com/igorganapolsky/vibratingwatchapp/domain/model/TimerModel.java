@@ -1,6 +1,7 @@
 package com.igorganapolsky.vibratingwatchapp.domain.model;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class TimerModel {
 
@@ -128,6 +129,19 @@ public class TimerModel {
 
     public boolean isDefaultTime() {
         return hoursTotal == 0 && minutesTotal == 0 && secondsTotal == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimerModel model = (TimerModel) o;
+        return id == model.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

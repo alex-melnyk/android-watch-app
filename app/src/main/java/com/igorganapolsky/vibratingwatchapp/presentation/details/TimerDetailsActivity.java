@@ -12,7 +12,6 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.domain.model.CountData;
@@ -50,15 +49,15 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_timer_details);
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(TimerDetailsViewModel.class);
 
-        setupViewModel();
         setupView();
+        setupViewModel();
         setupObservers();
     }
 
     private void setupViewModel() {
         Bundle bundle = getIntent().getExtras();
         int currentId = bundle != null ? bundle.getInt(TIMER_ID) : 0;
-        mViewModel.prepareData(this, currentId);
+        mViewModel.prepareData(currentId);
     }
 
     private void setupView() {

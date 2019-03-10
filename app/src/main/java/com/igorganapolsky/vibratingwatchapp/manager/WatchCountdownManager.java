@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.CountDownTimer;
 import android.util.Log;
-
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
@@ -64,15 +63,19 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public void onStart() {
-        activeModel.setState(TimerModel.State.RUN);
+        if (activeModel != null){
+            activeModel.setState(TimerModel.State.RUN);
+        }
+        activeModelData.postValue(activeModel);
         currentCountdownTimer = prepareCountdownTimer();
         currentCountdownTimer.start();
-
     }
 
     @Override
     public void onPause() {
-        activeModel.setState(TimerModel.State.PAUSE);
+        if (activeModel != null){
+            activeModel.setState(TimerModel.State.PAUSE);
+        }
         if (currentCountdownTimer != null) {
             currentCountdownTimer.cancel();
         }
@@ -86,6 +89,9 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public void onRestart() {
+        if (activeModel != null){
+            activeModel.setState(TimerModel.State.RUN);
+        }
         clearCountDown();
         onStart();
     }
@@ -112,11 +118,13 @@ public class WatchCountdownManager implements CountdownManager {
         if (tickListener != null) {
             int progress = calculateProgress();
             String time = TimerTransform.millisToString(timeLeft % lapTime);
-            tickListener.onTick(time, progress); }
+            tickListener.onTick(time, progress);
+        }
     }
 
     private void notifyOnFinish(boolean isStop) {
         activeModel.setState(TimerModel.State.FINISH);
+        activeModelData.setValue(activeModel);
         if (tickListener != null) {
             String time = TimerTransform.millisToString(lapTime);
             tickListener.onFinish(time, 100, isStop);
@@ -133,8 +141,6 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     private int calculateProgress() {
-        int percent = (int) ((float) (timeLeft % lapTime) / (float) (lapTime) * 100.);
-        Log.d("Laktionov", "percent : " + percent);
-        return percent;
+        return (int) ((float) (timeLeft % lapTime) / (float) (lapTime) * 100.);
     }
 }

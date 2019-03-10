@@ -2,7 +2,6 @@ package com.igorganapolsky.vibratingwatchapp.domain;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
-
 import com.igorganapolsky.vibratingwatchapp.domain.local.TimersDatabase;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
@@ -69,11 +68,17 @@ public class WatchRepository implements Repository {
         timerDb.timersDao().deleteById(id);
     }
 
+    @Override
+    public void updateTimerState(int timerId, TimerModel.State newState) {
+        timerDb.timersDao().updateTimerState(timerId, newState.name());
+    }
+
     private TimerModel mapToTimerModel(TimerEntity entity) {
         TimerModel model = new TimerModel();
         model.setId(entity.getId());
         model.setRepeat(entity.getRepeat());
         model.setBuzz(entity.getBuzzMode());
+        model.setState(TimerModel.State.valueOf(entity.getState()));
 
         model.setHoursTotal(TimerTransform.getHours(entity.getMillisecondsTotal()));
         model.setHoursLeft(TimerTransform.getHours(entity.getMillisecondsLeft()));
@@ -91,6 +96,8 @@ public class WatchRepository implements Repository {
         TimerEntity entity = new TimerEntity();
         entity.setBuzzMode(model.getBuzz());
         entity.setRepeat(model.getRepeat());
+        entity.setState(TimerModel.State.FINISH.name());
+
         entity.setMillisecondsTotal(TimerTransform.timeToMillis(model.getHoursTotal(), model.getMinutesTotal(), model.getSecondsTotal()));
         entity.setMillisecondsLeft(TimerTransform.timeToMillis(model.getHoursLeft(), model.getMinutesLeft(), model.getSecondsLeft()));
         return entity;

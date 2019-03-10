@@ -29,6 +29,9 @@ public class TimerEntity implements Serializable {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
+    @ColumnInfo(name = "state")
+    private String state;
+
     public int getId() {
         return id;
     }
@@ -75,5 +78,13 @@ public class TimerEntity implements Serializable {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

@@ -1,11 +1,8 @@
 package com.igorganapolsky.vibratingwatchapp.presentation.details;
 
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
-
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
 import com.igorganapolsky.vibratingwatchapp.domain.model.CountData;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
@@ -26,6 +23,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     public TimerDetailsViewModel(Repository repository, CountdownManager countdownManager) {
         this.repository = repository;
         this.countdownManager = countdownManager;
+        countdownManager.setTickListener(this);
     }
 
     LiveData<CountData> getActiveTimerData() {
@@ -36,25 +34,15 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
         return viewStateData;
     }
 
-    void prepareData(LifecycleOwner owner, int currentId) {
+    void prepareData(int currentId) {
         this.currentId = currentId;
-        repository.getObservableTimerById(currentId).observe(owner, activeObserver);
-        countdownManager.setTickListener(this);
-    }
 
-    private Observer<TimerModel> activeObserver = model -> {
-        if (model == null) return;
-
+        TimerModel model = repository.getTimerById(currentId);
         int activeId = countdownManager.getActiveId();
         boolean isActive = model.getId() == activeId;
 
         if (isActive) {
-            if (countdownManager.getActiveId() != -1) {
-                countdownManager.setupTimer(model);
-                timerModel = model;
-            } else {
-                timerModel = countdownManager.getActive();
-            }
+            timerModel = countdownManager.getActive();
         } else {
             timerModel = model;
         }
@@ -68,7 +56,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
             true));
 
         viewStateData.setValue(timerModel.getState());
-    };
+    }
 
     private long prepareTime(boolean isActive) {
         if (isActive) {
@@ -127,14 +115,14 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     @Override
     public void onTick(String newValue, int progress) {
-        if (timerModel.getId() == countdownManager.getActiveId()) {
+        if (timerModel != null && timerModel.getId() == countdownManager.getActiveId()) {
             activeTimerData.setValue(new CountData(newValue, progress, true));
         }
     }
 
     @Override
     public void onFinish(String newValue, int progress, boolean isStop) {
-        if (timerModel.getId() == countdownManager.getActiveId()) {
+        if (timerModel != null && timerModel.getId() == countdownManager.getActiveId()) {
             viewStateData.setValue(TimerModel.State.FINISH);
             activeTimerData.setValue(new CountData(newValue, progress, isStop));
         }

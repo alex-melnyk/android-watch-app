@@ -2,13 +2,13 @@ package com.igorganapolsky.vibratingwatchapp.presentation.main.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
@@ -62,6 +62,16 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         this.itemClickListener = itemClickListener;
     }
 
+    public void updateActive(TimerModel active) {
+        if (data == null) return;
+        int i = data.indexOf(active);
+        if (i != -1) {
+            TimerModel model = data.get(i);
+            model.setState(active.getState());
+            notifyItemChanged(i);
+        }
+    }
+
     public interface OnItemClickListener {
         void onItemClick(int id);
     }
@@ -95,9 +105,11 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         void bind(TimerModel value) {
             this.model = value;
             int vibration = model.getBuzz();
+            boolean isNotActive = value.getState() == TimerModel.State.FINISH;
 
+            ivStatus.setSelected(!isNotActive);
             tvTime.setText(TimerTransform.millisToString(model));
-            pbProgress.setProgress((int) (Math.random() * 100));
+
             tvVibration.setText(String.format(Locale.ENGLISH, "%d", vibration));
             tvRepeat.setText(String.format(Locale.ENGLISH, "%d", model.getRepeat()));
         }

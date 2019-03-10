@@ -21,7 +21,7 @@
         android:id="@+id/ivStatus"
         android:layout_width="12dp"
         android:layout_height="12dp"
-        app:srcCompat="@drawable/ic_play" />
+        app:srcCompat="@drawable/ic_start_pause_selector" />
 
     <TextView
         android:id="@+id/tvTime"
