@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.wear.widget.WearableRecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
@@ -55,11 +57,14 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
         mViewModel.getTimerData().observe(this, (timerValue) -> {
             if (timerValue == null) return;
             wrvVibrations.smoothScrollToPosition(timerValue.getBuzz());
+            Log.d("Laktionov", "observer buzz value" + timerValue.getBuzz());
         });
     }
 
     @Override
     public void onHolderClick(int position) {
         wrvVibrations.smoothScrollToPosition(position);
+        Log.d("Laktionov", "onHolderClick" + position);
+
     }
 }

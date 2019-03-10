@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.igorganapolsky.vibratingwatchapp.R;
 
 import java.util.Locale;
@@ -39,16 +40,12 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull VibrationsRecyclerViewHolder vibrationsRecyclerViewHolder, int index) {
-        vibrationsRecyclerViewHolder.setIndex(index + 1);
+        vibrationsRecyclerViewHolder.bind(index + 1, holderClickListener);
 
         String[] spittedLine = vibrations[index].split(",");
 
         vibrationsRecyclerViewHolder.setBuzzAmount(spittedLine[0]);
         vibrationsRecyclerViewHolder.setTimeAmount(spittedLine[1]);
-
-        if (holderClickListener != null) {
-            vibrationsRecyclerViewHolder.itemView.setOnClickListener(view -> holderClickListener.onHolderClick(index));
-        }
     }
 
     @Override
@@ -57,6 +54,7 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
     }
 
     static class VibrationsRecyclerViewHolder extends RecyclerView.ViewHolder {
+
         private TextView tvIndex;
         private TextView buzzAmount;
         private TextView timeAmount;
@@ -69,8 +67,17 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
             timeAmount = itemView.findViewById(R.id.timeAmount);
         }
 
-        void setIndex(int index) {
+        void bind(int index, HolderClickListener holderClickListener) {
             tvIndex.setText(String.format(Locale.ENGLISH, "%d", index));
+
+            if (holderClickListener != null) {
+                itemView.setOnClickListener(view -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        holderClickListener.onHolderClick(position);
+                    }
+                });
+            }
         }
 
         void setBuzzAmount(String label) {

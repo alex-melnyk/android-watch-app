@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.igorganapolsky.vibratingwatchapp.R;
 
 public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsRecyclerViewHolder> {
@@ -35,10 +36,7 @@ public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsR
 
     @Override
     public void onBindViewHolder(@NonNull RepeatsRecyclerViewHolder repeatsRecyclerViewHolder, int index) {
-        repeatsRecyclerViewHolder.bind(repeats[index]);
-        if (holderClickListener != null) {
-            repeatsRecyclerViewHolder.itemView.setOnClickListener(view -> holderClickListener.onHolderClick(index));
-        }
+        repeatsRecyclerViewHolder.bind(repeats[index], holderClickListener);
     }
 
     @Override
@@ -54,8 +52,17 @@ public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsR
             tvLabel = itemView.findViewById(R.id.label);
         }
 
-        void bind(String label) {
+        void bind(String label, HolderClickListener holderClickListener) {
             tvLabel.setText(label);
+
+            if (holderClickListener != null) {
+                itemView.setOnClickListener(view -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        holderClickListener.onHolderClick(position);
+                    }
+                });
+            }
         }
     }
 }
