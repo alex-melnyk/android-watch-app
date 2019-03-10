@@ -58,7 +58,7 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
     private void setupViewModel() {
         Bundle bundle = getIntent().getExtras();
         int currentId = bundle != null ? bundle.getInt(TIMER_ID) : 0;
-        mViewModel.prepareData(currentId);
+        mViewModel.prepareData(this, currentId);
     }
 
     private void setupView() {

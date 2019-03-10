@@ -1,5 +1,6 @@
 package com.igorganapolsky.vibratingwatchapp.presentation.details;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
@@ -35,10 +36,9 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
         return viewStateData;
     }
 
-    void prepareData(int currentId) {
+    void prepareData(LifecycleOwner owner, int currentId) {
         this.currentId = currentId;
-
-        repository.getObservableTimerById(currentId).observeForever(activeObserver);
+        repository.getObservableTimerById(currentId).observe(owner, activeObserver);
         countdownManager.setTickListener(this);
     }
 
@@ -49,7 +49,12 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
         boolean isActive = model.getId() == activeId;
 
         if (isActive) {
-            timerModel = countdownManager.getActive();
+            if (countdownManager.getActiveId() != -1) {
+                countdownManager.setupTimer(model);
+                timerModel = model;
+            } else {
+                timerModel = countdownManager.getActive();
+            }
         } else {
             timerModel = model;
         }
@@ -131,15 +136,13 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     public void onFinish(String newValue, int progress, boolean isStop) {
         if (timerModel.getId() == countdownManager.getActiveId()) {
             viewStateData.setValue(TimerModel.State.FINISH);
-            boolean isAnimation = isStop;
-            activeTimerData.setValue(new CountData(newValue, progress, isAnimation));
+            activeTimerData.setValue(new CountData(newValue, progress, isStop));
         }
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        repository.getObservableTimerById(currentId).removeObserver(activeObserver);
         countdownManager.setTickListener(null);
     }
 }

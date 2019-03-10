@@ -38,12 +38,20 @@ public class WatchRepository implements Repository {
 
     @Override
     public LiveData<TimerModel> getObservableTimerById(int id) {
-        return Transformations.map(timerDb.timersDao().observeById(id), (entity -> (mapToTimerModel(entity))));
+        return Transformations.map(timerDb.timersDao().observeById(id), (entity -> {
+            if (entity == null) {
+                return null;
+            } else {
+                return mapToTimerModel(entity);
+            }
+        }));
     }
 
     @Override
     public void updateTimer(TimerModel model) {
-        timerDb.timersDao().update(mapToTimerEntity(model));
+        TimerEntity timerEntity = mapToTimerEntity(model);
+        timerEntity.setId(model.getId());
+        timerDb.timersDao().update(timerEntity);
     }
 
     @Override

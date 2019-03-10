@@ -112,10 +112,7 @@ public class WatchCountdownManager implements CountdownManager {
         if (tickListener != null) {
             int progress = calculateProgress();
             String time = TimerTransform.millisToString(timeLeft % lapTime);
-            tickListener.onTick(time, progress);
-
-//            Log.d("Laktionov", " tick -> active id: " + activeModel.getId() + " time left : " + timeLeft + " total time : " + totalTime);
-        }
+            tickListener.onTick(time, progress); }
     }
 
     private void notifyOnFinish(boolean isStop) {
@@ -123,8 +120,6 @@ public class WatchCountdownManager implements CountdownManager {
         if (tickListener != null) {
             String time = TimerTransform.millisToString(lapTime);
             tickListener.onFinish(time, 100, isStop);
-
-//            Log.d("Laktionov", "finish -> active id: " + activeModel.getId() + " time left : " + timeLeft + " total time : " + totalTime);
         }
     }
 
