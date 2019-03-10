@@ -3,24 +3,26 @@ package com.igorganapolsky.vibratingwatchapp.manager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.CountDownTimer;
+import android.util.Log;
 
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
 public class WatchCountdownManager implements CountdownManager {
 
+    private MutableLiveData<TimerModel> activeModelData = new MutableLiveData<>();
+
     private TickListener tickListener;
     private CountDownTimer currentCountdownTimer;
-
-    private MutableLiveData<TimerModel> activeModel = new MutableLiveData<>();
-    private TimerModel currentTimerModel;
+    private TimerModel activeModel;
 
     private long totalTime;
+    private long lapTime;
     private long timeLeft;
 
     @Override
     public LiveData<TimerModel> observeActiveModel() {
-        return activeModel;
+        return activeModelData;
     }
 
     @Override
@@ -30,53 +32,56 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public int getActiveId() {
-        return currentTimerModel == null ? -1 : currentTimerModel.getId();
+        return activeModel == null ? -1 : activeModel.getId();
     }
 
     @Override
     public long getActiveTimeLeft() {
-        return currentTimerModel.getState() == TimerModel.State.FINISH ? totalTime : timeLeft;
+        return activeModel.getState() == TimerModel.State.FINISH ? lapTime : timeLeft;
     }
 
     @Override
     public int getActiveProgress() {
-        return currentTimerModel.getState() == TimerModel.State.FINISH ? 100 : calculateProgress();
+        return activeModel.getState() == TimerModel.State.FINISH ? 100 : calculateProgress();
     }
 
     @Override
     public TimerModel getActive() {
-        return currentTimerModel;
+        return activeModel;
     }
 
     @Override
     public void setupTimer(TimerModel timerModel) {
-        currentTimerModel = timerModel;
+        activeModel = timerModel;
 
         long currentTimeTotal = TimerTransform.timeToMillis(timerModel.getHoursTotal(), timerModel.getMinutesTotal(), timerModel.getSecondsTotal());
         long currentTimeLeft = TimerTransform.timeToMillis(timerModel.getHoursLeft(), timerModel.getMinutesLeft(), timerModel.getSecondsLeft());
 
-        totalTime = currentTimeTotal;
-        timeLeft = currentTimeLeft;
+        lapTime = currentTimeTotal;
+        totalTime = currentTimeTotal * activeModel.getRepeat();
+        timeLeft = currentTimeLeft * activeModel.getRepeat();
     }
 
     @Override
     public void onStart() {
+        activeModel.setState(TimerModel.State.RUN);
         currentCountdownTimer = prepareCountdownTimer();
         currentCountdownTimer.start();
-        currentTimerModel.setState(TimerModel.State.RUN);
+
     }
 
     @Override
     public void onPause() {
+        activeModel.setState(TimerModel.State.PAUSE);
         if (currentCountdownTimer != null) {
             currentCountdownTimer.cancel();
         }
-        currentTimerModel.setState(TimerModel.State.PAUSE);
     }
 
     @Override
     public void onStop() {
         clearCountDown();
+        activeModel.setState(TimerModel.State.FINISH);
         String time = TimerTransform.millisToString(totalTime);
         tickListener.onFinish(time, 100);
     }
@@ -90,7 +95,7 @@ public class WatchCountdownManager implements CountdownManager {
     private CountDownTimer prepareCountdownTimer() {
         long millisecondsLeft = timeLeft > 0 ? timeLeft : totalTime;
 
-        return new CountDownTimer(millisecondsLeft, 50) {
+        return new CountDownTimer(millisecondsLeft, 100) {
             @Override
             public void onTick(long millis) {
                 timeLeft = millis;
@@ -108,16 +113,20 @@ public class WatchCountdownManager implements CountdownManager {
     private void notifyOnTick() {
         if (tickListener != null) {
             int progress = calculateProgress();
-            String time = TimerTransform.millisToString(timeLeft);
+            String time = TimerTransform.millisToString(timeLeft % lapTime);
             tickListener.onTick(time, progress);
+
+//            Log.d("Laktionov", " tick -> active id: " + activeModel.getId() + " time left : " + timeLeft + " total time : " + totalTime);
         }
     }
 
     private void notifyOnFinish() {
+        activeModel.setState(TimerModel.State.FINISH);
         if (tickListener != null) {
-            currentTimerModel.setState(TimerModel.State.FINISH);
-            String time = TimerTransform.millisToString(totalTime);
+            String time = TimerTransform.millisToString(lapTime);
             tickListener.onFinish(time, 100);
+
+//            Log.d("Laktionov", "finish -> active id: " + activeModel.getId() + " time left : " + timeLeft + " total time : " + totalTime);
         }
     }
 
@@ -130,6 +139,8 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     private int calculateProgress() {
-        return (int) ((float) timeLeft / (float) (totalTime) * 100.);
+        int percent = (int) ((float) (timeLeft % lapTime) / (float) (lapTime) * 100.);
+        Log.d("Laktionov", "percent : " + percent);
+        return percent;
     }
 }

@@ -128,7 +128,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     public void onFinish(String newValue, int progress) {
         if (timerModel.getId() == countdownManager.getActiveId()) {
             viewStateData.setValue(TimerModel.State.FINISH);
-            activeTimerData.setValue(new CountData(newValue, progress, true));
+            activeTimerData.setValue(new CountData(newValue, progress, false));
         }
     }
 
