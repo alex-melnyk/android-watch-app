@@ -1,67 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.constraint.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/flSingleLine"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/index"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="4"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:theme="@style/BuzzLine.Index"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/buzzAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp">
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:paddingStart="4dp"
+        android:paddingEnd="2dp"
+        android:text="1 buzz"
+        android:textSize="14sp"
+        android:theme="@style/BuzzLine.Label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/index"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/index"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:fontFamily="@font/roboto_condensed_regular"
-            android:gravity="center_horizontal|center_vertical"
-            android:paddingRight="1dp"
-            android:paddingBottom="1dp"
-            android:text="4"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:theme="@style/BuzzLine.Index" />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/buzzLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:text=" - "
+        android:textSize="14sp"
+        android:theme="@style/BuzzLine.Label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buzzAmount"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp">
-
-            <TextView
-                android:id="@+id/buzzAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_condensed_regular"
-                android:text="1 buzz"
-                android:textSize="14sp"
-                android:theme="@style/BuzzLine.Label" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:fontFamily="@font/roboto_condensed_regular"
-                android:text=" - "
-                android:textSize="14sp"
-                android:theme="@style/BuzzLine.Label" />
-
-            <TextView
-                android:id="@+id/timeAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_condensed_regular"
-                android:text="3 seconds each"
-                android:textSize="12sp"
-                android:theme="@style/BuzzLine.Label" />
-        </LinearLayout>
-    </LinearLayout>
-</FrameLayout>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/timeAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:maxLines="1"
+        android:paddingStart="2dp"
+        android:paddingEnd="0dp"
+        android:text="3 seconds each"
+        android:textSize="12sp"
+        android:theme="@style/BuzzLine.Label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buzzLine"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

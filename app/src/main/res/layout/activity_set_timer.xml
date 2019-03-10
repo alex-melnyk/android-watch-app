@@ -1,127 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:paddingTop="16dp"
-    android:paddingBottom="8dp"
+    android:layout_height="match_parent"
     android:paddingStart="16dp"
+    android:paddingTop="16dp"
     android:paddingEnd="16dp"
-    app:boxedEdges="all"
-    android:layout_height="match_parent">
+    android:paddingBottom="8dp"
+    app:boxedEdges="all">
 
     <android.support.v7.widget.AppCompatTextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintEnd_toStartOf="@+id/tvHourSeparator"
         android:id="@+id/tvTimeHours"
-        android:text="@string/timer_time_default_digit"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:text="@string/timer_time_default_digit"
         android:textColor="@color/white_active"
-        android:fontFamily="@font/roboto_condensed_regular"/>
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvHourSeparator"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvHourSeparator"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvTimeHours"
-        app:layout_constraintBottom_toBottomOf="@id/tvTimeHours"
-        app:layout_constraintEnd_toStartOf="@+id/tvTimeMinutes"
-        android:text="@string/timer_time_default_sep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:textSize="20sp"
+        android:text="@string/timer_time_default_sep"
         android:textColor="@color/white_active"
-        android:fontFamily="@font/roboto_condensed_regular"/>
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvTimeHours"
+        app:layout_constraintEnd_toStartOf="@+id/tvTimeMinutes"
+        app:layout_constraintStart_toEndOf="@id/tvTimeHours"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvTimeMinutes"
-        app:layout_constraintStart_toEndOf="@id/tvHourSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/timer_time_default_digit"
+        android:textColor="@color/white_active"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/tvTimeHours"
         app:layout_constraintEnd_toStartOf="@+id/tvSecondsSeparator"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/timer_time_default_digit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="@color/white_active"
-        android:fontFamily="@font/roboto_condensed_regular"/>
+        app:layout_constraintStart_toEndOf="@id/tvHourSeparator"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatTextView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvTimeMinutes"
-        app:layout_constraintBottom_toBottomOf="@id/tvTimeHours"
-        app:layout_constraintEnd_toStartOf="@+id/tvTimeSeconds"
         android:id="@+id/tvSecondsSeparator"
-        android:text="@string/timer_time_default_sep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:textSize="20sp"
+        android:text="@string/timer_time_default_sep"
         android:textColor="@color/white_active"
-        android:fontFamily="@font/roboto_condensed_regular"/>
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvTimeHours"
+        app:layout_constraintEnd_toStartOf="@+id/tvTimeSeconds"
+        app:layout_constraintStart_toEndOf="@id/tvTimeMinutes"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvTimeSeconds"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvSecondsSeparator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tvTimeHours"
-        android:text="@string/timer_time_default_digit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
+        android:text="@string/timer_time_default_digit"
         android:textColor="@color/white_active"
-        android:fontFamily="@font/roboto_condensed_regular"/>
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvTimeHours"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvSecondsSeparator"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.igorganapolsky.vibratingwatchapp.custom.SwipeRestrictViewPager
         android:id="@+id/vpWizard"
         android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeHours"
         app:layout_constraintBottom_toTopOf="@+id/tlDots"
-        android:layout_height="0dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeHours" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tlDots"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vpWizard"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
-
         android:layout_height="20dp"
         android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vpWizard"
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
-        app:tabRippleColor="@null"
         app:tabIndicatorHeight="0dp"
+        app:tabPaddingEnd="5dp"
         app:tabPaddingStart="5dp"
-        app:tabPaddingEnd="5dp"/>
+        app:tabRippleColor="@null" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/ivNextPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_next"/>
+        app:srcCompat="@drawable/ic_next" />
 </android.support.constraint.ConstraintLayout>
 
 
