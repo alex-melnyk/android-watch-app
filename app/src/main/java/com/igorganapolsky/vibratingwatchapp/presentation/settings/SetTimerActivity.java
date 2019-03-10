@@ -3,7 +3,6 @@ package com.igorganapolsky.vibratingwatchapp.presentation.settings;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.custom.SwipeRestrictViewPager;
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimeHighlightState;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
 
@@ -30,10 +28,6 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     private TextView tvTimeHours;
     private TextView tvTimeMinutes;
     private TextView tvTimeSeconds;
-
-    private int inactiveColor = 0;
-    private int activeColor = 0;
-
     private boolean isProgressChanging = false;
     private boolean isSwipeGranted = false;
 
@@ -57,9 +51,6 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupView() {
-        activeColor = ContextCompat.getColor(this, R.color.white_active);
-        inactiveColor = ContextCompat.getColor(this, R.color.white_inactive);
-
         vpWizard = findViewById(R.id.vpWizard);
         ivNextPage = findViewById(R.id.ivNextPage);
 
@@ -78,7 +69,6 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupObservers() {
-        mViewModel.getHighligtData().observe(this, this::setHighlight);
         mViewModel.getTimerData().observe(this, (timer) -> {
             if (timer == null) return;
             updateTimerData(timer);
@@ -133,28 +123,28 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void setHighlight(TimeHighlightState state) {
-        switch (state) {
-            case WHOLE:
-                tvTimeHours.setTextColor(activeColor);
-                tvTimeMinutes.setTextColor(activeColor);
-                tvTimeSeconds.setTextColor(activeColor);
-                break;
-            case HOURS:
-                tvTimeHours.setTextColor(activeColor);
-                tvTimeMinutes.setTextColor(inactiveColor);
-                tvTimeSeconds.setTextColor(inactiveColor);
-                break;
-            case MINUTES:
-                tvTimeHours.setTextColor(inactiveColor);
-                tvTimeMinutes.setTextColor(activeColor);
-                tvTimeSeconds.setTextColor(inactiveColor);
-                break;
-            case SECONDS:
-                tvTimeHours.setTextColor(inactiveColor);
-                tvTimeMinutes.setTextColor(inactiveColor);
-                tvTimeSeconds.setTextColor(activeColor);
-                break;
-        }
-    }
+//    private void setHighlight(TimeHighlightState state) {
+//        switch (state) {
+//            case WHOLE:
+//                tvTimeHours.setTextColor(activeColor);
+//                tvTimeMinutes.setTextColor(activeColor);
+//                tvTimeSeconds.setTextColor(activeColor);
+//                break;
+//            case HOURS:
+//                tvTimeHours.setTextColor(activeColor);
+//                tvTimeMinutes.setTextColor(inactiveColor);
+//                tvTimeSeconds.setTextColor(inactiveColor);
+//                break;
+//            case MINUTES:
+//                tvTimeHours.setTextColor(inactiveColor);
+//                tvTimeMinutes.setTextColor(activeColor);
+//                tvTimeSeconds.setTextColor(inactiveColor);
+//                break;
+//            case SECONDS:
+//                tvTimeHours.setTextColor(inactiveColor);
+//                tvTimeMinutes.setTextColor(inactiveColor);
+//                tvTimeSeconds.setTextColor(activeColor);
+//                break;
+//        }
+//    }
 }

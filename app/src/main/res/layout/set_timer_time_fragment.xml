@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/settimer"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center_horizontal">
 
     <com.triggertrap.seekarc.SeekArc
         android:id="@+id/seekArc"
-        android:layout_width="135dp"
-        android:layout_height="135dp"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
         android:padding="15dp"
         app:rotation="0"
         app:startAngle="0"
@@ -24,7 +24,7 @@
         app:thumb="@drawable/ic_thumb"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/timeSwapContainer"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <android.support.v7.widget.AppCompatTextView
@@ -57,10 +57,14 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:orientation="horizontal"
         android:layout_width="0dp"
+        android:id="@+id/timeSwapContainer"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         app:layout_constraintStart_toStartOf="@id/seekArc"
         app:layout_constraintEnd_toEndOf="@id/seekArc"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         app:layout_constraintTop_toBottomOf="@id/seekArc"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_gravity="center">
 
         <android.support.v7.widget.AppCompatTextView
@@ -107,6 +111,7 @@
             android:focusable="true"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"/>
+
     </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.constraint.ConstraintLayout>
