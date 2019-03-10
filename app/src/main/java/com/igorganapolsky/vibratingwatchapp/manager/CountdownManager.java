@@ -14,6 +14,8 @@ public interface CountdownManager {
 
     int getActiveId();
 
+    boolean isActive();
+
     long getActiveTimeLeft();
 
     int getActiveProgress();

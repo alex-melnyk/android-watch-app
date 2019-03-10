@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,6 +25,9 @@ import static com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEnti
 
 public class TimerDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private final int SETTING_REQUEST_CODE = 100;
+    private final int SETTING_SUCCESS_CODE = 101;
+
     private TimerDetailsViewModel mViewModel;
 
     private ProgressBar pbTime;
@@ -42,6 +46,20 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra(TimerEntity.TIMER_ID, timerId);
         return intent;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case SETTING_REQUEST_CODE:
+                if (resultCode == SETTING_SUCCESS_CODE) {
+                   mViewModel.checkUpdates();
+                }
+                break;
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +129,7 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
             case R.id.ivTimerSettings:
                 Bundle bundle = getIntent().getExtras();
                 int currentId = bundle != null ? bundle.getInt(TIMER_ID) : 0;
-                startActivity(SetTimerActivity.createIntent(this, currentId));
+                startActivityForResult(SetTimerActivity.createIntent(this, currentId), SETTING_REQUEST_CODE);
                 break;
 
             case R.id.ivTimerRemove:
@@ -149,12 +167,8 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void updateTimerData(CountData data) {
         if (data == null) return;
-        renderTime(data.getCurrentTime(), data.getCurrentProgress(), data.isAnimationNeeded());
-    }
-
-    private void renderTime(String newValue, int progress, boolean animateProgress) {
-        pbTime.setProgress(100 - progress, animateProgress);
-        tvTime.setText(newValue);
+            pbTime.setProgress(100 - data.getCurrentProgress(), data.isAnimationNeeded());
+            tvTime.setText(data.getCurrentTime());
     }
 
     private void disableAdditionalButtons(boolean disable) {
@@ -162,11 +176,5 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         ivTimerRemove.setClickable(!disable);
         ivTimerSettings.setAlpha(disable ? .5f : 1f);
         ivTimerRemove.setAlpha(disable ? .5f : 1f);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        pbTime.setProgress(0, false);
     }
 }

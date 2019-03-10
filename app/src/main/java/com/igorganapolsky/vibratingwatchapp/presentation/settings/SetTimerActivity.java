@@ -10,7 +10,6 @@ import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
 import com.igorganapolsky.vibratingwatchapp.custom.SwipeRestrictViewPager;
@@ -23,6 +22,8 @@ import java.util.Locale;
 import static com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity.TIMER_ID;
 
 public class SetTimerActivity extends AppCompatActivity implements View.OnClickListener, StepActionListener {
+
+    private final int SETTING_SUCCESS_CODE = 101;
 
     private SetTimerViewModel mViewModel;
 
@@ -54,7 +55,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     private void setupViewModel() {
         Bundle bundle = getIntent().getExtras();
-        int currentId  = bundle != null ? bundle.getInt(TIMER_ID) : 0;
+        int currentId = bundle != null ? bundle.getInt(TIMER_ID) : 0;
         mViewModel.setCurrentModelId(currentId);
     }
 
@@ -111,6 +112,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
                 vpWizard.setCurrentItem(currentPage + 1);
             } else {
                 mViewModel.saveTimer();
+                setResult(SETTING_SUCCESS_CODE);
                 finish();
             }
         }

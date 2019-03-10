@@ -35,6 +35,11 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     @Override
+    public boolean isActive() {
+        return activeModel != null && activeModel.getState() != TimerModel.State.FINISH;
+    }
+
+    @Override
     public long getActiveTimeLeft() {
         return activeModel.getState() == TimerModel.State.FINISH ? lapTime : timeLeft % lapTime;
     }
@@ -63,7 +68,7 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public void onStart() {
-        if (activeModel != null){
+        if (activeModel != null) {
             activeModel.setState(TimerModel.State.RUN);
         }
         activeModelData.postValue(activeModel);
@@ -73,7 +78,7 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public void onPause() {
-        if (activeModel != null){
+        if (activeModel != null) {
             activeModel.setState(TimerModel.State.PAUSE);
         }
         if (currentCountdownTimer != null) {
@@ -89,7 +94,7 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public void onRestart() {
-        if (activeModel != null){
+        if (activeModel != null) {
             activeModel.setState(TimerModel.State.RUN);
         }
         clearCountDown();
