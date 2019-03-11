@@ -1,6 +1,7 @@
 package com.igorganapolsky.vibratingwatchapp.presentation.main.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
+import com.igorganapolsky.vibratingwatchapp.util.TimerDiffCallback;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,6 +23,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     private OnItemClickListener itemClickListener;
 
     public TimerListAdapter() {
+        data = new ArrayList<>();
         setHasStableIds(true);
     }
 
@@ -41,12 +45,14 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
 
     @Override
     public int getItemCount() {
-        return data == null ? 0 : data.size();
+        return data.size();
     }
 
     public void setData(List<TimerModel> data) {
+        TimerDiffCallback callback = new TimerDiffCallback(this.data, data);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         this.data = data;
-        notifyDataSetChanged();
+        result.dispatchUpdatesTo(this);
     }
 
     public void setItemClickListener(OnItemClickListener itemClickListener) {

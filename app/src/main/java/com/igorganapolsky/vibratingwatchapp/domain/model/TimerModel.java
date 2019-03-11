@@ -5,10 +5,6 @@ import java.util.Objects;
 
 public class TimerModel {
 
-    public static TimerModel fetchWith(TimerModel activeModel) {
-        return null;
-    }
-
     public enum State {RUN, PAUSE, FINISH}
 
     private int id;
