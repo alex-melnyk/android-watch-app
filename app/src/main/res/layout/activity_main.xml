@@ -7,15 +7,14 @@
     android:id="@+id/boxInsetLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/box_inset_layout_padding">
+    android:paddingStart="@dimen/box_inset_layout_padding"
+    android:paddingEnd="@dimen/box_inset_layout_padding">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
         app:layout_box="left|right">
 
         <android.support.constraint.Guideline

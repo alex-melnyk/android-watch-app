@@ -79,7 +79,6 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     static class TimerItemViewHolder extends RecyclerView.ViewHolder {
         private TimerModel model;
 
-        private ProgressBar pbProgress;
         private ImageView ivStatus;
         private TextView tvTime;
         private TextView tvVibration;
@@ -87,12 +86,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
 
         TimerItemViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            pbProgress = itemView.findViewById(R.id.pbProgress);
-            pbProgress.setVisibility(View.GONE);
-
             ivStatus = itemView.findViewById(R.id.ivStatus);
-
             tvTime = itemView.findViewById(R.id.tvTime);
             tvVibration = itemView.findViewById(R.id.tvVibration);
             tvRepeat = itemView.findViewById(R.id.tvRepeat);
