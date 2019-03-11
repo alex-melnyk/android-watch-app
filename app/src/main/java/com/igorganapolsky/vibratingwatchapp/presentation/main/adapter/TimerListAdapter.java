@@ -62,16 +62,6 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         this.itemClickListener = itemClickListener;
     }
 
-    public void updateActive(TimerModel active) {
-        if (data == null) return;
-        int i = data.indexOf(active);
-        if (i != -1) {
-            TimerModel model = data.get(i);
-            model.setState(active.getState());
-            notifyItemChanged(i);
-        }
-    }
-
     public interface OnItemClickListener {
         void onItemClick(int id);
     }

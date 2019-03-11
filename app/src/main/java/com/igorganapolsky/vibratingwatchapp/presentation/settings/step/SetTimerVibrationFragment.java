@@ -55,7 +55,7 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
     private void setupObservers() {
         mViewModel.getTimerData().observe(this, (timerValue) -> {
             if (timerValue == null) return;
-            wrvVibrations.smoothScrollToPosition(mViewModel.getBuzzPosition());
+            wrvVibrations.scrollToPosition(mViewModel.getBuzzPosition());
         });
     }
 
