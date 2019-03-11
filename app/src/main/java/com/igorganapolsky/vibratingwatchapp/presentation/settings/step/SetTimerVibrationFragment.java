@@ -25,6 +25,7 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
     private SetTimerViewModel mViewModel;
     private WearableRecyclerView wrvVibrations;
     private VibrationsAdapter vibrationsAdapter;
+    private RecyclerViewSnapLayoutManager layoutManager;
 
     @Nullable
     @Override
@@ -44,7 +45,8 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
 
     private void setupView(View view) {
         wrvVibrations = view.findViewById(R.id.wrvVibrations);
-        RecyclerViewSnapLayoutManager layoutManager = new RecyclerViewSnapLayoutManager(getActivity());
+
+        layoutManager = new RecyclerViewSnapLayoutManager(getActivity());
         layoutManager.setItemSelectListener((int pos) -> mViewModel.setBuzz(pos));
 
         vibrationsAdapter = new VibrationsAdapter(this);
@@ -55,7 +57,7 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
     private void setupObservers() {
         mViewModel.getTimerData().observe(this, (timerValue) -> {
             if (timerValue == null) return;
-            wrvVibrations.scrollToPosition(mViewModel.getBuzzPosition());
+            wrvVibrations.smoothScrollToPosition(mViewModel.getBuzzPosition());
         });
     }
 
