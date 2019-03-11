@@ -78,20 +78,31 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupObservers() {
-        mViewModel.getSetupData().observe(this, this::updateTimerData);
+        mViewModel.getSetupData().observe(this, this::updateTime);
         mViewModel.getSwipeState().observe(this, this::updateSwipeStateIfNeeded);
+        mViewModel.getTimerData().observe(this, (timerModel -> {
+            if (timerModel == null) return;
+            updateTimerData(TimerSetup.HOURS, timerModel.getHoursTotal());
+            updateTimerData(TimerSetup.MINUTES, timerModel.getMinutesTotal());
+            updateTimerData(TimerSetup.SECONDS, timerModel.getSecondsTotal());
+        }));
     }
 
-    private void updateTimerData(TimerSetup timerSetup) {
+    private void updateTime(TimerSetup setup) {
+        updateTimerData(setup, mViewModel.getCurrentTimeValue());
+    }
+
+
+    private void updateTimerData(TimerSetup timerSetup, int newValue) {
         switch (timerSetup) {
             case HOURS:
-                tvTimeHours.setText(String.format(Locale.ENGLISH, "%02d", mViewModel.getCurrentTimeValue()));
+                tvTimeHours.setText(String.format(Locale.ENGLISH, "%02d", newValue));
                 break;
             case MINUTES:
-                tvTimeMinutes.setText(String.format(Locale.ENGLISH, "%02d", mViewModel.getCurrentTimeValue()));
+                tvTimeMinutes.setText(String.format(Locale.ENGLISH, "%02d", newValue));
                 break;
             case SECONDS:
-                tvTimeSeconds.setText(String.format(Locale.ENGLISH, "%02d", mViewModel.getCurrentTimeValue()));
+                tvTimeSeconds.setText(String.format(Locale.ENGLISH, "%02d", newValue));
                 break;
         }
     }
