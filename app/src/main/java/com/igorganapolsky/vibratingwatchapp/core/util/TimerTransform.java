@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.util;
+package com.igorganapolsky.vibratingwatchapp.core.util;
 
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 

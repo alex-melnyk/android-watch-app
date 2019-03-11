@@ -11,11 +11,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.custom.StepActionListener;
-import com.igorganapolsky.vibratingwatchapp.custom.SwipeRestrictViewPager;
+import com.igorganapolsky.vibratingwatchapp.core.custom.StepActionListener;
+import com.igorganapolsky.vibratingwatchapp.core.custom.SwipeRestrictViewPager;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
-import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
+import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 
 import java.util.Locale;
 

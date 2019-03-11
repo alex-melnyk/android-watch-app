@@ -6,7 +6,7 @@ import android.os.CountDownTimer;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.manager.TickListener;
 import com.igorganapolsky.vibratingwatchapp.manager.vibration.BeepManager;
-import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
+import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 
 public class WatchCountdownManager implements CountdownManager {
 

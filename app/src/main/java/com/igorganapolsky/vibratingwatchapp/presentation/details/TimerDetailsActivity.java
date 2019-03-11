@@ -19,7 +19,7 @@ import com.igorganapolsky.vibratingwatchapp.domain.model.CountData;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.dialog.TimerDeleteDialogFragment;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerActivity;
-import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
+import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 
 import static com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity.TIMER_ID;
 

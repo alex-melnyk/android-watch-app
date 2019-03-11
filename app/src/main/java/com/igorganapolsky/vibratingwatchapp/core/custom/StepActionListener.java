@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.custom;
+package com.igorganapolsky.vibratingwatchapp.core.custom;
 
 public interface StepActionListener {
 

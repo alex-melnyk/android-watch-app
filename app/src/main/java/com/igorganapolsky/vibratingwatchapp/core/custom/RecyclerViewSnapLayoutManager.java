@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.custom;
+package com.igorganapolsky.vibratingwatchapp.core.custom;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

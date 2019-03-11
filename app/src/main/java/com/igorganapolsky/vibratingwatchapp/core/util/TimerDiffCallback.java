@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.util;
+package com.igorganapolsky.vibratingwatchapp.core.util;
 
 import android.support.v7.util.DiffUtil;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;

@@ -11,11 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.custom.RecyclerViewSnapLayoutManager;
+import com.igorganapolsky.vibratingwatchapp.core.custom.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.HolderClickListener;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.RepeatsAdapter;
-import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
+import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 
 public class SetTimerRepeatFragment extends Fragment implements HolderClickListener {
 

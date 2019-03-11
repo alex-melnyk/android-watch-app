@@ -21,8 +21,8 @@ import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.dialog.TimerDeleteDialogFragment;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerActivity;
-import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
-import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
+import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
+import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 
 import java.util.Objects;
 

@@ -11,7 +11,7 @@ import com.igorganapolsky.vibratingwatchapp.manager.timer.CountdownManager;
 import com.igorganapolsky.vibratingwatchapp.manager.timer.WatchCountdownManager;
 import com.igorganapolsky.vibratingwatchapp.manager.vibration.BeepManager;
 import com.igorganapolsky.vibratingwatchapp.manager.vibration.WatchBeepManager;
-import com.igorganapolsky.vibratingwatchapp.util.ViewModelFactory;
+import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 
 public class VibratingWatchApp extends Application {
 

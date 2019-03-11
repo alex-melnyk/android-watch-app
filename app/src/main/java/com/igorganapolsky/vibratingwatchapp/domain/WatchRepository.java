@@ -5,7 +5,7 @@ import android.arch.lifecycle.Transformations;
 import com.igorganapolsky.vibratingwatchapp.domain.local.TimersDatabase;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
-import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
+import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 
 import java.util.ArrayList;
 import java.util.List;

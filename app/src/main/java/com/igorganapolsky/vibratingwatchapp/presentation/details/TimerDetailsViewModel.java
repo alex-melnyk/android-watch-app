@@ -8,7 +8,7 @@ import com.igorganapolsky.vibratingwatchapp.domain.model.CountData;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.manager.timer.CountdownManager;
 import com.igorganapolsky.vibratingwatchapp.manager.TickListener;
-import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
+import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 
 public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
