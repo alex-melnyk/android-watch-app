@@ -5,7 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
-import com.igorganapolsky.vibratingwatchapp.manager.CountdownManager;
+import com.igorganapolsky.vibratingwatchapp.manager.timer.CountdownManager;
 
 import java.util.List;
 

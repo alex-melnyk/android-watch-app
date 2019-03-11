@@ -1,8 +1,9 @@
-package com.igorganapolsky.vibratingwatchapp.manager;
+package com.igorganapolsky.vibratingwatchapp.manager.timer;
 
 import android.arch.lifecycle.LiveData;
 
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
+import com.igorganapolsky.vibratingwatchapp.manager.TickListener;
 
 public interface CountdownManager {
 

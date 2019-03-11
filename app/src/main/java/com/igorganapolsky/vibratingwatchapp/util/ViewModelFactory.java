@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
-import com.igorganapolsky.vibratingwatchapp.manager.CountdownManager;
+import com.igorganapolsky.vibratingwatchapp.manager.timer.CountdownManager;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.TimerDetailsViewModel;
 import com.igorganapolsky.vibratingwatchapp.presentation.main.TimerListViewModel;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
@@ -21,7 +21,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         this.countdownManager = countdownManager;
     }
 
-    public static void initFactory(Repository repository, CountdownManager countdownManager) {
+    public static void initFactory(Repository repository,
+                                   CountdownManager countdownManager) {
         if (factory == null) {
             factory = new ViewModelFactory(repository, countdownManager);
         }
@@ -33,10 +34,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
 
     @NonNull
     @Override
-
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         ViewModel viewModel;
-
         if (modelClass.isAssignableFrom(SetTimerViewModel.class)) {
             viewModel = new SetTimerViewModel(repository);
         } else if (modelClass.isAssignableFrom(TimerListViewModel.class)) {

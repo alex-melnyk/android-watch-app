@@ -1,10 +1,11 @@
-package com.igorganapolsky.vibratingwatchapp.manager;
+package com.igorganapolsky.vibratingwatchapp.manager.timer;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.CountDownTimer;
-import android.util.Log;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
+import com.igorganapolsky.vibratingwatchapp.manager.TickListener;
+import com.igorganapolsky.vibratingwatchapp.manager.vibration.BeepManager;
 import com.igorganapolsky.vibratingwatchapp.util.TimerTransform;
 
 public class WatchCountdownManager implements CountdownManager {
@@ -13,11 +14,16 @@ public class WatchCountdownManager implements CountdownManager {
 
     private TickListener tickListener;
     private CountDownTimer currentCountdownTimer;
-    private TimerModel activeModel;
+    private BeepManager beepManager;
 
+    private TimerModel activeModel;
     private long totalTime;
     private long lapTime;
     private long timeLeft;
+
+    public WatchCountdownManager(BeepManager beepManager) {
+        this.beepManager = beepManager;
+    }
 
     @Override
     public LiveData<TimerModel> observeActiveModel() {
