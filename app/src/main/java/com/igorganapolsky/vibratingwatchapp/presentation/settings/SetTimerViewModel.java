@@ -3,7 +3,6 @@ package com.igorganapolsky.vibratingwatchapp.presentation.settings;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
@@ -28,7 +27,6 @@ public class SetTimerViewModel extends ViewModel {
 
         this.currentTimer = new TimerModel();
         this.setup = TimerSetup.HOURS;
-        setupData.setValue(setup);
     }
 
     void setCurrentModelId(int currentId) {
@@ -37,6 +35,8 @@ public class SetTimerViewModel extends ViewModel {
             currentTimer = repository.getTimerById(currentId);
         }
         timerData.setValue(currentTimer);
+        swipeState.setValue(!currentTimer.isDefaultTime());
+        setupData.setValue(setup);
     }
 
     public LiveData<TimerModel> getTimerData() {
@@ -76,6 +76,25 @@ public class SetTimerViewModel extends ViewModel {
                 break;
         }
         currentTimer.setBuzz(buzzCount);
+    }
+
+    public int getBuzzPosition() {
+        int position;
+        switch (currentTimer.getBuzz()) {
+            case 1:
+                position = 0;
+                break;
+            case 3:
+                position = 1;
+                break;
+            case 5:
+                position = 2;
+                break;
+            default:
+                position = 3;
+                break;
+        }
+        return position;
     }
 
     public void setSelection(TimerSetup newSelection) {

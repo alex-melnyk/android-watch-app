@@ -33,4 +33,8 @@ public class SwipeRestrictViewPager extends ViewPager {
         this.isSwipeAvailable = isSwipeAvailable;
     }
 
+    public boolean isSwipeAvailable() {
+        return isSwipeAvailable;
+    }
+
 }

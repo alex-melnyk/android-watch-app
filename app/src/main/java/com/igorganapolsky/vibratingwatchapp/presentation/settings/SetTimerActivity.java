@@ -106,7 +106,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if (!isProgressChanging && isSwipeGranted) {
+        if (!isProgressChanging && vpWizard.isSwipeAvailable()) {
             int currentPage = vpWizard.getCurrentItem();
             if (currentPage < 2) {
                 vpWizard.setCurrentItem(currentPage + 1);
