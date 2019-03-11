@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +21,6 @@ public class TimerListActivity extends AppCompatActivity implements View.OnClick
     private TimerListViewModel mViewModel;
 
     private TimerListAdapter timerListAdapter;
-
     private ImageView ivTimerListImage;
     private TextView addTimerButtonImageLabel;
     private WearableRecyclerView wrvTimerList;
@@ -42,7 +42,7 @@ public class TimerListActivity extends AppCompatActivity implements View.OnClick
         addTimerButtonImageLabel = findViewById(R.id.addTimerButtonImageLabel);
         wrvTimerList = findViewById(R.id.wrvTimerList);
 
-        wrvTimerList.setLayoutManager(new RecyclerViewSnapLayoutManager(this));
+        wrvTimerList.setLayoutManager(new LinearLayoutManager(this));
         timerListAdapter = new TimerListAdapter();
         timerListAdapter.setItemClickListener(this);
         wrvTimerList.setAdapter(timerListAdapter);

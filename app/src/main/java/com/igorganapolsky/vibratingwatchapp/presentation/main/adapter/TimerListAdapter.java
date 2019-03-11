@@ -2,12 +2,10 @@ package com.igorganapolsky.vibratingwatchapp.presentation.main.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
@@ -38,14 +36,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
 
     @Override
     public void onBindViewHolder(@NonNull TimerItemViewHolder timerItemViewHolder, int index) {
-        TimerModel timerModel = data.get(index);
-        timerItemViewHolder.bind(timerModel);
-
-        timerItemViewHolder.itemView.setOnClickListener((view) -> {
-            if (itemClickListener != null) {
-                itemClickListener.onItemClick(timerModel.getId());
-            }
-        });
+        timerItemViewHolder.bind(data.get(index), itemClickListener);
     }
 
     @Override
@@ -67,7 +58,6 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     }
 
     static class TimerItemViewHolder extends RecyclerView.ViewHolder {
-        private TimerModel model;
 
         private ImageView ivStatus;
         private TextView tvTime;
@@ -82,20 +72,18 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
             tvRepeat = itemView.findViewById(R.id.tvRepeat);
         }
 
-        public TimerModel getModel() {
-            return model;
-        }
-
-        void bind(TimerModel value) {
-            this.model = value;
+        void bind(TimerModel model, OnItemClickListener itemClickListener) {
             int vibration = model.getBuzz();
-            boolean isNotActive = value.getState() == TimerModel.State.FINISH;
+
+            boolean isNotActive = model.getState() == TimerModel.State.FINISH;
 
             ivStatus.setSelected(!isNotActive);
             tvTime.setText(TimerTransform.millisToString(model));
 
             tvVibration.setText(String.format(Locale.ENGLISH, "%d", vibration));
             tvRepeat.setText(String.format(Locale.ENGLISH, "%d", model.getRepeat()));
+
+            itemView.setOnClickListener(view -> itemClickListener.onItemClick(model.getId()));
         }
     }
 }
