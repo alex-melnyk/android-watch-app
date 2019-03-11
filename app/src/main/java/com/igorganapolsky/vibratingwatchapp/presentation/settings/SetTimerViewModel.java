@@ -91,7 +91,7 @@ public class SetTimerViewModel extends ViewModel {
                 position = 2;
                 break;
             default:
-                position = 3;
+                position = 0;
                 break;
         }
         return position;
