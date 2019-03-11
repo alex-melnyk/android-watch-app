@@ -9,13 +9,12 @@ import android.support.wear.widget.WearableRecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.core.custom.RecyclerViewSnapLayoutManager;
+import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.HolderClickListener;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.VibrationsAdapter;
-import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 
 import java.util.Objects;
 
@@ -52,11 +51,9 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
         wrvVibrations.setAdapter(vibrationsAdapter);
         wrvVibrations.setLayoutManager(layoutManager);
     }
-
     private void setupObservers() {
-        mViewModel.getTimerData().observe(this, (timerValue) -> {
-            if (timerValue == null) return;
-            wrvVibrations.smoothScrollToPosition(mViewModel.getBuzzPosition());
+        mViewModel.getBuzzData().observe(this, (buzzList) -> {
+            vibrationsAdapter.setItems(buzzList);
         });
     }
 

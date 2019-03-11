@@ -4,8 +4,13 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
+import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class SetTimerViewModel extends ViewModel {
 
@@ -13,20 +18,21 @@ public class SetTimerViewModel extends ViewModel {
 
     private Repository repository;
 
+    private Type currentType = Type.NEW;
+    private TimerModel currentTimer;
+    private TimerSetup setup;
+
     private MutableLiveData<TimerModel> timerData = new MutableLiveData<>();
     private MutableLiveData<TimerSetup> setupData = new MutableLiveData<>();
     private MutableLiveData<Boolean> swipeState = new MutableLiveData<>();
-
-    private Type currentType = Type.NEW;
-
-    private TimerModel currentTimer;
-    private TimerSetup setup;
+    private MutableLiveData<List<BuzzSetup>> buzzData = new MutableLiveData<>();
 
     public SetTimerViewModel(Repository repository) {
         this.repository = repository;
 
         this.currentTimer = new TimerModel();
         this.setup = TimerSetup.HOURS;
+        buzzData.setValue(initBuzzList());
     }
 
     void setCurrentModelId(int currentId) {
@@ -42,11 +48,12 @@ public class SetTimerViewModel extends ViewModel {
     public LiveData<TimerModel> getTimerData() {
         return timerData;
     }
-
     public LiveData<TimerSetup> getSetupData() {
         return setupData;
     }
-
+    public LiveData<List<BuzzSetup>> getBuzzData() {
+        return buzzData;
+    }
     LiveData<Boolean> getSwipeState() {
         return swipeState;
     }
@@ -59,42 +66,13 @@ public class SetTimerViewModel extends ViewModel {
         currentTimer.setRepeat(repeatValue + 1);
     }
 
-    public void setBuzz(int newBuzz) {
-        int buzzCount;
-        switch (newBuzz) {
-            case 0:
-                buzzCount = 1;
-                break;
-            case 1:
-                buzzCount = 3;
-                break;
-            case 2:
-                buzzCount = 5;
-                break;
-            default:
-                buzzCount = 10;
-                break;
-        }
-        currentTimer.setBuzz(buzzCount);
+    public void setBuzz(int position) {
+        BuzzSetup newBuzz = Objects.requireNonNull(buzzData.getValue()).get(position);
+        currentTimer.setBuzzCount(newBuzz.getBuzzCount());
     }
 
-    public int getBuzzPosition() {
-        int position;
-        switch (currentTimer.getBuzz()) {
-            case 1:
-                position = 0;
-                break;
-            case 3:
-                position = 1;
-                break;
-            case 5:
-                position = 2;
-                break;
-            default:
-                position = 0;
-                break;
-        }
-        return position;
+    public int getBuzzPosition(BuzzSetup buzzSetup) {
+        return Objects.requireNonNull(buzzData.getValue()).indexOf(buzzSetup);
     }
 
     public void setSelection(TimerSetup newSelection) {
@@ -131,5 +109,14 @@ public class SetTimerViewModel extends ViewModel {
         } else {
             repository.updateTimer(currentTimer);
         }
+    }
+
+    private List<BuzzSetup> initBuzzList() {
+        List<BuzzSetup> setupList = new ArrayList<>(4);
+        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 1, 5));
+        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 3, 3));
+        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 5, 5));
+        setupList.add(new BuzzSetup(BuzzSetup.Type.LONG, 1, 20));
+        return setupList;
     }
 }

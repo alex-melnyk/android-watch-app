@@ -79,7 +79,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
         }
 
         void bind(TimerModel model, OnItemClickListener itemClickListener) {
-            int vibration = model.getBuzz();
+            int vibration = model.getBuzzCount();
 
             boolean isNotActive = model.getState() == TimerModel.State.FINISH;
 

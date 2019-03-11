@@ -77,7 +77,7 @@ public class WatchRepository implements Repository {
         TimerModel model = new TimerModel();
         model.setId(entity.getId());
         model.setRepeat(entity.getRepeat());
-        model.setBuzz(entity.getBuzzMode());
+        model.setBuzzCount(entity.getBuzzMode());
         model.setState(TimerModel.State.valueOf(entity.getState()));
 
         model.setHoursTotal(TimerTransform.getHours(entity.getMillisecondsTotal()));
@@ -94,7 +94,7 @@ public class WatchRepository implements Repository {
 
     private TimerEntity mapToTimerEntity(TimerModel model) {
         TimerEntity entity = new TimerEntity();
-        entity.setBuzzMode(model.getBuzz());
+        entity.setBuzzMode(model.getBuzzCount());
         entity.setRepeat(model.getRepeat());
         entity.setState(TimerModel.State.FINISH.name());
 

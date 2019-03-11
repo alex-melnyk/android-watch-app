@@ -2,8 +2,6 @@ package com.igorganapolsky.vibratingwatchapp.domain.model;
 
 public class CountData {
 
-    public enum State {PREPARE, PAUSE, PLAY, FINISH}
-
     private int currentProgress;
     private String currentTime;
     private boolean isAnimationNeeded;

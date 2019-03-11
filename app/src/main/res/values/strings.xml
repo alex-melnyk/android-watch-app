@@ -17,6 +17,21 @@
     <string name="add_timer_button_label">Add timer</string>
     <string name="title_activity_timers">TimersActivity</string>
 
+    <!-- Buzzes -->
+
+    <plurals name="time_variants">
+        <item quantity="one">%d second</item>
+        <item quantity="few">%d seconds each</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+
+    <plurals name="buzz_variants">
+        <item quantity="one">%d buzzCount</item>
+        <item quantity="few">%d buzzes</item>
+        <item quantity="other">%d long buzzCount</item>
+    </plurals>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -6,24 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.igorganapolsky.vibratingwatchapp.R;
+import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 
-import java.util.Locale;
+import java.util.List;
 
 public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.VibrationsRecyclerViewHolder> {
-    private String[] vibrations = {
-        "1 buzz,5 seconds",
-        "3 buzz,3 seconds each",
-        "5 buzzes,5 seconds each",
-        "1 long buzz,20 seconds"
-    };
 
     private HolderClickListener holderClickListener;
+    private List<BuzzSetup> buzzList;
 
     public VibrationsAdapter(HolderClickListener holderClickListener) {
         this.holderClickListener = holderClickListener;
         setHasStableIds(true);
+    }
+
+    public void setItems(List<BuzzSetup> newList) {
+        buzzList = newList;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -40,35 +40,42 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull VibrationsRecyclerViewHolder vibrationsRecyclerViewHolder, int index) {
-        vibrationsRecyclerViewHolder.bind(index + 1, holderClickListener);
-
-        String[] spittedLine = vibrations[index].split(",");
-
-        vibrationsRecyclerViewHolder.setBuzzAmount(spittedLine[0]);
-        vibrationsRecyclerViewHolder.setTimeAmount(spittedLine[1]);
+        vibrationsRecyclerViewHolder.bind(
+            buzzList.get(index),
+            index + 1,
+            holderClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return vibrations.length;
+        return buzzList == null ? 0 : buzzList.size();
     }
 
     static class VibrationsRecyclerViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvIndex;
-        private TextView buzzAmount;
-        private TextView timeAmount;
+        private TextView buzzTitle;
 
         VibrationsRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvIndex = itemView.findViewById(R.id.index);
-            buzzAmount = itemView.findViewById(R.id.buzzAmount);
-            timeAmount = itemView.findViewById(R.id.timeAmount);
+            buzzTitle = itemView.findViewById(R.id.buzzTitle);
         }
 
-        void bind(int index, HolderClickListener holderClickListener) {
-            tvIndex.setText(String.format(Locale.ENGLISH, "%d", index));
+        void bind(BuzzSetup buzz, int index, HolderClickListener holderClickListener) {
+            String buzzCount = itemView.getContext()
+                .getResources()
+                .getQuantityString(R.plurals.buzz_variants, buzz.getBuzzCount());
+
+            String timeCount = itemView.getContext()
+                .getResources()
+                .getQuantityString(R.plurals.time_variants, buzz.getBuzzTime());
+
+            String totalString = String.format("%s - %s", buzzCount, timeCount);
+
+            tvIndex.setText(String.valueOf(index));
+            buzzTitle.setText(totalString);
 
             if (holderClickListener != null) {
                 itemView.setOnClickListener(view -> {
@@ -78,14 +85,6 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
                     }
                 });
             }
-        }
-
-        void setBuzzAmount(String label) {
-            buzzAmount.setText(label);
-        }
-
-        void setTimeAmount(String label) {
-            timeAmount.setText(label);
         }
     }
 }

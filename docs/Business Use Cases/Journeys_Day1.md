@@ -16,7 +16,7 @@ https://marvelapp.com/7iab626/screen/51207912
 
 When I set the timer details,
 Then I should have an option to set these vibration patterns: 
-	1 buzz (5 secondsTotal), 3 buzzes (3 secondsTotal each), 5 buzzes (2 secondsTotal each), 1 long buzz (20 secondsTotal)
+	1 buzzCount (5 secondsTotal), 3 buzzes (3 secondsTotal each), 5 buzzes (2 secondsTotal each), 1 long buzzCount (20 secondsTotal)
 https://marvelapp.com/7iab626/screen/51207913
 NOTE - user sets timer details with standard Android time picker
 *Day 1 release

@@ -8,7 +8,7 @@ public class TimerModel {
     public enum State {RUN, PAUSE, FINISH}
 
     private int id;
-    private int buzz;
+    private int buzzCount;
     private int repeat;
 
     private int hoursTotal;
@@ -55,12 +55,12 @@ public class TimerModel {
         this.secondsTotal = secondsTotal;
     }
 
-    public int getBuzz() {
-        return buzz;
+    public int getBuzzCount() {
+        return buzzCount;
     }
 
-    public void setBuzz(int buzz) {
-        this.buzz = buzz;
+    public void setBuzzCount(int buzzCount) {
+        this.buzzCount = buzzCount;
     }
 
     public int getRepeat() {

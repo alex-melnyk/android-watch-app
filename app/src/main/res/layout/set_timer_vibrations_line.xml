@@ -2,8 +2,8 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,49 +28,18 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/buzzAmount"
+            android:id="@+id/buzzTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingStart="4dp"
-            android:paddingEnd="2dp"
-            android:text="1 buzz"
+            tools:text="1 long buzz - 20 seconds"
             android:textSize="14sp"
+            android:layout_marginStart="8dp"
             android:theme="@style/BuzzLine.Label"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/index"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/buzzLine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            android:text=" - "
-            android:textSize="14sp"
-            android:theme="@style/BuzzLine.Label"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/buzzAmount"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/timeAmount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fontFamily="@font/roboto_condensed_regular"
-            android:maxLines="1"
-            android:paddingStart="2dp"
-            android:paddingEnd="0dp"
-            android:text="3 secondsTotal each"
-            android:textSize="12sp"
-            android:theme="@style/BuzzLine.Label"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/buzzLine"
-            app:layout_constraintTop_toTopOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
 
