@@ -2,10 +2,11 @@ package com.igorganapolsky.vibratingwatchapp.domain;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
+import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 import com.igorganapolsky.vibratingwatchapp.domain.local.TimersDatabase;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
+import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
-import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class WatchRepository implements Repository {
 
     @Override
     public void updateTimerTimeLeft(int timerId, long timeLeft) {
-
+        // TODO (implement logic)
     }
 
     @Override
@@ -77,15 +78,15 @@ public class WatchRepository implements Repository {
         TimerModel model = new TimerModel();
         model.setId(entity.getId());
         model.setRepeat(entity.getRepeat());
-        model.setBuzzCount(entity.getBuzzMode());
+        model.setBuzzCount(entity.getBuzzCount());
+        model.setType(BuzzSetup.Type.valueOf(entity.getBuzzType()));
         model.setState(TimerModel.State.valueOf(entity.getState()));
+        model.setBuzzTime(entity.getBuzzTime());
 
         model.setHoursTotal(TimerTransform.getHours(entity.getMillisecondsTotal()));
         model.setHoursLeft(TimerTransform.getHours(entity.getMillisecondsLeft()));
-
         model.setMinutesTotal(TimerTransform.getMinutes(entity.getMillisecondsTotal()));
         model.setMinutesLeft(TimerTransform.getMinutes(entity.getMillisecondsLeft()));
-
         model.setSecondsTotal(TimerTransform.getSeconds(entity.getMillisecondsTotal()));
         model.setSecondsLeft(TimerTransform.getSeconds(entity.getMillisecondsLeft()));
 
@@ -94,9 +95,11 @@ public class WatchRepository implements Repository {
 
     private TimerEntity mapToTimerEntity(TimerModel model) {
         TimerEntity entity = new TimerEntity();
-        entity.setBuzzMode(model.getBuzzCount());
         entity.setRepeat(model.getRepeat());
         entity.setState(TimerModel.State.FINISH.name());
+        entity.setBuzzCount(model.getBuzzCount());
+        entity.setBuzzType(model.getType().name());
+        entity.setBuzzTime(model.getBuzzTime());
 
         entity.setMillisecondsTotal(TimerTransform.timeToMillis(model.getHoursTotal(), model.getMinutesTotal(), model.getSecondsTotal()));
         entity.setMillisecondsLeft(TimerTransform.timeToMillis(model.getHoursLeft(), model.getMinutesLeft(), model.getSecondsLeft()));

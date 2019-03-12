@@ -48,12 +48,15 @@ public class SetTimerViewModel extends ViewModel {
     public LiveData<TimerModel> getTimerData() {
         return timerData;
     }
+
     public LiveData<TimerSetup> getSetupData() {
         return setupData;
     }
+
     public LiveData<List<BuzzSetup>> getBuzzData() {
         return buzzData;
     }
+
     LiveData<Boolean> getSwipeState() {
         return swipeState;
     }
@@ -68,11 +71,9 @@ public class SetTimerViewModel extends ViewModel {
 
     public void setBuzz(int position) {
         BuzzSetup newBuzz = Objects.requireNonNull(buzzData.getValue()).get(position);
+        currentTimer.setBuzzTime(newBuzz.getBuzzTime());
         currentTimer.setBuzzCount(newBuzz.getBuzzCount());
-    }
-
-    public int getBuzzPosition(BuzzSetup buzzSetup) {
-        return Objects.requireNonNull(buzzData.getValue()).indexOf(buzzSetup);
+        currentTimer.setType(newBuzz.getBuzzType());
     }
 
     public void setSelection(TimerSetup newSelection) {
@@ -101,6 +102,28 @@ public class SetTimerViewModel extends ViewModel {
 
     public int getCurrentTimeValue() {
         return currentTimer.getValue(setup);
+    }
+
+    public int getBuzzPosition() {
+        int position;
+        switch (currentTimer.getBuzzCount()) {
+            case 1:
+                if (currentTimer.getType() == BuzzSetup.Type.LONG) {
+                    position = 3;
+                } else {
+                    position = 0;
+                }
+                break;
+            case 3:
+                position = 1;
+                break;
+            case 5:
+                position = 2;
+                break;
+            default:
+                position = 0;
+        }
+        return position;
     }
 
     void saveTimer() {

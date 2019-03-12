@@ -20,8 +20,14 @@ public class TimerEntity implements Serializable {
     @ColumnInfo(name = "time_left")
     private long millisecondsLeft;
 
-    @ColumnInfo(name = "buzz_mode")
-    private int buzzMode;
+    @ColumnInfo(name = "buzz_type")
+    private String buzzType;
+
+    @ColumnInfo(name = "buzz_count")
+    private int buzzCount;
+
+    @ColumnInfo(name = "buzz_time")
+    private int buzzTime;
 
     @ColumnInfo(name = "repeat")
     private int repeat;
@@ -56,12 +62,12 @@ public class TimerEntity implements Serializable {
         this.millisecondsLeft = millisecondsLeft;
     }
 
-    public int getBuzzMode() {
-        return buzzMode;
+    public String getBuzzType() {
+        return buzzType;
     }
 
-    public void setBuzzMode(int buzzMode) {
-        this.buzzMode = buzzMode;
+    public void setBuzzType(String buzzType) {
+        this.buzzType = buzzType;
     }
 
     public int getRepeat() {
@@ -86,5 +92,21 @@ public class TimerEntity implements Serializable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public int getBuzzCount() {
+        return buzzCount;
+    }
+
+    public void setBuzzCount(int buzzCount) {
+        this.buzzCount = buzzCount;
+    }
+
+    public int getBuzzTime() {
+        return buzzTime;
+    }
+
+    public void setBuzzTime(int buzzTime) {
+        this.buzzTime = buzzTime;
     }
 }

@@ -69,11 +69,9 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
             String countValue = itemView.getContext()
                 .getResources()
                 .getQuantityString(R.plurals.buzz_variants, buzz.getBuzzCount() <= 5 ? buzz.getBuzzCount() : 0);
-
             String timeValue = itemView.getContext()
                 .getResources()
                 .getQuantityString(R.plurals.time_variants, buzz.getBuzzTime());
-
             String totalString = String.format(Locale.getDefault(), "%d %s - %d %s", buzz.getBuzzCount(), countValue, buzz.getBuzzTime(), timeValue);
 
             tvIndex.setText(String.valueOf(index));

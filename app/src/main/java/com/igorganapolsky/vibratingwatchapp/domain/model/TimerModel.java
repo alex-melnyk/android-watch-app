@@ -8,13 +8,21 @@ public class TimerModel {
     public enum State {RUN, PAUSE, FINISH}
 
     private int id;
+
+    /* Buzz */
     private int buzzCount;
+    private int buzzTime;
+    private BuzzSetup.Type type;
+
+    /* Repeat */
     private int repeat;
 
+    /* Setup time */
     private int hoursTotal;
     private int minutesTotal;
     private int secondsTotal;
 
+    /* Time left (not use now) */
     private int hoursLeft;
     private int minutesLeft;
     private int secondsLeft;
@@ -115,6 +123,14 @@ public class TimerModel {
         return -1;
     }
 
+    public BuzzSetup.Type getType() {
+        return type;
+    }
+
+    public void setType(BuzzSetup.Type type) {
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }
@@ -125,6 +141,14 @@ public class TimerModel {
 
     public boolean isDefaultTime() {
         return hoursTotal == 0 && minutesTotal == 0 && secondsTotal == 0;
+    }
+
+    public int getBuzzTime() {
+        return buzzTime;
+    }
+
+    public void setBuzzTime(int buzzTime) {
+        this.buzzTime = buzzTime;
     }
 
     @Override
