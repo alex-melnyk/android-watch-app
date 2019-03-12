@@ -10,6 +10,7 @@ import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 
 import java.util.List;
+import java.util.Locale;
 
 public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.VibrationsRecyclerViewHolder> {
 
@@ -64,15 +65,16 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
         }
 
         void bind(BuzzSetup buzz, int index, HolderClickListener holderClickListener) {
-            String buzzCount = itemView.getContext()
-                .getResources()
-                .getQuantityString(R.plurals.buzz_variants, buzz.getBuzzCount());
 
-            String timeCount = itemView.getContext()
+            String countValue = itemView.getContext()
+                .getResources()
+                .getQuantityString(R.plurals.buzz_variants, buzz.getBuzzCount() <= 5 ? buzz.getBuzzCount() : 0);
+
+            String timeValue = itemView.getContext()
                 .getResources()
                 .getQuantityString(R.plurals.time_variants, buzz.getBuzzTime());
 
-            String totalString = String.format("%s - %s", buzzCount, timeCount);
+            String totalString = String.format(Locale.getDefault(), "%d %s - %d %s", buzz.getBuzzCount(), countValue, buzz.getBuzzTime(), timeValue);
 
             tvIndex.setText(String.valueOf(index));
             buzzTitle.setText(totalString);

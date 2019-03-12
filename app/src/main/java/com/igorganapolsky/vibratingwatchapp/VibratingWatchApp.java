@@ -37,6 +37,6 @@ public class VibratingWatchApp extends Application {
         CountdownManager countdownManager = new WatchCountdownManager(beepManager);
 
         // step 5 > create view model factory;
-        ViewModelFactory.initFactory(repository, countdownManager, beepManager);
+        ViewModelFactory.initFactory(repository, countdownManager);
     }
 }
