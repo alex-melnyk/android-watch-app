@@ -3,9 +3,10 @@ package com.igorganapolsky.vibratingwatchapp.manager.timer;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.CountDownTimer;
+import com.igorganapolsky.vibratingwatchapp.core.util.Mappers;
+import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.manager.vibration.BeepManager;
-import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 
 public class WatchCountdownManager implements CountdownManager {
 
@@ -63,12 +64,16 @@ public class WatchCountdownManager implements CountdownManager {
     public void setupTimer(TimerModel timerModel) {
         activeModel = timerModel;
 
+        // prepare countdown's data
         long currentTimeTotal = TimerTransform.timeToMillis(timerModel.getHoursTotal(), timerModel.getMinutesTotal(), timerModel.getSecondsTotal());
         long currentTimeLeft = TimerTransform.timeToMillis(timerModel.getHoursLeft(), timerModel.getMinutesLeft(), timerModel.getSecondsLeft());
 
         lapTime = currentTimeTotal;
         totalTime = currentTimeTotal * activeModel.getRepeat();
         timeLeft = currentTimeLeft * activeModel.getRepeat();
+
+        // fetch beep manager with data
+        beepManager.setup(Mappers.mapToBuzzSetup(timerModel));
     }
 
     @Override
@@ -119,6 +124,7 @@ public class WatchCountdownManager implements CountdownManager {
             @Override
             public void onFinish() {
                 timeLeft = 0;
+                beepManager.start();
                 notifyOnFinish(false);
             }
         };

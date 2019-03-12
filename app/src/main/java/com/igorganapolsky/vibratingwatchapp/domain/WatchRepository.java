@@ -2,10 +2,9 @@ package com.igorganapolsky.vibratingwatchapp.domain;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
-import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
+import com.igorganapolsky.vibratingwatchapp.core.util.Mappers;
 import com.igorganapolsky.vibratingwatchapp.domain.local.TimersDatabase;
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
-import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class WatchRepository implements Repository {
     @Override
     public TimerModel getTimerById(int id) {
         TimerEntity timer = timerDb.timersDao().getById(id);
-        return mapToTimerModel(timer);
+        return Mappers.mapToTimerModel(timer);
     }
 
     @Override
@@ -30,7 +29,7 @@ public class WatchRepository implements Repository {
         return Transformations.map(timerDb.timersDao().getAll(), (list -> {
             List<TimerModel> mappedList = new ArrayList<>(list.size());
             for (TimerEntity timer : list) {
-                mappedList.add(mapToTimerModel(timer));
+                mappedList.add(Mappers.mapToTimerModel(timer));
             }
             return mappedList;
         }));
@@ -42,21 +41,21 @@ public class WatchRepository implements Repository {
             if (entity == null) {
                 return null;
             } else {
-                return mapToTimerModel(entity);
+                return Mappers.mapToTimerModel(entity);
             }
         }));
     }
 
     @Override
     public void updateTimer(TimerModel model) {
-        TimerEntity timerEntity = mapToTimerEntity(model);
+        TimerEntity timerEntity = Mappers.mapToTimerEntity(model);
         timerEntity.setId(model.getId());
         timerDb.timersDao().update(timerEntity);
     }
 
     @Override
     public void saveTimer(TimerModel model) {
-        timerDb.timersDao().insert(mapToTimerEntity(model));
+        timerDb.timersDao().insert(Mappers.mapToTimerEntity(model));
     }
 
     @Override
@@ -72,37 +71,5 @@ public class WatchRepository implements Repository {
     @Override
     public void updateTimerState(int timerId, TimerModel.State newState) {
         timerDb.timersDao().updateTimerState(timerId, newState.name());
-    }
-
-    private TimerModel mapToTimerModel(TimerEntity entity) {
-        TimerModel model = new TimerModel();
-        model.setId(entity.getId());
-        model.setRepeat(entity.getRepeat());
-        model.setBuzzCount(entity.getBuzzCount());
-        model.setType(BuzzSetup.Type.valueOf(entity.getBuzzType()));
-        model.setState(TimerModel.State.valueOf(entity.getState()));
-        model.setBuzzTime(entity.getBuzzTime());
-
-        model.setHoursTotal(TimerTransform.getHours(entity.getMillisecondsTotal()));
-        model.setHoursLeft(TimerTransform.getHours(entity.getMillisecondsLeft()));
-        model.setMinutesTotal(TimerTransform.getMinutes(entity.getMillisecondsTotal()));
-        model.setMinutesLeft(TimerTransform.getMinutes(entity.getMillisecondsLeft()));
-        model.setSecondsTotal(TimerTransform.getSeconds(entity.getMillisecondsTotal()));
-        model.setSecondsLeft(TimerTransform.getSeconds(entity.getMillisecondsLeft()));
-
-        return model;
-    }
-
-    private TimerEntity mapToTimerEntity(TimerModel model) {
-        TimerEntity entity = new TimerEntity();
-        entity.setRepeat(model.getRepeat());
-        entity.setState(TimerModel.State.FINISH.name());
-        entity.setBuzzCount(model.getBuzzCount());
-        entity.setBuzzType(model.getType().name());
-        entity.setBuzzTime(model.getBuzzTime());
-
-        entity.setMillisecondsTotal(TimerTransform.timeToMillis(model.getHoursTotal(), model.getMinutesTotal(), model.getSecondsTotal()));
-        entity.setMillisecondsLeft(TimerTransform.timeToMillis(model.getHoursLeft(), model.getMinutesLeft(), model.getSecondsLeft()));
-        return entity;
     }
 }

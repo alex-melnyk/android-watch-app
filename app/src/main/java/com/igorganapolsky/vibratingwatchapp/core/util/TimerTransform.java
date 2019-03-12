@@ -25,6 +25,10 @@ public class TimerTransform {
 
     }
 
+    public static long secondsToMillis(int seconds) {
+        return seconds * 1_000;
+    }
+
     public static int getHours(long milliseconds) {
         return (int) (milliseconds / (1_000 * 60 * 60)) % 24;
     }
