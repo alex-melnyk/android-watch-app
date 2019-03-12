@@ -11,12 +11,14 @@ public class WatchBeepManager implements BeepManager {
 
     private Vibrator vibrator;
     private BuzzSetup setup;
+    private boolean isVibratorActive;
 
     private VibrationEffect vibEffect;
     private long[] pattern;
 
     public WatchBeepManager(Vibrator vibrator) {
         this.vibrator = vibrator;
+        isVibratorActive = vibrator != null && vibrator.hasVibrator();
     }
 
     @Override
@@ -26,7 +28,7 @@ public class WatchBeepManager implements BeepManager {
     }
 
     private void initVibrationEffect() {
-        if (vibrator.hasVibrator()){
+        if (isVibratorActive) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibEffect = prepareVibrationEffect();
             } else {
@@ -38,7 +40,7 @@ public class WatchBeepManager implements BeepManager {
 
     @Override
     public void start() {
-        if (vibrator.hasVibrator()) {
+        if (isVibratorActive) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrator.vibrate(vibEffect);
             } else {
@@ -49,7 +51,7 @@ public class WatchBeepManager implements BeepManager {
 
     @Override
     public void cancel() {
-        if (vibrator.hasVibrator()) {
+        if (isVibratorActive) {
             vibrator.cancel();
         }
     }
