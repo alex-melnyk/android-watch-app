@@ -12,7 +12,7 @@ public class TimerModel {
     /* Buzz */
     private int buzzCount;
     private int buzzTime;
-    private BuzzSetup.Type type = BuzzSetup.Type.SHORT;
+    private BuzzSetup.Type type;
 
     /* Repeat */
     private int repeat;
@@ -28,6 +28,15 @@ public class TimerModel {
     private int secondsLeft;
 
     private State state = State.FINISH;
+
+    public static TimerModel createDefault() {
+        TimerModel model = new TimerModel();
+        model.setType(BuzzSetup.Type.SHORT);
+        model.setRepeat(1);
+        model.setBuzzCount(0);
+        model.setBuzzTime(5);
+        return model;
+    }
 
     public TimerModel() {
         this(0, 0, 0);

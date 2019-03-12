@@ -16,10 +16,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:scaleType="center"
-        app:srcCompat="@drawable/ic_start_pause_selector"/>
+        app:srcCompat="@drawable/ic_play"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/icProgress"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:scaleType="centerInside"
+        app:srcCompat="@mipmap/ic_round_progress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvRepeat"
@@ -38,8 +48,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/ivRepeat"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:scaleType="centerInside"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,8 +73,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/ivVibration"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:scaleType="centerInside"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,10 +85,10 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvTime"
         android:layout_width="0dp"
-        android:paddingStart="2dp"
+        android:paddingStart="20dp"
         android:paddingEnd="2dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/ivStatus"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ivVibration"

@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.core.util.TimerDiffCallback;
 import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +66,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     static class TimerItemViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivStatus;
+        private ImageView icProgress;
         private TextView tvTime;
         private TextView tvVibration;
         private TextView tvRepeat;
@@ -76,19 +77,22 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
             tvTime = itemView.findViewById(R.id.tvTime);
             tvVibration = itemView.findViewById(R.id.tvVibration);
             tvRepeat = itemView.findViewById(R.id.tvRepeat);
+            icProgress = itemView.findViewById(R.id.icProgress);
         }
 
         void bind(TimerModel model, OnItemClickListener itemClickListener) {
-            int vibration = model.getBuzzCount();
 
-            boolean isNotActive = model.getState() == TimerModel.State.FINISH;
+            if (model.getState() == TimerModel.State.FINISH) {
+                ivStatus.setVisibility(View.VISIBLE);
+                icProgress.setVisibility(View.INVISIBLE);
+            } else {
+                ivStatus.setVisibility(View.GONE);
+                icProgress.setVisibility(View.VISIBLE);
+            }
 
-            ivStatus.setSelected(!isNotActive);
             tvTime.setText(TimerTransform.millisToString(model));
-
-            tvVibration.setText(String.format(Locale.ENGLISH, "%d", vibration));
+            tvVibration.setText(String.format(Locale.ENGLISH, "%d", model.getBuzzCount()));
             tvRepeat.setText(String.format(Locale.ENGLISH, "%d", model.getRepeat()));
-
             itemView.setOnClickListener(view -> itemClickListener.onItemClick(model.getId()));
         }
     }

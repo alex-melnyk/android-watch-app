@@ -30,7 +30,7 @@ public class SetTimerViewModel extends ViewModel {
     public SetTimerViewModel(Repository repository) {
         this.repository = repository;
 
-        this.currentTimer = new TimerModel();
+        this.currentTimer = TimerModel.createDefault();
         this.setup = TimerSetup.HOURS;
         buzzData.setValue(initBuzzList());
     }
