@@ -13,4 +13,5 @@
     <string name="screen_title_set_repeat">Set repeat</string>
     <string name="add_timer_button_label">Add timer</string>
     <string name="title_activity_timers">TimersActivity</string>
+
 </resources>
