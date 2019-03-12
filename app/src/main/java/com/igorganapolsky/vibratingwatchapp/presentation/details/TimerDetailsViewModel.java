@@ -3,12 +3,12 @@ package com.igorganapolsky.vibratingwatchapp.presentation.details;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
 import com.igorganapolsky.vibratingwatchapp.domain.model.CountData;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.manager.timer.CountdownManager;
 import com.igorganapolsky.vibratingwatchapp.manager.timer.TickListener;
-import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 
 public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
@@ -130,8 +130,11 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     }
 
     void onRestart() {
-        viewStateData.setValue(TimerModel.State.RUN);
-        countdownManager.onRestart();
+        if (currentTimer.getId() == countdownManager.getActiveId() &&
+            currentTimer.getState() != TimerModel.State.FINISH) {
+            viewStateData.setValue(TimerModel.State.RUN);
+            countdownManager.onRestart();
+        }
     }
 
     public void deleteTimer() {
