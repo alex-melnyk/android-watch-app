@@ -126,6 +126,10 @@ public class SetTimerViewModel extends ViewModel {
         return position;
     }
 
+    public int getRepeatPosition() {
+        return currentTimer.getRepeat() - 1 >= 0 ? currentTimer.getRepeat() - 1 : 0;
+    }
+
     void saveTimer() {
         if (currentType == Type.NEW) {
             repository.saveTimer(currentTimer);

@@ -28,6 +28,9 @@ public interface TimersDao {
     @Query("UPDATE TimerEntity SET time_left =:newTimeLeft WHERE id =:timerId")
     void updateTimerLeft(int timerId, long newTimeLeft);
 
+    @Query("UPDATE TimerEntity SET state =:timerState")
+    void disableAll(String timerState);
+
     @Query("UPDATE TimerEntity SET state =:timerState WHERE id =:timerId")
     void updateTimerState(int timerId, String timerState);
 

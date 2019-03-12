@@ -59,7 +59,7 @@ public class SetTimerRepeatFragment extends Fragment implements HolderClickListe
     private void setupObservers() {
         mViewModel.getTimerData().observe(this, (timerValue) -> {
             if (timerValue == null) return;
-            wrvRepeats.smoothScrollToPosition(timerValue.getRepeat());
+            wrvRepeats.smoothScrollToPosition(mViewModel.getRepeatPosition());
         });
     }
 

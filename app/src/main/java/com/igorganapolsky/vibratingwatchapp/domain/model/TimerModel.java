@@ -12,7 +12,7 @@ public class TimerModel {
     /* Buzz */
     private int buzzCount;
     private int buzzTime;
-    private BuzzSetup.Type type;
+    private BuzzSetup.Type type = BuzzSetup.Type.SHORT;
 
     /* Repeat */
     private int repeat;
