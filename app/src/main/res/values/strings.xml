@@ -19,7 +19,7 @@
     <plurals name="time_variants">
         <item quantity="one">second</item>
         <item quantity="few">seconds each</item>
-        <item quantity="many">seconds</item>
+        <item quantity="many">seconds each</item>
         <item quantity="other">seconds</item>
     </plurals>
 
@@ -27,7 +27,7 @@
         <item quantity="zero">long buzz</item>
         <item quantity="one">buzz</item>
         <item quantity="few">buzzes</item>
-        <item quantity="other">buzzes</item>
+        <item quantity="other">long buzz</item>
     </plurals>
 
     <!-- TODO: Remove or change this placeholder text -->
