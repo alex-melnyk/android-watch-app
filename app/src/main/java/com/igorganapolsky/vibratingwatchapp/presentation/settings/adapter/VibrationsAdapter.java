@@ -14,10 +14,11 @@ import java.util.Locale;
 
 public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.VibrationsRecyclerViewHolder> {
 
+    private final String[] vibTitles;
+    private final String[] timeTitles;
+
     private HolderClickListener holderClickListener;
     private List<BuzzSetup> buzzList;
-    private String[] vibTitles;
-    private String[] timeTitles;
 
     public VibrationsAdapter(HolderClickListener holderClickListener, String[] vibTitles, String[] timeTitles) {
         this.holderClickListener = holderClickListener;
@@ -60,12 +61,11 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
 
     static class VibrationsRecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvIndex;
-        private TextView buzzTitle;
+        private final TextView tvIndex;
+        private final TextView buzzTitle;
 
         VibrationsRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tvIndex = itemView.findViewById(R.id.index);
             buzzTitle = itemView.findViewById(R.id.buzzTitle);
         }

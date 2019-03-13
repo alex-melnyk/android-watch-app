@@ -9,7 +9,7 @@ import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 
 public class WatchBeepManager implements BeepManager {
 
-    private Vibrator vibrator;
+    private final Vibrator vibrator;
     private BuzzSetup setup;
     private boolean isVibratorActive;
 
