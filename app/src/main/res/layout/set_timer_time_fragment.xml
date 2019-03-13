@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:id="@+id/settimer"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:layout_gravity="center_horizontal">
+<android.support.constraint.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settimer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal">
 
     <com.triggertrap.seekarc.SeekArc
         android:id="@+id/seekArc"
@@ -113,5 +115,4 @@
             android:textSize="14sp"/>
 
     </android.support.v7.widget.LinearLayoutCompat>
-
 </android.support.constraint.ConstraintLayout>

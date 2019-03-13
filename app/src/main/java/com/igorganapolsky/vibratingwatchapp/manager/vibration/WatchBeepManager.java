@@ -18,8 +18,7 @@ public class WatchBeepManager implements BeepManager {
 
     public WatchBeepManager(Vibrator vibrator) {
         this.vibrator = vibrator;
-//        isVibratorActive = vibrator != null && vibrator.hasVibrator();
-        isVibratorActive = true;
+        isVibratorActive = vibrator != null && vibrator.hasVibrator();
     }
 
     @Override
