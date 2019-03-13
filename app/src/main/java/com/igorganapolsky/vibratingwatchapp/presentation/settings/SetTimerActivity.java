@@ -28,7 +28,6 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
     private SetTimerViewModel mViewModel;
 
     private SwipeRestrictViewPager vpWizard;
-    private AppCompatImageView ivNextPage;
 
     private TextView tvTimeHours;
     private TextView tvTimeMinutes;
@@ -61,7 +60,7 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
 
     private void setupView() {
         vpWizard = findViewById(R.id.vpWizard);
-        ivNextPage = findViewById(R.id.ivNextPage);
+        AppCompatImageView ivNextPage = findViewById(R.id.ivNextPage);
 
         tvTimeHours = findViewById(R.id.tvTimeHours);
         tvTimeMinutes = findViewById(R.id.tvTimeMinutes);
