@@ -18,7 +18,8 @@ public class WatchBeepManager implements BeepManager {
 
     public WatchBeepManager(Vibrator vibrator) {
         this.vibrator = vibrator;
-        isVibratorActive = vibrator != null && vibrator.hasVibrator();
+//        isVibratorActive = vibrator != null && vibrator.hasVibrator();
+        isVibratorActive = true;
     }
 
     @Override
@@ -58,17 +59,12 @@ public class WatchBeepManager implements BeepManager {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private VibrationEffect prepareVibrationEffect() {
-        long oneTickTime = TimerTransform.secondsToMillis(setup.getBuzzTime());
-        int tickCount = setup.getBuzzCount();
-
-        long[] timings = new long[tickCount];
-        int[] amplitude = new int[tickCount];
-
-        for (int i = 0; i < timings.length; i++) {
-            timings[i] = oneTickTime;
-            amplitude[i] = 255 / 2;
+        try {
+            long[] pattern = preparePattern();
+            return VibrationEffect.createWaveform(pattern, -1);
+        } catch (Exception exp) {
+            return VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE);
         }
-        return VibrationEffect.createWaveform(timings, amplitude, -1);
     }
 
     private long[] preparePattern() {

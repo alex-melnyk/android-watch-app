@@ -26,7 +26,7 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:scaleType="centerInside"
-        app:srcCompat="@mipmap/ic_round_progress"
+        app:srcCompat="@drawable/ic_active_progress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
