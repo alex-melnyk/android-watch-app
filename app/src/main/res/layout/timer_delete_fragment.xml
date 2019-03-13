@@ -43,7 +43,7 @@
         android:orientation="horizontal"
         android:paddingBottom="30dp">
 
-        <android.support.v7.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivCancel"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_close"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivApprove"
             android:layout_width="50dp"
             android:layout_height="50dp"
