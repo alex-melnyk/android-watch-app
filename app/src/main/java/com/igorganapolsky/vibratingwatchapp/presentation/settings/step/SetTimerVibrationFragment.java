@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.support.wear.widget.WearableRecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class SetTimerVibrationFragment extends Fragment implements HolderClickListener {
 
     private SetTimerViewModel mViewModel;
-    private RecyclerView wrvVibrations;
+    private WearableRecyclerView wrvVibrations;
     private VibrationsAdapter vibrationsAdapter;
 
     @Nullable
@@ -60,7 +61,7 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
     private void setupObservers() {
         mViewModel.getBuzzData().observe(this, (setup) -> {
             if (setup == null) return;
-            wrvVibrations.smoothScrollToPosition(vibrationsAdapter.getPosition(setup));
+            wrvVibrations.scrollToPosition(vibrationsAdapter.getPosition(setup));
         });
     }
 
