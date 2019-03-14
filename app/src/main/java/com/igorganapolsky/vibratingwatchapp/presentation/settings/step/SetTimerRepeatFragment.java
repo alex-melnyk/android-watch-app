@@ -20,9 +20,7 @@ import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.Repeat
 public class SetTimerRepeatFragment extends Fragment implements HolderClickListener {
 
     private WearableRecyclerView wrvRepeats;
-    private RecyclerViewSnapLayoutManager layoutManager;
     private SetTimerViewModel mViewModel;
-    private RepeatsAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,8 +46,8 @@ public class SetTimerRepeatFragment extends Fragment implements HolderClickListe
     private void setupView(View rootView) {
         wrvRepeats = rootView.findViewById(R.id.wrvRepeats);
 
-        adapter = new RepeatsAdapter(this);
-        layoutManager = new RecyclerViewSnapLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL);
+        RepeatsAdapter adapter = new RepeatsAdapter(this);
+        RecyclerViewSnapLayoutManager layoutManager = new RecyclerViewSnapLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL);
         layoutManager.setItemSelectListener((int pos) -> mViewModel.setTimerRepeat(pos));
 
         wrvRepeats.setAdapter(adapter);
