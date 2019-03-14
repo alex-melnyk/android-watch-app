@@ -19,8 +19,6 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
 
     private HolderClickListener holderClickListener;
     private List<BuzzSetup> buzzList;
-    private String[] vibTitles;
-    private String[] timeTitles;
 
     public VibrationsAdapter(HolderClickListener holderClickListener, String[] vibTitles, String[] timeTitles) {
         this.holderClickListener = holderClickListener;
