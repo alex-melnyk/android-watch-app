@@ -33,14 +33,15 @@
         app:layout_constraintStart_toEndOf="@id/icVibrationTitle"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <android.support.wear.widget.WearableRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/wrvVibrations"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:overScrollMode="never"
-        android:paddingTop="42dp"
+        android:paddingTop="36dp"
         android:clipToPadding="false"
-        android:paddingBottom="42dp"
+        android:paddingBottom="36dp"
+        android:layout_marginStart="10dp"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
