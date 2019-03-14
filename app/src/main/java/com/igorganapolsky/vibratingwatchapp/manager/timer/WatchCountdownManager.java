@@ -73,6 +73,15 @@ public class WatchCountdownManager implements CountdownManager {
         onStart();
     }
 
+    @Override
+    public boolean onNextLap() {
+        if (repeatCount <= 0) return false;
+        beepManager.cancel();
+        clearCountDown();
+        onStart();
+        return true;
+    }
+
     private CountDownTimer prepareCountdownTimer() {
         long millisecondsLeft = timeLeft > 0 ? timeLeft : totalTime;
 
@@ -86,7 +95,7 @@ public class WatchCountdownManager implements CountdownManager {
             @Override
             public void onFinish() {
                 beepManager.start();
-                timeLeft = 0;
+                timeLeft = 0L;
                 repeatCount--;
                 if (repeatCount <= 0) {
                     notifyOnFinish(false);
@@ -145,7 +154,12 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public int getActiveId() {
-        return activeModel == null ? -1 : activeModel.getId();
+        return activeModel == null ? TimerModel.UNDEFINE_ID : activeModel.getId();
+    }
+
+    @Override
+    public boolean isHasMoreRepeats() {
+        return repeatCount > 0;
     }
 
     @Override

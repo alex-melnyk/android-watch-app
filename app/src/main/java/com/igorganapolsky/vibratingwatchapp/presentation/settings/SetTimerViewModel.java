@@ -30,7 +30,7 @@ public class SetTimerViewModel extends ViewModel {
     }
 
     void setCurrentModelId(int currentId) {
-        if (currentId != 0) {
+        if (currentId >= 0) {
             currentType = Type.EDIT;
             currentTimer = repository.getTimerById(currentId);
         }

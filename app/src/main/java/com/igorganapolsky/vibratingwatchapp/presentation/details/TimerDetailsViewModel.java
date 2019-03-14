@@ -131,7 +131,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
         if (currentTimer.getId() == currentActiveTimerId) {
             countdownManager.onStart();
         } else {
-            if (currentActiveTimerId != -1) {
+            if (currentActiveTimerId != TimerModel.UNDEFINE_ID) {
                 countdownManager.onStop();
             }
             countdownManager.setupTimer(currentTimer);
@@ -154,8 +154,18 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     void onRestart() {
         if (currentTimer.getId() == countdownManager.getActiveId() &&
             currentTimer.getState() != TimerModel.State.FINISH) {
+
             viewStateData.setValue(TimerModel.State.RUN);
             countdownManager.onRestart();
+        }
+    }
+
+    void onNextLap() {
+        if (currentTimer.getId() == countdownManager.getActiveId()) {
+            boolean isNextLapStarted = countdownManager.onNextLap();
+            TimerModel.State newState = isNextLapStarted ? TimerModel.State.RUN : TimerModel.State.FINISH;
+            viewStateData.setValue(newState);
+
         }
     }
 

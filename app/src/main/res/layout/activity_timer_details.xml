@@ -12,6 +12,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         app:boxedEdges="all">
 
         <android.support.v7.widget.AppCompatImageView
@@ -98,5 +99,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pbTime"
             app:srcCompat="@drawable/ic_remove"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivContinueTimer"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:scaleType="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_next"/>
     </android.support.constraint.ConstraintLayout>
 </android.support.wearable.view.BoxInsetLayout>
