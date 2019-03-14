@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 
 import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 
-@Database(entities = {TimerEntity.class}, version = 6)
+@Database(entities = {TimerEntity.class}, version = 7)
 public abstract class TimersDatabase extends RoomDatabase {
 
     public abstract TimersDao timersDao();
