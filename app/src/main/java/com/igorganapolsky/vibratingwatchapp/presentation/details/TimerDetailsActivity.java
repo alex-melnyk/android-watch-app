@@ -57,7 +57,6 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +157,8 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 disableAdditionalButtons(false);
                 blinking.cancel();
                 blinking.reset();
+                break;
+            case BEEPING:
                 break;
         }
     }

@@ -81,9 +81,9 @@ public class SetTimerActivity extends AppCompatActivity implements View.OnClickL
         mViewModel.getSwipeState().observe(this, this::updateSwipeStateIfNeeded);
         mViewModel.getTimerData().observe(this, (timerModel -> {
             if (timerModel == null) return;
-            updateTimerData(TimerSetup.HOURS, timerModel.getHoursTotal());
-            updateTimerData(TimerSetup.MINUTES, timerModel.getMinutesTotal());
-            updateTimerData(TimerSetup.SECONDS, timerModel.getSecondsTotal());
+            updateTimerData(TimerSetup.HOURS, timerModel.getHours());
+            updateTimerData(TimerSetup.MINUTES, timerModel.getMinutes());
+            updateTimerData(TimerSetup.SECONDS, timerModel.getSeconds());
         }));
     }
 

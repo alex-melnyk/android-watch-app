@@ -8,10 +8,6 @@ import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public class SetTimerViewModel extends ViewModel {
 
     enum Type {NEW, EDIT}
@@ -83,13 +79,13 @@ public class SetTimerViewModel extends ViewModel {
 
         switch (setup) {
             case HOURS:
-                currentTimer.setHoursTotal(calculatedValue);
+                currentTimer.setHours(calculatedValue);
                 break;
             case MINUTES:
-                currentTimer.setMinutesTotal(calculatedValue);
+                currentTimer.setMinutes(calculatedValue);
                 break;
             case SECONDS:
-                currentTimer.setSecondsTotal(calculatedValue);
+                currentTimer.setSeconds(calculatedValue);
                 break;
         }
 
