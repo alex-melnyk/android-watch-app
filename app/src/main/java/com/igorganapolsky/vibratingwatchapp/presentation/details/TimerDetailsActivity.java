@@ -178,6 +178,7 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
                 ivStart.setEnabled(false);
                 ivStop.setEnabled(false);
                 ivRestart.setEnabled(false);
+                tvTime.startAnimation(blinking);
                 ivContinueTimer.setVisibility(View.VISIBLE);
                 break;
         }

@@ -125,10 +125,9 @@ public class WatchCountdownManager implements CountdownManager {
         activeModel.setState(TimerModel.State.BEEPING);
         activeModelData.setValue(activeModel);
         if (tickListener != null) {
-            tickListener.onFinish(timeLeft, 100, true);
+            tickListener.onLapEnd(timeLeft, 100);
         }
     }
-
 
     private void clearCountDown() {
         timeLeft = 0L;
