@@ -54,6 +54,7 @@ dependencies {
     implementation "com.android.support:design:$support_version"
     implementation "com.android.support:support-annotations:$support_version"
     implementation "com.android.support:recyclerview-selection:$support_version"
+
     // ROOM
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
