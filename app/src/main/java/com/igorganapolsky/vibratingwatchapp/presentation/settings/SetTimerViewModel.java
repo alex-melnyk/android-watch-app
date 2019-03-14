@@ -101,28 +101,6 @@ public class SetTimerViewModel extends ViewModel {
         return currentTimer.getValue(setup);
     }
 
-    public int getBuzzPosition() {
-        int position;
-        switch (currentTimer.getBuzzCount()) {
-            case 1:
-                if (currentTimer.getType() == BuzzSetup.Type.LONG) {
-                    position = 3;
-                } else {
-                    position = 0;
-                }
-                break;
-            case 3:
-                position = 1;
-                break;
-            case 5:
-                position = 2;
-                break;
-            default:
-                position = 0;
-        }
-        return position;
-    }
-
     public int getRepeatPosition() {
         return currentTimer.getRepeat() - 1 >= 0 ? currentTimer.getRepeat() - 1 : 0;
     }
