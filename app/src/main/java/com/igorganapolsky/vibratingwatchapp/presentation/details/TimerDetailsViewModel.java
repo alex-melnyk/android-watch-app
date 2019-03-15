@@ -51,7 +51,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     public void onLapEnd(Long timeLeft, int progress) {
         if (currentId == countdownManager.getActiveId()) {
             viewStateData.setValue(TimerModel.State.BEEPING);
-            updateCountData(timeLeft, progress, true);
+            updateCountData(timeLeft, progress, false);
             activeTimerData.setValue(countData);
         }
     }
@@ -68,6 +68,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     private void updateCountData(Long timeLeft, int progress, boolean isAnimationNeeded) {
         countData.setCurrentTime(TimerTransform.millisToString(timeLeft));
         countData.setCurrentProgress(progress);
+        countData.setAnimationNeeded(isAnimationNeeded);
     }
 
     void prepareData(int currentId) {
@@ -99,10 +100,8 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     private void updateState(long timeToSetup, int progress) {
         viewStateData.setValue(currentTimer.getState());
-        activeTimerData.setValue(new CountData(
-            TimerTransform.millisToString(timeToSetup),
-            progress,
-            false));
+        updateCountData(timeToSetup, progress, false);
+        activeTimerData.setValue(countData);
     }
 
     private long prepareTime(boolean isActive) {

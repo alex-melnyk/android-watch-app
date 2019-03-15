@@ -114,10 +114,11 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     private void notifyOnFinish(boolean isStop) {
+        repeatCount = activeModel.getRepeat();
         activeModel.setState(TimerModel.State.FINISH);
         activeModelData.setValue(activeModel);
         if (tickListener != null) {
-            tickListener.onFinish(timeLeft, 100, isStop);
+            tickListener.onFinish(totalTime, 100, isStop);
         }
     }
 
