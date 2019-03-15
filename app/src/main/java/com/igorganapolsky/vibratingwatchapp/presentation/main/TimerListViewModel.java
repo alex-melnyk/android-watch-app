@@ -22,7 +22,7 @@ public class TimerListViewModel extends ViewModel {
 
     private Observer<TimerModel> activeObserver = model -> {
         if (model == null) return;
-        if (model.getState() == TimerModel.State.RUN && model.getState() == TimerModel.State.FINISH) {
+        if (model.getState() == TimerModel.State.RUN || model.getState() == TimerModel.State.FINISH) {
             repository.updateTimerState(model.getId(), model.getState());
         }
     };

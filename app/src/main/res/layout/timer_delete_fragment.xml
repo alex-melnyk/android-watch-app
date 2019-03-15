@@ -21,9 +21,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_condensed_light"
             android:paddingTop="25dp"
+            android:gravity="center"
             android:text="@string/delete_timer_title"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/white_active"
             android:textSize="26sp"/>
 
         <android.support.v7.widget.AppCompatTextView
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_condensed_light"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:text="@string/delete_timer_desc"
             android:textAlignment="center"
             android:textColor="@color/progress_gray"

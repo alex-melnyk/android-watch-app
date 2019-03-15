@@ -186,7 +186,7 @@ public class TimerDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void updateTimerData(CountData data) {
         if (data == null) return;
-        pbTime.setProgress(100 - data.getCurrentProgress(), data.isAnimationNeeded());
+        pbTime.setProgress(data.getCurrentProgress(), data.isAnimationNeeded());
         tvTime.setText(data.getCurrentTime());
     }
 

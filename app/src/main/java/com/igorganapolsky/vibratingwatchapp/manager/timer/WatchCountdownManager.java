@@ -9,6 +9,8 @@ import com.igorganapolsky.vibratingwatchapp.manager.vibration.BeepManager;
 
 public class WatchCountdownManager implements CountdownManager {
 
+    private static final int UPDATE_RATE = 60;
+
     private final MutableLiveData<TimerModel> activeModelData = new MutableLiveData<>();
     private final BeepManager beepManager;
 
@@ -85,7 +87,7 @@ public class WatchCountdownManager implements CountdownManager {
     private CountDownTimer prepareCountdownTimer() {
         long millisecondsLeft = timeLeft > 0 ? timeLeft : totalTime;
 
-        return new CountDownTimer(millisecondsLeft, 100) {
+        return new CountDownTimer(millisecondsLeft, UPDATE_RATE) {
             @Override
             public void onTick(long millis) {
                 timeLeft = millis;
@@ -114,10 +116,11 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     private void notifyOnFinish(boolean isStop) {
+        repeatCount = activeModel.getRepeat();
         activeModel.setState(TimerModel.State.FINISH);
         activeModelData.setValue(activeModel);
         if (tickListener != null) {
-            tickListener.onFinish(timeLeft, 100, isStop);
+            tickListener.onFinish(totalTime, 100, isStop);
         }
     }
 
@@ -173,7 +176,11 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public int getActiveProgress() {
-        return activeModel.getState() == TimerModel.State.FINISH ? 100 : calculateProgress();
+        if (activeModel.getState() == TimerModel.State.FINISH || activeModel.getState() == TimerModel.State.BEEPING) {
+            return 100;
+        } else {
+            return calculateProgress();
+        }
     }
 
     @Override

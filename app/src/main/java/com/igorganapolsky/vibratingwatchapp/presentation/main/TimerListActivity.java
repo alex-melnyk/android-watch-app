@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.igorganapolsky.vibratingwatchapp.R;
+import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 import com.igorganapolsky.vibratingwatchapp.presentation.details.TimerDetailsActivity;
 import com.igorganapolsky.vibratingwatchapp.presentation.main.adapter.TimerListAdapter;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerActivity;
-import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 
 public class TimerListActivity extends AppCompatActivity implements View.OnClickListener, TimerListAdapter.OnItemClickListener {
 
@@ -35,7 +35,8 @@ public class TimerListActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void setupView() {
-        findViewById(R.id.addTimerButtonImage).setOnClickListener(this);
+        View addTimerBtn = findViewById(R.id.addTimerButtonImage);
+        addTimerBtn.setOnClickListener(this);
 
         ivTimerListImage = findViewById(R.id.ivTimerListImage);
         addTimerButtonImageLabel = findViewById(R.id.addTimerButtonImageLabel);
