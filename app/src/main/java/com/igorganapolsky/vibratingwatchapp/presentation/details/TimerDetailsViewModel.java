@@ -67,7 +67,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     private void updateCountData(Long timeLeft, int progress, boolean isAnimationNeeded) {
         countData.setCurrentTime(TimerTransform.millisToString(timeLeft));
-        countData.setCurrentProgress(progress);
+        countData.setCurrentProgress(100 - progress);
         countData.setAnimationNeeded(isAnimationNeeded);
     }
 
@@ -100,7 +100,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
 
     private void updateState(long timeToSetup, int progress) {
         viewStateData.setValue(currentTimer.getState());
-        updateCountData(timeToSetup, progress, false);
+        updateCountData(timeToSetup, progress, true);
         activeTimerData.setValue(countData);
     }
 
