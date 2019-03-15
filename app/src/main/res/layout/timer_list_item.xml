@@ -41,7 +41,7 @@
         android:fontFamily="@font/roboto_condensed_regular"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:textColor="@color/white"
+        android:textColor="@color/white_active"
         android:textSize="10sp"
         tools:text="1"/>
 
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toStartOf="@id/ivRepeat"
         android:fontFamily="@font/roboto_condensed_regular"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/white_active"
         android:textSize="10sp"
         tools:text="1"/>
 
@@ -84,8 +84,9 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tvTime"
         android:layout_width="0dp"
-        android:paddingStart="20dp"
+        android:paddingStart="36dp"
         android:paddingEnd="@dimen/text_inner_padding"
+        android:gravity="start"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -93,7 +94,7 @@
         app:layout_constraintEnd_toStartOf="@id/ivVibration"
         android:fontFamily="@font/roboto_condensed_regular"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/white_active"
         android:textSize="14sp"
         tools:text="00 : 00 : 00"/>
 

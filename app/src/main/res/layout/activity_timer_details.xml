@@ -44,7 +44,7 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/roboto_condensed_regular"
             android:text="00 : 00 : 00"
-            android:textColor="@color/white"
+            android:textColor="@color/white_active"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/pbTime"
             app:layout_constraintEnd_toEndOf="parent"
