@@ -160,11 +160,6 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     @Override
-    public boolean isHasMoreRepeats() {
-        return repeatCount > 0;
-    }
-
-    @Override
     public boolean isActive() {
         return activeModel != null && activeModel.getState() != TimerModel.State.FINISH;
     }

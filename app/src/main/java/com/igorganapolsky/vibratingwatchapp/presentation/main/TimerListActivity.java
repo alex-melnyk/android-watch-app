@@ -51,7 +51,6 @@ public class TimerListActivity extends AppCompatActivity implements View.OnClick
     private void setupObservers() {
         mViewModel.getAllTimers().observe(this, (timerList) -> {
             timerListAdapter.setData(timerList);
-
             if (timerList != null && timerList.size() > 0) {
                 ivTimerListImage.setVisibility(ImageView.GONE);
                 addTimerButtonImageLabel.setVisibility(View.GONE);
