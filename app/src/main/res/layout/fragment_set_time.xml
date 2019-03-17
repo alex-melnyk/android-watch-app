@@ -11,8 +11,8 @@
 
     <com.triggertrap.seekarc.SeekArc
         android:id="@+id/seekArc"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:padding="15dp"
         app:arcColor="@color/white_inactive"
         app:arcWidth="4dp"
@@ -62,8 +62,6 @@
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:layout_marginEnd="36dp"
-        android:layout_marginStart="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/seekArc"
         app:layout_constraintStart_toStartOf="@id/seekArc"

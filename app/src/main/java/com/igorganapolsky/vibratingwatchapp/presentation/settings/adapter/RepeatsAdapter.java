@@ -32,7 +32,7 @@ public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsR
     @NonNull
     @Override
     public RepeatsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.set_timer_repeats_item, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_timer_repeats_, viewGroup, false);
         return new RepeatsRecyclerViewHolder(itemView);
     }
 

@@ -40,7 +40,7 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
     @Override
     public VibrationsRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext())
-            .inflate(R.layout.set_timer_vibrations_line, viewGroup, false);
+            .inflate(R.layout.item_timer_vibrations, viewGroup, false);
         return new VibrationsRecyclerViewHolder(itemView);
     }
 

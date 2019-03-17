@@ -37,7 +37,7 @@
         android:id="@+id/wrvVibrations"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingTop="28dp"
+        android:paddingTop="32dp"
         android:clipToPadding="false"
         android:paddingBottom="72dp"
         android:layout_marginStart="10dp"

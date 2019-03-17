@@ -38,7 +38,6 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
 
     private StepActionListener actionListener;
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -49,7 +48,7 @@ public class SetTimerTimeFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.set_timer_time_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_set_time, container, false);
     }
 
     @Override
