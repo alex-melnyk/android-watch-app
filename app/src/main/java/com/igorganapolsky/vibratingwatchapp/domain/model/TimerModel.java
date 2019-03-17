@@ -100,8 +100,8 @@ public class TimerModel {
         this.state = state;
     }
 
-    public int getValue(TimerSetup timerSetup) {
-        switch (timerSetup) {
+    public int getValue(TimeSetup timeSetup) {
+        switch (timeSetup) {
             case HOURS:
                 return getHours();
             case MINUTES:
@@ -142,6 +142,10 @@ public class TimerModel {
 
     public BuzzSetup getBuzzSetup() {
         return new BuzzSetup(type, buzzCount, buzzTime);
+    }
+
+    public RepeatSetup getRepeatSetup() {
+        return new RepeatSetup(repeat);
     }
 
     @Override

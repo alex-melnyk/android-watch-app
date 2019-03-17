@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
 import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
-import com.igorganapolsky.vibratingwatchapp.domain.model.TimerSetup;
+import com.igorganapolsky.vibratingwatchapp.domain.model.TimeSetup;
 
 public class SetTimerViewModel extends ViewModel {
 
@@ -15,17 +15,17 @@ public class SetTimerViewModel extends ViewModel {
     private final Repository repository;
 
     private final MutableLiveData<TimerModel> timerData = new MutableLiveData<>();
-    private final MutableLiveData<TimerSetup> setupData = new MutableLiveData<>();
+    private final MutableLiveData<TimeSetup> setupData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> swipeState = new MutableLiveData<>();
 
     private Type currentType = Type.NEW;
     private TimerModel currentTimer;
-    private TimerSetup setup;
+    private TimeSetup setup;
 
     public SetTimerViewModel(Repository repository) {
         this.repository = repository;
         this.currentTimer = TimerModel.createDefault();
-        this.setup = TimerSetup.HOURS;
+        this.setup = TimeSetup.HOURS;
     }
 
     void setCurrentModelId(int currentId) {
@@ -43,7 +43,7 @@ public class SetTimerViewModel extends ViewModel {
         return timerData;
     }
 
-    public LiveData<TimerSetup> getSetupData() {
+    public LiveData<TimeSetup> getSetupData() {
         return setupData;
     }
 
@@ -65,7 +65,7 @@ public class SetTimerViewModel extends ViewModel {
         currentTimer.setType(newBuzz.getBuzzType());
     }
 
-    public void setSelection(TimerSetup newSelection) {
+    public void setSelection(TimeSetup newSelection) {
         this.setup = newSelection;
         setupData.setValue(setup);
     }
@@ -84,7 +84,6 @@ public class SetTimerViewModel extends ViewModel {
                 currentTimer.setSeconds(calculatedValue);
                 break;
         }
-
         setupData.setValue(setup);
         swipeState.setValue(!currentTimer.isDefaultTime());
     }

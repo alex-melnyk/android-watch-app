@@ -21,6 +21,7 @@ public class SetTimerRepeatFragment extends Fragment implements HolderClickListe
 
     private WearableRecyclerView wrvRepeats;
     private SetTimerViewModel mViewModel;
+    private RepeatsAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,17 +47,18 @@ public class SetTimerRepeatFragment extends Fragment implements HolderClickListe
     private void setupView(View rootView) {
         wrvRepeats = rootView.findViewById(R.id.wrvRepeats);
 
-        RepeatsAdapter adapter = new RepeatsAdapter(this);
         RecyclerViewSnapLayoutManager layoutManager = new RecyclerViewSnapLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL);
         layoutManager.setItemSelectListener((int pos) -> mViewModel.setTimerRepeat(pos));
 
+        adapter = new RepeatsAdapter(this);
         wrvRepeats.setAdapter(adapter);
         wrvRepeats.setLayoutManager(layoutManager);
     }
 
     private void setupObservers() {
-        mViewModel.getTimerData().observe(this, (timerValue) -> {
-            if (timerValue == null) return;
+        mViewModel.getTimerData().observe(this, (timer) -> {
+            if (timer == null) return;
+            adapter.selectRepeat(timer.getRepeatSetup());
             wrvRepeats.smoothScrollToPosition(mViewModel.getRepeatPosition());
         });
     }
