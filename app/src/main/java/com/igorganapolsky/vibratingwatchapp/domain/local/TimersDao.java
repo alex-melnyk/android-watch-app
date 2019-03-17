@@ -22,9 +22,6 @@ public interface TimersDao {
     LiveData<List<TimerEntity>> getAll();
 
     @Query("SELECT * FROM timers WHERE id = :id")
-    LiveData<TimerEntity> observeById(int id);
-
-    @Query("SELECT * FROM timers WHERE id = :id")
     TimerEntity getById(int id);
 
     @Query("DELETE FROM timers WHERE id = :id")

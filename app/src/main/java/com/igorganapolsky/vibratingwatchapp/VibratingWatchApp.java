@@ -8,13 +8,12 @@ import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
 import com.igorganapolsky.vibratingwatchapp.domain.WatchRepository;
 import com.igorganapolsky.vibratingwatchapp.domain.local.TimersDatabase;
-import com.igorganapolsky.vibratingwatchapp.manager.timer.CountdownManager;
-import com.igorganapolsky.vibratingwatchapp.manager.timer.WatchCountdownManager;
-import com.igorganapolsky.vibratingwatchapp.manager.vibration.BeepManager;
-import com.igorganapolsky.vibratingwatchapp.manager.vibration.WatchBeepManager;
+import com.igorganapolsky.vibratingwatchapp.domain.manager.timer.CountdownManager;
+import com.igorganapolsky.vibratingwatchapp.domain.manager.timer.WatchCountdownManager;
+import com.igorganapolsky.vibratingwatchapp.domain.manager.vibration.BeepManager;
+import com.igorganapolsky.vibratingwatchapp.domain.manager.vibration.WatchBeepManager;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class VibratingWatchApp extends Application {
 

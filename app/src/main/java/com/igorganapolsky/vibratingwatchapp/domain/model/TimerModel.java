@@ -42,7 +42,7 @@ public class TimerModel {
         this(0, 0, 0);
     }
 
-    public TimerModel(int hours, int minutes, int seconds) {
+    private TimerModel(int hours, int minutes, int seconds) {
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;

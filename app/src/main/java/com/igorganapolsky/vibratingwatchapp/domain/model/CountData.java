@@ -2,18 +2,20 @@ package com.igorganapolsky.vibratingwatchapp.domain.model;
 
 public class CountData {
 
+    private static final String DEFAULT_TIME = "00:00:00";
+
     private int currentProgress;
     private String currentTime;
     private boolean isAnimationNeeded;
 
-    public CountData(String currentTime, int currentProgress, boolean isAnimationNeeded) {
+    private CountData(String currentTime, int currentProgress, boolean isAnimationNeeded) {
         this.currentTime = currentTime;
         this.currentProgress = currentProgress;
         this.isAnimationNeeded = isAnimationNeeded;
     }
 
     public static CountData getDefault() {
-        return new CountData("00:00:00", 0, false);
+        return new CountData(DEFAULT_TIME, 0, false);
     }
 
     public int getCurrentProgress() {

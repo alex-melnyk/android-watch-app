@@ -5,10 +5,10 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import com.igorganapolsky.vibratingwatchapp.core.util.TimerTransform;
 import com.igorganapolsky.vibratingwatchapp.domain.Repository;
+import com.igorganapolsky.vibratingwatchapp.domain.manager.timer.CountdownManager;
+import com.igorganapolsky.vibratingwatchapp.domain.manager.timer.TickListener;
 import com.igorganapolsky.vibratingwatchapp.domain.model.CountData;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
-import com.igorganapolsky.vibratingwatchapp.manager.timer.CountdownManager;
-import com.igorganapolsky.vibratingwatchapp.manager.timer.TickListener;
 
 import static com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel.UNDEFINE_ID;
 
