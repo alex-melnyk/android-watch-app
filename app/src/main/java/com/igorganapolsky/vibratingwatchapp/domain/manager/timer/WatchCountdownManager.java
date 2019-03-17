@@ -7,8 +7,14 @@ import com.igorganapolsky.vibratingwatchapp.core.util.Mappers;
 import com.igorganapolsky.vibratingwatchapp.domain.manager.vibration.BeepManager;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 
+/**
+ * Current implementation of {@link CountdownManager}, witch encapsulates
+ * all logic of time's update. {@link CountDownTimer} is using to approach
+ * this purpose;
+ */
 public class WatchCountdownManager implements CountdownManager {
 
+    // how often listener will be notify about time changes;
     private static final int UPDATE_RATE = 60;
 
     private final MutableLiveData<TimerModel> activeModelData = new MutableLiveData<>();
