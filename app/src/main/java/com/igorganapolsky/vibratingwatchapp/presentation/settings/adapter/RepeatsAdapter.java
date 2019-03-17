@@ -10,10 +10,10 @@ import com.igorganapolsky.vibratingwatchapp.R;
 
 public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsRecyclerViewHolder> {
 
-    private final String[] repeats = {
-        "1", "2", "3",
-        "4", "5", "6",
-        "7", "8", "9"};
+    private final int[] repeats = {
+        1, 2, 3,
+        4, 5, 6,
+        8, 7, 9};
 
     private HolderClickListener holderClickListener;
 
@@ -52,8 +52,8 @@ public class RepeatsAdapter extends RecyclerView.Adapter<RepeatsAdapter.RepeatsR
             tvLabel = itemView.findViewById(R.id.label);
         }
 
-        void bind(String label, HolderClickListener holderClickListener) {
-            tvLabel.setText(label);
+        void bind(int label, HolderClickListener holderClickListener) {
+            tvLabel.setText(String.valueOf(label));
 
             if (holderClickListener != null) {
                 itemView.setOnClickListener(view -> {

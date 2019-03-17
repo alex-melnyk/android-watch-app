@@ -15,8 +15,8 @@ public class SetTimerViewModel extends ViewModel {
     private final Repository repository;
 
     private final MutableLiveData<TimerModel> timerData = new MutableLiveData<>();
-    private final MutableLiveData<TimerSetup> setupData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> swipeState = new MutableLiveData<>();
+    private final MutableLiveData<TimerSetup> setupData = new MutableLiveData<>();
     private final MutableLiveData<BuzzSetup> buzzData = new MutableLiveData<>();
 
     private Type currentType = Type.NEW;
@@ -34,9 +34,11 @@ public class SetTimerViewModel extends ViewModel {
             currentType = Type.EDIT;
             currentTimer = repository.getTimerById(currentId);
         }
+        timerData.setValue(currentTimer);
+
         swipeState.setValue(!currentTimer.isDefaultTime());
         setupData.setValue(setup);
-        timerData.setValue(currentTimer);
+        buzzData.setValue(currentTimer.getBuzzSetup());
     }
 
     public LiveData<TimerModel> getTimerData() {

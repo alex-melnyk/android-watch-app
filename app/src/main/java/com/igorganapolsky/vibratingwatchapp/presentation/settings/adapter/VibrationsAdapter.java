@@ -54,20 +54,6 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
     }
 
     /**
-     * Initial method for defining all {@link BuzzSetup}
-     *
-     * @return setup list;
-     */
-    private List<BuzzSetup> initBuzzList() {
-        List<BuzzSetup> setupList = new ArrayList<>(4);
-        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 1, 5));
-        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 3, 3));
-        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 5, 5));
-        setupList.add(new BuzzSetup(BuzzSetup.Type.LONG, 1, 20));
-        return setupList;
-    }
-
-    /**
      * Returns concrete {@link BuzzSetup} based on position.
      *
      * @param position position of {@link RecyclerView.ViewHolder} in list;
@@ -100,6 +86,33 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
         return buzzList == null ? 0 : buzzList.size();
     }
 
+    public void selectBuzz(BuzzSetup setup) {
+        int selectedIndex = buzzList.indexOf(setup);
+        if (selectedIndex == -1) {
+            selectedIndex = 0;
+        }
+        buzzList.get(selectedIndex).setSelected(true);
+        notifyItemChanged(selectedIndex);
+    }
+
+    /**
+     * Initial method for defining all {@link BuzzSetup}
+     *
+     * @return setup list;
+     */
+    private List<BuzzSetup> initBuzzList() {
+        List<BuzzSetup> setupList = new ArrayList<>(4);
+        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 1, 5));
+        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 3, 3));
+        setupList.add(new BuzzSetup(BuzzSetup.Type.SHORT, 5, 5));
+        setupList.add(new BuzzSetup(BuzzSetup.Type.LONG, 1, 20));
+        return setupList;
+    }
+
+
+    /**
+     * Simple view holder fo {@link VibrationsAdapter}
+     */
     static class VibrationsRecyclerViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tvIndex;
@@ -117,6 +130,7 @@ public class VibrationsAdapter extends RecyclerView.Adapter<VibrationsAdapter.Vi
             String timeText = timeTitles[index];
             String totalString = String.format(Locale.getDefault(), "%s - %s", buzzText, timeText);
 
+            itemView.setSelected(buzz.isSelected());
             tvIndex.setText(String.valueOf(index + 1));
             buzzTitle.setText(totalString);
 

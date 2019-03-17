@@ -54,13 +54,13 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
         wrvVibrations.setAdapter(vibrationsAdapter);
         wrvVibrations.setLayoutManager(layoutManager);
         wrvVibrations.setHasFixedSize(true);
-
     }
 
     private void setupObservers() {
         mViewModel.getBuzzData().observe(this, (setup) -> {
             if (setup == null) return;
-            wrvVibrations.scrollToPosition(vibrationsAdapter.getPosition(setup));
+            vibrationsAdapter.selectBuzz(setup);
+            wrvVibrations.smoothScrollToPosition(vibrationsAdapter.getPosition(setup));
         });
     }
 

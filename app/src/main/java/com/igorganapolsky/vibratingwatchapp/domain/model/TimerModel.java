@@ -140,6 +140,10 @@ public class TimerModel {
         this.buzzTime = buzzTime;
     }
 
+    public BuzzSetup getBuzzSetup() {
+        return new BuzzSetup(type, buzzCount, buzzTime);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

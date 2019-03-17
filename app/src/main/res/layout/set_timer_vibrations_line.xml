@@ -10,6 +10,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/flSingleLine"
+        android:paddingTop="8dp"
+        android:paddingBottom="6dp"
         android:layout_marginTop="@dimen/text_inner_padding"
         android:layout_marginBottom="@dimen/text_inner_padding"
         android:layout_width="match_parent"
