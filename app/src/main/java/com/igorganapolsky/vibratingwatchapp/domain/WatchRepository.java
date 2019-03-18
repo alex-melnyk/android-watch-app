@@ -9,16 +9,13 @@ import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 public class WatchRepository implements Repository {
 
     private final TimersDatabase timerDb;
-    private final ExecutorService executor;
 
-    public WatchRepository(TimersDatabase timerDb, ExecutorService executor) {
+    public WatchRepository(TimersDatabase timerDb) {
         this.timerDb = timerDb;
-        this.executor = executor;
         disableAll();
     }
 
@@ -41,29 +38,27 @@ public class WatchRepository implements Repository {
 
     @Override
     public void updateTimer(TimerModel model) {
-        executor.execute(() -> {
-            TimerEntity timerEntity = Mappers.mapToTimerEntity(model);
-            timerEntity.setId(model.getId());
-            timerDb.timersDao().update(timerEntity);
-        });
+        TimerEntity timerEntity = Mappers.mapToTimerEntity(model);
+        timerEntity.setId(model.getId());
+        timerDb.timersDao().update(timerEntity);
     }
 
     @Override
     public void saveTimer(TimerModel model) {
-        executor.execute(() -> timerDb.timersDao().insert(Mappers.mapToTimerEntity(model)));
+        timerDb.timersDao().insert(Mappers.mapToTimerEntity(model));
     }
 
     @Override
     public void deleteTimer(int id) {
-        executor.execute(() -> timerDb.timersDao().deleteById(id));
+        timerDb.timersDao().deleteById(id);
     }
 
     @Override
     public void updateTimerState(int timerId, TimerModel.State newState) {
-        executor.execute(() -> timerDb.timersDao().updateTimerState(timerId, newState.name()));
+        timerDb.timersDao().updateTimerState(timerId, newState.name());
     }
 
     private void disableAll() {
-        executor.execute(() -> timerDb.timersDao().disableAll(TimerModel.State.FINISH.name()));
+        timerDb.timersDao().disableAll(TimerModel.State.FINISH.name());
     }
 }
