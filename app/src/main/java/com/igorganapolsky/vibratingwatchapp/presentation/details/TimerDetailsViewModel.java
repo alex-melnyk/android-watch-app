@@ -92,10 +92,12 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     }
 
     void checkUpdates() {
-        currentTimer = repository.getTimerById(currentId);
-        countdownManager.setupTimer(currentTimer);
-        long timeToSetup = prepareTime(true);
-        updateState(timeToSetup, 100);
+        if (currentId == countdownManager.getActiveId()){
+            currentTimer = repository.getTimerById(currentId);
+            countdownManager.setupTimer(currentTimer);
+            long timeToSetup = prepareTime(true);
+            updateState(timeToSetup, 100);
+        }
     }
 
     private void updateState(long timeToSetup, int progress) {
