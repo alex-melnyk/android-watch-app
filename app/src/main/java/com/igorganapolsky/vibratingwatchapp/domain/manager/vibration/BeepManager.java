@@ -11,14 +11,14 @@ import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 public interface BeepManager {
 
     /**
-     * Fetches and prepares vibrator;
+     * Fetches and prepares vibrator.
      *
      * @param setup from {@link com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel}
      */
     void setup(BuzzSetup setup);
 
     /**
-     * Start vibration  that was prepared previously;
+     * Start vibration  that was prepared previously.
      */
     void start();
 

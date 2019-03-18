@@ -2,7 +2,7 @@ package com.igorganapolsky.vibratingwatchapp.domain.manager.timer;
 
 /**
  * Simple listener , which provides information about times change
- * from {@link CountdownManager} to API consumers;
+ * from {@link CountdownManager} to API consumers.
  */
 public interface TickListener {
 

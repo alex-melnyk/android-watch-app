@@ -10,7 +10,7 @@ public interface CountdownManager {
 
     /**
      * Prepares {@link TimerModel} before launch. It's data will use to calculate
-     * time to display and laps to replay;
+     * time to display and laps to replay.
      *
      * @param model user's selected timer;
      */
@@ -18,7 +18,7 @@ public interface CountdownManager {
 
     /**
      * Start previously prepared {@link TimerModel} and changes state to @{@link TimerModel.State#RUN}.
-     * Under the hood, every invocation creates new instance on Android timer
+     * Under the hood, every invocation creates new instance on Android timer.
      *
      * @see android.os.CountDownTimer
      */
@@ -26,7 +26,7 @@ public interface CountdownManager {
 
     /**
      * Cancels current active {@link TimerModel} and changes state to @{@link TimerModel.State#PAUSE}.
-     * After {@link #onStart()} will invoke, timers continue from place, where it was paused;
+     * After {@link #onStart()} will invoke, timers continue from place, where it was paused.
      *
      * @see android.os.CountDownTimer
      */
@@ -57,14 +57,14 @@ public interface CountdownManager {
     /**
      * Gets acceptability to observe active {@link TimerModel}. It needs, particularly,
      * to observe timer's state outside {@link com.igorganapolsky.vibratingwatchapp.presentation.details.TimerDetailsActivity}
-     * and store it state to data base;
+     * and store it state to data base.
      *
      * @return live data with timer "on board";
      */
     LiveData<TimerModel> observeActiveModel();
 
     /**
-     * Add listener to be aware of time changes;
+     * Add listener to be aware of time changes.
      *
      * @param listener to be notify in changes;
      * @see TimerModel
@@ -79,21 +79,21 @@ public interface CountdownManager {
     TimerModel getActive();
 
     /**
-     * Get current active timer's id;
+     * Get current active timer's id.
      *
      * @return int value of id or {@link TimerModel#UNDEFINE_ID}, if timer wasn't setup yet;
      */
     int getActiveId();
 
     /**
-     * Gives insight about timer's active state
+     * Gives insight about timer's active state.
      *
      * @return true , if time's current state is {@link TimerModel.State#RUN} or {@link TimerModel.State#PAUSE}
      */
     boolean isActive();
 
     /**
-     * Get current active timer time left, before it stops;
+     * Get current active timer time left, before it stops.
      *
      * @return time value in millis;
      * @see TimerModel
@@ -101,7 +101,7 @@ public interface CountdownManager {
     long getActiveTimeLeft();
 
     /**
-     * Get current active timer progress within one repeat circle;
+     * Get current active timer progress within one repeat circle.
      *
      * @return progress value in range from 100 to 1;
      * @see TimerModel

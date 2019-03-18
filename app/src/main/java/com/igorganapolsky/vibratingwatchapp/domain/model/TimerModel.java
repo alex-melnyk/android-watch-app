@@ -6,27 +6,32 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 import java.util.Objects;
 
-//TODO (need to be refactored)
+/**
+ * Base model class, that represent timer.
+ */
+
 public class TimerModel {
 
     public static final int UNDEFINE_ID = -1;
 
     public enum State {RUN, PAUSE, BEEPING, FINISH}
 
-    /* Buzz */
+    /* buzz */
     private int buzzCount;
     private int buzzTime;
     private BuzzSetup.Type type;
 
-    /* Repeat */
+    /* repeat */
     private int repeat;
 
-    /* Setup time */
+    /* setup time */
     private int hours;
     private int minutes;
     private int seconds;
 
+    /* database id */
     private int id;
+
     private State state = State.FINISH;
 
     public static TimerModel createDefault() {

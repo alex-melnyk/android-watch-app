@@ -10,7 +10,7 @@ import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 /**
  * Current implementation of {@link CountdownManager}, witch encapsulates
  * all logic of time's update. {@link CountDownTimer} is using to approach
- * this purpose;
+ * this purpose.
  */
 public class WatchCountdownManager implements CountdownManager {
 

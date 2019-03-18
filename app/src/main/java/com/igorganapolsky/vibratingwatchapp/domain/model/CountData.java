@@ -1,11 +1,20 @@
 package com.igorganapolsky.vibratingwatchapp.domain.model;
 
+/**
+ * Simple DTO class, that helps transfer time state in presentation layer.
+ */
+
 public class CountData {
 
     private static final String DEFAULT_TIME = "00:00:00";
 
+    /* progress state in percents */
     private int currentProgress;
+
+    /* string representation of time */
     private String currentTime;
+
+    /* is changes in progress state should animated or not  */
     private boolean isAnimationNeeded;
 
     private CountData(String currentTime, int currentProgress, boolean isAnimationNeeded) {

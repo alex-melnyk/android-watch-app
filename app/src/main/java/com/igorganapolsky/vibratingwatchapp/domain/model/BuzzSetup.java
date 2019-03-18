@@ -2,6 +2,10 @@ package com.igorganapolsky.vibratingwatchapp.domain.model;
 
 import java.util.Objects;
 
+/**
+ * Represent vibration settings of {@link TimerModel}
+ */
+
 public class BuzzSetup {
 
     public enum Type {SHORT, LONG}

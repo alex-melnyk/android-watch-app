@@ -9,6 +9,11 @@ import com.igorganapolsky.vibratingwatchapp.presentation.details.TimerDetailsVie
 import com.igorganapolsky.vibratingwatchapp.presentation.main.TimerListViewModel;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
 
+/**
+ * Common implementation of view model's factory, designed by Google.
+ * Holds single instances of {@link com.igorganapolsky.vibratingwatchapp.domain.WatchRepository}
+ * and {@link CountdownManager} and provides their in other vie models.
+ */
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private static ViewModelFactory factory;
@@ -21,6 +26,13 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         this.countdownManager = countdownManager;
     }
 
+    /**
+     * MUST CALL ONLY ONCE. Creates singleton of {@link ViewModelFactory} and
+     * stores repository and countdown manager.
+     *
+     * @param repository with domain logic;
+     * @param countdownManager with time's update logic;
+     */
     public static void initFactory(Repository repository,
                                    CountdownManager countdownManager) {
         if (factory == null) {

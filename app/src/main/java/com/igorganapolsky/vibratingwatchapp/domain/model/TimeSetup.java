@@ -1,5 +1,9 @@
 package com.igorganapolsky.vibratingwatchapp.domain.model;
 
+/**
+ * Represent time settings of {@link com.igorganapolsky.vibratingwatchapp.presentation.settings.step.SetTimerTimeFragment}
+ */
+
 public enum TimeSetup {
     HOURS("H", 12.), MINUTES("M", 59.), SECONDS("S", 59.);
 

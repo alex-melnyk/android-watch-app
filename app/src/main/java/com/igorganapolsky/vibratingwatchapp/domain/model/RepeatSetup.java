@@ -1,5 +1,9 @@
 package com.igorganapolsky.vibratingwatchapp.domain.model;
 
+/**
+ * Represent repeat settings of {@link TimerModel}
+ */
+
 public class RepeatSetup {
 
     private final int count;
