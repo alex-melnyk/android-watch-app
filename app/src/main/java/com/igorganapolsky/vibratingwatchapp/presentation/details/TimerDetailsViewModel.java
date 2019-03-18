@@ -28,7 +28,6 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
         this.repository = repository;
         this.countData = CountData.getDefault();
         this.countdownManager = countdownManager;
-        this.countdownManager.setTickListener(this);
     }
 
     LiveData<CountData> getActiveTimerData() {
@@ -76,6 +75,7 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
         long timeToSetup = prepareTime(isActive);
         int progress = prepareProgress(isActive);
         updateState(timeToSetup, progress);
+        this.countdownManager.setTickListener(this);
     }
 
     private boolean defineCurrentTimer(int currentId) {
@@ -92,12 +92,15 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     }
 
     void checkUpdates() {
-        if (currentId == countdownManager.getActiveId()){
-            currentTimer = repository.getTimerById(currentId);
+        currentTimer = repository.getTimerById(currentId);
+        long timeToSetup;
+        if (currentId == countdownManager.getActiveId()) {
             countdownManager.setupTimer(currentTimer);
-            long timeToSetup = prepareTime(true);
-            updateState(timeToSetup, 100);
+            timeToSetup = prepareTime(true);
+        } else {
+            timeToSetup = prepareTime(false);
         }
+        updateState(timeToSetup, 100);
     }
 
     private void updateState(long timeToSetup, int progress) {
@@ -155,7 +158,6 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
     void onRestart() {
         if (currentTimer.getId() == countdownManager.getActiveId() &&
             currentTimer.getState() != TimerModel.State.FINISH) {
-
             viewStateData.setValue(TimerModel.State.RUN);
             countdownManager.onRestart();
         }
@@ -166,7 +168,6 @@ public class TimerDetailsViewModel extends ViewModel implements TickListener {
             boolean isNextLapStarted = countdownManager.onNextLap();
             TimerModel.State newState = isNextLapStarted ? TimerModel.State.RUN : TimerModel.State.FINISH;
             viewStateData.setValue(newState);
-
         }
     }
 
