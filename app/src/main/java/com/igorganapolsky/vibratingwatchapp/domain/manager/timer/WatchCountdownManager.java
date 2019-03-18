@@ -83,6 +83,7 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public boolean onNextLap() {
+        // no more laps left
         if (repeatCount <= 0) return false;
         beepManager.cancel();
         clearCountDown();
@@ -146,6 +147,12 @@ public class WatchCountdownManager implements CountdownManager {
         }
     }
 
+    /**
+     * Calculates timer's progress state. Due to the cast float to int,
+     * possible a little loss of accuracy.
+     *
+     * @return progress state in percent from 100 to 1;
+     */
     private int calculateProgress() {
         return (int) ((float) timeLeft / (float) (totalTime) * 100.);
     }
@@ -177,6 +184,7 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public int getActiveProgress() {
+        // no need to calculate progress , if timer isn't running now
         if (activeModel.getState() == TimerModel.State.FINISH || activeModel.getState() == TimerModel.State.BEEPING) {
             return 100;
         } else {

@@ -17,8 +17,8 @@ public interface CountdownManager {
     void setupTimer(TimerModel model);
 
     /**
-     * Start previously prepared {@link TimerModel} and changes state to @{@link TimerModel.State#RUN}.
-     * Under the hood, every invocation creates new instance on Android timer.
+     * Starts previously prepared {@link TimerModel} and changes state to @{@link TimerModel.State#RUN}.
+     * Under the hood, every invocation creates new instance of countdown timer.
      *
      * @see android.os.CountDownTimer
      */
@@ -55,9 +55,9 @@ public interface CountdownManager {
 
 
     /**
-     * Gets acceptability to observe active {@link TimerModel}. It needs, particularly,
+     * Gets possibility to observe active {@link TimerModel}. It needs, particularly,
      * to observe timer's state outside {@link com.igorganapolsky.vibratingwatchapp.presentation.details.TimerDetailsActivity}
-     * and store it state to data base.
+     * and store it state to database.
      *
      * @return live data with timer "on board";
      */
@@ -72,14 +72,14 @@ public interface CountdownManager {
     void setTickListener(TickListener listener);
 
     /**
-     * Get current active {@link TimerModel}.
+     * Gets current active {@link TimerModel}.
      *
      * @return active timer model or null, if it wasn't setup yet;
      */
     TimerModel getActive();
 
     /**
-     * Get current active timer's id.
+     * Gets current active timer's id.
      *
      * @return int value of id or {@link TimerModel#UNDEFINE_ID}, if timer wasn't setup yet;
      */
@@ -93,7 +93,7 @@ public interface CountdownManager {
     boolean isActive();
 
     /**
-     * Get current active timer time left, before it stops.
+     * Gets current active timer time left, before it stops.
      *
      * @return time value in millis;
      * @see TimerModel
@@ -101,7 +101,7 @@ public interface CountdownManager {
     long getActiveTimeLeft();
 
     /**
-     * Get current active timer progress within one repeat circle.
+     * Gets current active timer progress within one repeat circle.
      *
      * @return progress value in range from 100 to 1;
      * @see TimerModel
