@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.manager.vibration;
+package com.igorganapolsky.vibratingwatchapp.domain.manager.vibration;
 
 import android.os.Build;
 import android.os.VibrationEffect;

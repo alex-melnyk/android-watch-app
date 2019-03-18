@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.wear.widget.WearableRecyclerView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.igorganapolsky.vibratingwatchapp.R;
 import com.igorganapolsky.vibratingwatchapp.core.custom.RecyclerViewSnapLayoutManager;
 import com.igorganapolsky.vibratingwatchapp.core.util.ViewModelFactory;
+import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.SetTimerViewModel;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.HolderClickListener;
 import com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter.VibrationsAdapter;
@@ -21,14 +22,14 @@ import java.util.Objects;
 public class SetTimerVibrationFragment extends Fragment implements HolderClickListener {
 
     private SetTimerViewModel mViewModel;
-    private WearableRecyclerView wrvVibrations;
+    private RecyclerView wrvVibrations;
     private VibrationsAdapter vibrationsAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.set_timer_vibration_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_set_vibration, container, false);
     }
 
     @Override
@@ -54,12 +55,13 @@ public class SetTimerVibrationFragment extends Fragment implements HolderClickLi
         wrvVibrations.setAdapter(vibrationsAdapter);
         wrvVibrations.setLayoutManager(layoutManager);
         wrvVibrations.setHasFixedSize(true);
-
     }
 
     private void setupObservers() {
-        mViewModel.getBuzzData().observe(this, (setup) -> {
-            if (setup == null) return;
+        mViewModel.getTimerData().observe(this, (timer) -> {
+            if (timer == null) return;
+            BuzzSetup setup = timer.getBuzzSetup();
+            vibrationsAdapter.selectBuzz(timer.getBuzzSetup());
             wrvVibrations.scrollToPosition(vibrationsAdapter.getPosition(setup));
         });
     }

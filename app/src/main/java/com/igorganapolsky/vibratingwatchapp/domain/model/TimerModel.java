@@ -6,27 +6,32 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 import java.util.Objects;
 
-//TODO (need to be refactored)
+/**
+ * Base model class, that represent timer.
+ */
+
 public class TimerModel {
 
     public static final int UNDEFINE_ID = -1;
 
     public enum State {RUN, PAUSE, BEEPING, FINISH}
 
-    /* Buzz */
+    /* buzz */
     private int buzzCount;
     private int buzzTime;
     private BuzzSetup.Type type;
 
-    /* Repeat */
+    /* repeat */
     private int repeat;
 
-    /* Setup time */
+    /* setup time */
     private int hours;
     private int minutes;
     private int seconds;
 
+    /* database id */
     private int id;
+
     private State state = State.FINISH;
 
     public static TimerModel createDefault() {
@@ -42,7 +47,7 @@ public class TimerModel {
         this(0, 0, 0);
     }
 
-    public TimerModel(int hours, int minutes, int seconds) {
+    private TimerModel(int hours, int minutes, int seconds) {
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;
@@ -100,8 +105,8 @@ public class TimerModel {
         this.state = state;
     }
 
-    public int getValue(TimerSetup timerSetup) {
-        switch (timerSetup) {
+    public int getValue(TimeSetup timeSetup) {
+        switch (timeSetup) {
             case HOURS:
                 return getHours();
             case MINUTES:
@@ -138,6 +143,14 @@ public class TimerModel {
 
     public void setBuzzTime(int buzzTime) {
         this.buzzTime = buzzTime;
+    }
+
+    public BuzzSetup getBuzzSetup() {
+        return new BuzzSetup(type, buzzCount, buzzTime);
+    }
+
+    public RepeatSetup getRepeatSetup() {
+        return new RepeatSetup(repeat);
     }
 
     @Override

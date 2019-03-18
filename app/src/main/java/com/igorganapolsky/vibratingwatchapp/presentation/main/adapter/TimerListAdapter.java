@@ -35,7 +35,7 @@ public class TimerListAdapter extends RecyclerView.Adapter<TimerListAdapter.Time
     @NonNull
     @Override
     public TimerItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int index) {
-        return new TimerItemViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.timer_list_item, viewGroup, false));
+        return new TimerItemViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_timer_list, viewGroup, false));
     }
 
     @Override

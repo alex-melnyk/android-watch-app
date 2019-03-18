@@ -1,14 +1,20 @@
-package com.igorganapolsky.vibratingwatchapp.manager.timer;
+package com.igorganapolsky.vibratingwatchapp.domain.manager.timer;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.CountDownTimer;
 import com.igorganapolsky.vibratingwatchapp.core.util.Mappers;
+import com.igorganapolsky.vibratingwatchapp.domain.manager.vibration.BeepManager;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
-import com.igorganapolsky.vibratingwatchapp.manager.vibration.BeepManager;
 
+/**
+ * Current implementation of {@link CountdownManager}, witch encapsulates
+ * all logic of time's update. {@link CountDownTimer} is using to approach
+ * this purpose.
+ */
 public class WatchCountdownManager implements CountdownManager {
 
+    // how often listener will be notify about time changes;
     private static final int UPDATE_RATE = 60;
 
     private final MutableLiveData<TimerModel> activeModelData = new MutableLiveData<>();
@@ -77,6 +83,7 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public boolean onNextLap() {
+        // no more laps left
         if (repeatCount <= 0) return false;
         beepManager.cancel();
         clearCountDown();
@@ -140,6 +147,12 @@ public class WatchCountdownManager implements CountdownManager {
         }
     }
 
+    /**
+     * Calculates timer's progress state. Due to the cast float to int,
+     * possible a little loss of accuracy.
+     *
+     * @return progress state in percent from 100 to 1;
+     */
     private int calculateProgress() {
         return (int) ((float) timeLeft / (float) (totalTime) * 100.);
     }
@@ -160,11 +173,6 @@ public class WatchCountdownManager implements CountdownManager {
     }
 
     @Override
-    public boolean isHasMoreRepeats() {
-        return repeatCount > 0;
-    }
-
-    @Override
     public boolean isActive() {
         return activeModel != null && activeModel.getState() != TimerModel.State.FINISH;
     }
@@ -176,6 +184,7 @@ public class WatchCountdownManager implements CountdownManager {
 
     @Override
     public int getActiveProgress() {
+        // no need to calculate progress , if timer isn't running now
         if (activeModel.getState() == TimerModel.State.FINISH || activeModel.getState() == TimerModel.State.BEEPING) {
             return 100;
         } else {

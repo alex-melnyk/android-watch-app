@@ -4,6 +4,9 @@ import com.igorganapolsky.vibratingwatchapp.domain.local.entity.TimerEntity;
 import com.igorganapolsky.vibratingwatchapp.domain.model.BuzzSetup;
 import com.igorganapolsky.vibratingwatchapp.domain.model.TimerModel;
 
+/**
+ * Utility class, that holds all mappers across whole project;
+ */
 public class Mappers {
 
     public static TimerModel mapToTimerModel(TimerEntity entity) {

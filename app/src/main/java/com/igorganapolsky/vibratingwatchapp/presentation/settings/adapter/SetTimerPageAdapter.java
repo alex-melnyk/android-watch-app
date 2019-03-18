@@ -1,4 +1,4 @@
-package com.igorganapolsky.vibratingwatchapp.presentation.settings;
+package com.igorganapolsky.vibratingwatchapp.presentation.settings.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +15,7 @@ public class SetTimerPageAdapter extends FragmentStatePagerAdapter {
         new SetTimerRepeatFragment()
     };
 
-    SetTimerPageAdapter(FragmentManager fm) {
+    public SetTimerPageAdapter(FragmentManager fm) {
         super(fm);
     }
 

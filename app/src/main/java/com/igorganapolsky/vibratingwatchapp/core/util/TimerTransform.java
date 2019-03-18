@@ -28,15 +28,15 @@ public class TimerTransform {
         return seconds * 1_000;
     }
 
-    public static int getHours(long milliseconds) {
+    static int getHours(long milliseconds) {
         return (int) (milliseconds / (1_000 * 60 * 60)) % 24;
     }
 
-    public static int getMinutes(long milliseconds) {
+    static int getMinutes(long milliseconds) {
         return (int) (milliseconds / (1_000 * 60)) % 60;
     }
 
-    public static int getSeconds(long milliseconds) {
+    static int getSeconds(long milliseconds) {
         return (int) (milliseconds / 1_000) % 60;
     }
 }

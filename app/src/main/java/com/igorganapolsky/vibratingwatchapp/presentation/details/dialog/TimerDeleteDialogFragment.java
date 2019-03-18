@@ -21,7 +21,7 @@ public class TimerDeleteDialogFragment extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.timer_delete_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_timer_delete, container, false);
     }
 
     @Override

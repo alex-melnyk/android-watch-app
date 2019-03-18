@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.wear.widget.WearableRecyclerView;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +22,7 @@ public class TimerListActivity extends AppCompatActivity implements View.OnClick
     private TimerListAdapter timerListAdapter;
     private ImageView ivTimerListImage;
     private TextView addTimerButtonImageLabel;
-    private WearableRecyclerView wrvTimerList;
+    private RecyclerView wrvTimerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,6 @@ public class TimerListActivity extends AppCompatActivity implements View.OnClick
     private void setupObservers() {
         mViewModel.getAllTimers().observe(this, (timerList) -> {
             timerListAdapter.setData(timerList);
-
             if (timerList != null && timerList.size() > 0) {
                 ivTimerListImage.setVisibility(ImageView.GONE);
                 addTimerButtonImageLabel.setVisibility(View.GONE);
