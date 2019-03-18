@@ -31,7 +31,7 @@ public class VibratingWatchApp extends Application {
 
 
         // step 2 - > create repository;
-        Repository repository = new WatchRepository(database, Executors.newSingleThreadExecutor());
+        Repository repository = new WatchRepository(database);
 
         // step 3 -> create os vibrator wrapper
         BeepManager beepManager = new WatchBeepManager((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
